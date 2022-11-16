@@ -13,6 +13,7 @@ function App() {
                 <Route path="/kleren" element={<Kledinglijst />} />
             </Routes>
     </div>
+    
   );
 }
 
