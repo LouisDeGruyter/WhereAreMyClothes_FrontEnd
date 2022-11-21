@@ -1,12 +1,16 @@
 import { memo} from 'react';
-import { useThemeColors } from '../../contexts/Theme.context';
-
-const Kledingstuk = memo(({color, type, size }) => {
-    const { theme, oppositeTheme } = useThemeColors();
+const Kledingstuk = memo(({id,color, type, size }) => {
+   
 return (
-    <div className={`bg-${theme} border-${oppositeTheme} mb-4`}>
-    <p>${color} ${type} maat: ${size}</p>
+    <div className={`bg-light border-dark mb`}>
+    {color} {type} maat: {size}
     </div>
 );
 });
-export default Kledingstuk;
+export default memo (function Kledingstuk({id,color, type, size }) {
+    return (
+        <div className={`bg-light border-dark mb`}>
+        {color} {type} maat: {size}
+        </div>
+    );
+    });
