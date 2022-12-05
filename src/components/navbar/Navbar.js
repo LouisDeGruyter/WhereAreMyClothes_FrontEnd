@@ -28,20 +28,20 @@ import kledingIcon from '../../images/shirt.png';
  });
  function NavbarItems({isInline=false}){
   return(
-    <Menu  style={{backgroundColor:'rgb(150,150,150)',border:'none'}} mode={isInline?"inline":"horizontal" }>
-      <Menu.Item key="/" icon={<HomeOutlined />}>
+    <Menu  style={{backgroundColor:'rgb(150,150,150)',border:'none',fontSize:18}} mode={isInline?"inline":"horizontal" }>
+      <Menu.Item key="/" icon={<HomeOutlined size={30}/>}>
         <Link to="/">Home</Link>
       </Menu.Item>
-      <Menu.Item key="/kleerkasten" icon={<kleerkastIcon />}>
-        <Link to="/kleerkasten">Kleerkasten</Link>
+      <Menu.Item key="/kleerkasten" icon={<img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>}>
+      <Link to="/kleerkasten">Kleerkasten</Link>
       </Menu.Item>
-      <Menu.Item key="/kleren" icon={<kledingIcon/>}>
+      <Menu.Item key="/kleren" icon={<img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>}> 
       <Link to="/kleren">Kleren</Link>
       </Menu.Item>
-      <Menu.Item key="/login" icon={<LoginOutlined />} className='MenuRight'>
+      <Menu.Item key="/login" icon={<LoginOutlined />} style={{ marginLeft: 'auto'}}>
         <Link to="/login">Log in</Link>
       </Menu.Item>
-      <Menu.Item key="/register" icon={<IoCaretUp />} className='MenuRight'>
+      <Menu.Item key="/register" icon={<IoCaretUp />} >
         <Link to="/register">Registreer</Link>
         </Menu.Item>
     </Menu>
