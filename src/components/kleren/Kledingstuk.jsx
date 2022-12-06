@@ -1,16 +1,13 @@
 import { memo} from 'react';
-const Kledingstuk = memo(({id,color, type, size }) => {
-   
-return (
-    <div className={`bg-light border-dark mb`}>
-    {color} {type} maat: {size}
-    </div>
-);
-});
-export default memo (function Kledingstuk({id,color, type, size }) {
+import { KLEDING_DATA } from '../../api/mock_data';
+import { useParams } from 'react-router-dom';
+
+export default memo (function Kledingstuk() {
+    const { id } = useParams();
+    let kledingstuk = KLEDING_DATA.find((kledingstuk) => kledingstuk.id == id);
     return (
         <div className={`bg-light border-dark mb`}>
-        {color} {type} maat: {size}
+        {kledingstuk.color} {kledingstuk.type} maat: {kledingstuk.size}
         </div>
     );
     });
