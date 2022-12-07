@@ -1,7 +1,6 @@
-import { Link   } from 'react-router-dom';
-import React, {memo,useState } from "react";
+import { useNavigate  } from 'react-router-dom';
+import React, {memo,useState} from "react";
 import {Drawer,Menu } from "antd";
-// import "antd/dist/antd.css";
 import "./navbar.css";
 import { HomeOutlined, MenuOutlined, LoginOutlined } from '@ant-design/icons';
 import {IoCaretUp} from 'react-icons/io5';
@@ -9,6 +8,7 @@ import kleerkastIcon from '../../images/wardrobe.png';
 import kledingIcon from '../../images/shirt.png';
 
  export default memo(function Navbar() {
+  
   const [openMenu, setOpenMenu] = useState(false);
   return (
   <div style={{paddingBottom:20}}>
@@ -25,50 +25,17 @@ import kledingIcon from '../../images/shirt.png';
     </Drawer>
     </div>
   );
- });
+ },[]);
+
  function NavbarItems({isInline=false}){
+  const navigate= useNavigate();
   return(
-    <Menu  style={{backgroundColor:'rgb(150,150,150)',border:'none',fontSize:18}} mode={isInline?"inline":"horizontal" }>
-      <Menu.Item key="/" icon={<HomeOutlined size={30}/>}>
-        <Link to="/">Home</Link>
-      </Menu.Item>
-      <Menu.Item key="/kleerkasten" icon={<img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>}>
-      <Link to="/kleerkasten">Kleerkasten</Link>
-      </Menu.Item>
-      <Menu.Item key="/kleren" icon={<img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>}> 
-      <Link to="/kleren">Kleren</Link>
-      </Menu.Item>
-      <Menu.Item key="/login" icon={<LoginOutlined />} style={{ marginLeft: 'auto'}}>
-        <Link to="/login">Log in</Link>
-      </Menu.Item>
-      <Menu.Item key="/register" icon={<IoCaretUp />} >
-        <Link to="/register">Registreer</Link>
-        </Menu.Item>
-    </Menu>
+    <Menu style={{backgroundColor:'rgb(150,150,150)',border:'none',fontSize:18}} mode={isInline?"inline":"horizontal" } items={[
+      {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/')},
+      {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', onClick: () => navigate('/kleerkasten')},
+      {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren', onClick: () => navigate('/kleren')},
+      {label: 'Log in', icon: <LoginOutlined />, key: '/login', onClick: () => navigate('/login'), style: { marginLeft: 'auto'}},
+      {label: 'Registreer', icon: <IoCaretUp />, key: '/register', onClick: () => navigate('/register')}
+    ]} />
   );
  }
-
-// export default memo(function Navbar() {
-//  {/* const { theme, toggleTheme } = useTheme(); */}
-//   const theme= themes.dark
-//   return (
-//     <nav className={`navbar navbar-expand-lg bg- mb-4`}>
-//       <div className="container-fluid">
-//         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-//           <span className="navbar-toggler-icon"></span>
-//         </button>
-
-//         <div className="collapse navbar-collapse" id="navbar">
-//           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-//             <NavItem label="Kleerkasten" to="/kleerkasten" />
-//             <NavItem label="Kleren" to="/kleren" />
-//           </ul>
-//           <div className="d-flex">
-//             <button type="button"  > {/*onClick={toggle theme}  */}
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// })

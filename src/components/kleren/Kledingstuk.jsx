@@ -1,12 +1,20 @@
-import { memo} from 'react';
-import { KLEDING_DATA } from '../../api/mock_data';
+import { memo, useEffect,useState} from 'react';
+import * as kledingstukApi from '../../api/kledingstukken';
 import { useParams } from 'react-router-dom';
 
-export default memo (function Kledingstuk() {
+export default memo( function Kledingstuk() {
+    const [kledingstuk, setKledingstuk] = useState({});
     const { id } = useParams();
-    let kledingstuk = KLEDING_DATA.find((kledingstuk) => kledingstuk.id == id);
+    useEffect(() => {
+        const fetchKledingstuk = async () => {
+          const kledingstuk = await kledingstukApi.getKledingstukById(id);
+          setKledingstuk(kledingstuk);
+        };
+        fetchKledingstuk();
+      }, []);
+
     return (
-        <div className={`bg-light border-dark mb`}>
+        <div >
         {kledingstuk.color} {kledingstuk.type} maat: {kledingstuk.size}
         </div>
     );
