@@ -1,7 +1,8 @@
 import { useState, useMemo, useCallback, memo, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Table, Input } from 'antd';
+import { Button, Table, Input, Alert } from 'antd';
 import * as kledingstukApi from '../../api/kledingstukken';
+import Error from '../Error';
 
 const getFilteredItems = (query, items) => {
   if (!query) {
@@ -19,17 +20,26 @@ const getFilterTekst = (text) => {
   return `Zoekopdracht: ${text}`;
 };
 
-export default memo (function Kledinglijst() {
+export default function Kledinglijst() {
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
   const [kledingstukken, setKledingstukken] = useState([]);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   useEffect(() => {
+
     const fetchKledingstukken = async () => {
+      try{
       const kledingstukken = await kledingstukApi.getAll();
       setKledingstukken(kledingstukken);
+      } catch (error) {
+        setError(error);
+      }
+      
     };
     fetchKledingstukken();
+ 
+
   }, []);
 
   const memoizedOnRow = useCallback((record, rowIndex) => {
@@ -62,7 +72,8 @@ export default memo (function Kledinglijst() {
           Klik hier om een nieuw kledingstuk toe te voegen
         </Button>
         <div>{getFilterTekst(text)}</div>
-        <Table onRow={memoizedOnRow}
+        <Error error={error}/>
+        <Table onRow={memoizedOnRow} locale={{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
           columns={[
             {
               title: "Merk",
@@ -133,4 +144,4 @@ export default memo (function Kledinglijst() {
     </div>
     );
 
-});
+};
