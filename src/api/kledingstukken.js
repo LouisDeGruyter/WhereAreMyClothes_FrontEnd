@@ -16,12 +16,22 @@ export const createKledingstuk = async (kledingstuk) => {
     };
 
 export const deleteKledingstuk = async (id) => {
-    const response = await axios.delete(`http://localhost:9000/api/kledingstukken/${id}`);
-    return response.data;
+ await axios.delete(`http://localhost:9000/api/kledingstukken/${id}`);
+
     };
 
 export const updateKledingstuk = async (id, kledingstuk) => {
     const response = await axios.put(`http://localhost:9000/api/kledingstukken/${id}`, kledingstuk);
+    return response.data;
+    };
+
+export const getKleerkast = async (id) => {
+    const response = await axios.get(`http://localhost:9000/api/kledingstukken/${id}/kleerkast`);
+    return response.data;
+    };
+
+export const getUser = async (id) => {
+    const response = await axios.get(`http://localhost:9000/api/kledingstukken/${id}/user`);
     return response.data;
     };
 

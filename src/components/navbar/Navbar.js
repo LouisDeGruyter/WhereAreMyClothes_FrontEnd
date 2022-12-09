@@ -31,10 +31,10 @@ import kledingIcon from '../../images/shirt.png';
   const navigate= useNavigate();
   return(
     <Menu style={{backgroundColor:'rgb(150,150,150)',border:'none',fontSize:18}} mode={isInline?"inline":"horizontal" } items={[
-      {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/')},
+      {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/home')},
       {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', onClick: () => navigate('/kleerkasten')},
       {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren', onClick: () => navigate('/kleren')},
-      {label: 'Log in', icon: <LoginOutlined />, key: '/login', onClick: () => navigate('/login'), style: { marginLeft: 'auto'}},
+      {label: 'Log in', icon: <LoginOutlined />, key: '/login', onClick: () => navigate('/'), style: { marginLeft: 'auto'}},
       {label: 'Registreer', icon: <IoCaretUp />, key: '/register', onClick: () => navigate('/register')}
     ]} />
   );

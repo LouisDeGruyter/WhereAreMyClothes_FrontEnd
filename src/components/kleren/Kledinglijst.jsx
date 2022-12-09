@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback, memo, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Table, Input, Alert } from 'antd';
+import { Button, Table, Input, Alert, Layout} from 'antd';
 import * as kledingstukApi from '../../api/kledingstukken';
 import Error from '../Error';
-
+const { Header, Content } = Layout;
 const getFilteredItems = (query, items) => {
   if (!query) {
     return items;
@@ -30,6 +30,7 @@ export default function Kledinglijst() {
 
     const fetchKledingstukken = async () => {
       try{
+        setError(null);
       const kledingstukken = await kledingstukApi.getAll();
       setKledingstukken(kledingstukken);
       } catch (error) {
@@ -56,10 +57,14 @@ export default function Kledinglijst() {
                 },
     };
   }, []);
-  const filteredItems = useMemo(() => getFilteredItems(query, kledingstukken), [query, kledingstukken]);
+  const filteredItems = useMemo(() => getFilteredItems(text, kledingstukken), [text, kledingstukken]);
   return (
     <div className="justify-content-center">
-      <h2>Kleren in de kast</h2>
+      <Layout>
+        <Header style={{backgroundColor:"white"}}>
+          <h1>Kledinglijst</h1>
+        </Header>
+        <Content style={{backgroundColor:"white"}}>
       <div>
         <Input.Search
           placeholder="Zoek hier..."
@@ -130,17 +135,12 @@ export default function Kledinglijst() {
     ]}
     dataSource={filteredItems}
     rowKey="kledingstukId"
-    
-    // {(record, rowIndex) => {
-    //     return {
-    //        
-    //     };
-    // }}
-
     style={{marginLeft:30, marginRight:30}}
     ></Table>
    
      </div>
+      </Content>
+      </Layout>
     </div>
     );
 
