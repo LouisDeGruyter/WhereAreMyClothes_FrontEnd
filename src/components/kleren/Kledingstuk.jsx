@@ -2,7 +2,7 @@ import {  useEffect,useState} from 'react';
 import * as kledingstukApi from '../../api/kledingstukken';
 import { useNavigate, useParams } from 'react-router-dom';
 import Error from '../Error';
-import { Layout,Button,Descriptions, Input,InputNumber} from 'antd';
+import { Layout,Button,Descriptions, Input,InputNumber, notification} from 'antd';
 const { Header, Content } = Layout;
 export default  function Kledingstuk() {
     const [kledingstuk, setKledingstuk] = useState({});
@@ -10,15 +10,17 @@ export default  function Kledingstuk() {
     const [kleerkast, setKleerkast] = useState({});
     const [kleerkastId, setKleerkastId] = useState(null)
     const { id } = useParams();
+    const [api, contextHolder] = notification.useNotification();
     
     useEffect(() => {
         const fetchKledingstuk = async () => {
             try{
                 setError(null);
-          const kledingstuk = await kledingstukApi.getKledingstukById(id);
-          const kleerkast = await kledingstukApi.getKleerkast(kledingstuk.kleerkastId);
-          setKledingstuk(kledingstuk);
-            setKleerkast(kleerkast);
+          const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
+          const kleerkast1 = await kledingstukApi.getKleerkast(id);
+          console.log(kledingstuk1.kledingstukId);
+          setKledingstuk(kledingstuk1);
+            setKleerkast(kleerkast1);
             } catch (error) {
                 setError(error);
             }
@@ -27,15 +29,14 @@ export default  function Kledingstuk() {
         fetchKledingstuk();
       }, []);
       const wijzigKleerkast = ( ) => {
-        console.log(kleerkastId);
-        
         const fetchKleerkast = async () => {
             try{
                 setError(null);
-                kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId,...kledingstuk});
-                setKledingstuk (await kledingstukApi.getKledingstukById(id));
-                setKleerkast (await kledingstukApi.getKleerkast(kledingstuk.kleerkastId));
-            setKleerkast(kleerkast);
+                kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
+                const kleding= await kledingstukApi.getKledingstukById(id);
+                const kleerkast1 = await kledingstukApi.getKleerkast(id);
+                setKledingstuk (kleding);
+                setKleerkast (kleerkast1);
             } catch (error) {
                 setError(error);
                 console.log(error);
@@ -48,14 +49,37 @@ export default  function Kledingstuk() {
     else
         fetchKleerkast();
     }
+
+    const handleDelete = async () => {
+        try{
+            setError(null);
+            await kledingstukApi.deleteKledingstuk(kledingstuk.kledingstukId);
+            openNotification();
+            // navigate('/kleren');
+        } catch (error) {
+            setError(error);
+        }
+    }
+    const openNotification = () => {
+        api['success']({
+            message: 'Kledingstuk verwijderd',
+              placement: 'topRight',
+              description: 'Sluit dit venster om terug te gaan naar de kledingstukken',
+              duration: 0,
+              onClose: () => {navigate('/kleren')},
+              });
+    };
+        
+
     const navigate = useNavigate();
     return (
         <div >
+            {contextHolder}
             <Layout>
             <Header style={{backgroundColor:"white"}}> <h2> Kledingstuk {kledingstuk.kledingstukId}</h2></Header>
             <Content style={{backgroundColor:"white"}}>
             <Input.Group compact>
-            <Button type="primary" onClick={() => {kledingstukApi.deleteKledingstuk(kledingstuk.kledingstukId)}}>Delete kledingstuk</Button>
+            <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" onClick={() => {navigate('/kleren')}}>Terug naar kledingstukken</Button>
             <Button type="primary" onClick={() =>{ navigate(`/kleerkasten/${kledingstuk.kleerkastId}`)}}>Bekijk kleerkast</Button>
             <Button type="primary" onClick={() =>{ navigate(`/kleren/${kledingstuk.kledingstukId}/edit`)}}>Wijzig kledingstuk</Button>
