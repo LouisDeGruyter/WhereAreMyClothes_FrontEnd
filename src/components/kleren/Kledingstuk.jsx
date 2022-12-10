@@ -2,7 +2,7 @@ import {  useEffect,useState,useCallback, memo} from 'react';
 import * as kledingstukApi from '../../api/kledingstukken';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
-import { Layout,Button,Descriptions, Input,InputNumber, notification} from 'antd';
+import { Layout,Button,Descriptions, Input,InputNumber, notification,Spin} from 'antd';
 const { Header, Content } = Layout;
 // export function kledingstuk with memo
 
@@ -12,9 +12,11 @@ export default memo( function Kledingstuk() {
     const [kleerkast, setKleerkast] = useState({});
     const [kleerkastId, setKleerkastId] = useState(null)
     const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
     const refresh = useCallback(async () => {
         try{
+            setLoading(true);
             setError(null);
             const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
             const kleerkast1 = await kledingstukApi.getKleerkast(id);
@@ -22,6 +24,8 @@ export default memo( function Kledingstuk() {
             setKleerkast(kleerkast1);
         } catch (error) {
             setError(error);
+        } finally {
+            setLoading(false);
         }
     }, [id]);
     
@@ -29,8 +33,10 @@ export default memo( function Kledingstuk() {
         refresh();
       }, [refresh]);
       const wijzigKleerkast = ( ) => {
+        
         const fetchKleerkast = async () => {
             try{
+                setLoading(true);
                 setError(null);
                 await kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
                 const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
@@ -39,8 +45,9 @@ export default memo( function Kledingstuk() {
                 setKleerkast (kleerkast1);
             } catch (error) {
                 setError(error);
+            } finally {
+                setLoading(false);
             }
-        
       }
       if(kleerkastId === kledingstuk.kleerkastId || kleerkastId == null){
         return;
@@ -50,13 +57,16 @@ export default memo( function Kledingstuk() {
     }
 
     const handleDelete = async () => {
-        try{
+        try{setLoading(true);
             setError(null);
             await kledingstukApi.deleteKledingstuk(kledingstuk.kledingstukId);
             openNotification();
         } catch (error) {
             setError(error);
+        } finally {
+            setLoading(false);
         }
+        
     }
     const openNotification = () => {
         api['success']({
@@ -74,6 +84,7 @@ export default memo( function Kledingstuk() {
     const navigate = useNavigate();
     return (
         <div >
+            <Spin spinning={loading} size="large">
             {contextHolder}
             <Layout>
             <Header style={{backgroundColor:"white"}}> <h2> Kledingstuk {kledingstuk.kledingstukId}</h2></Header>
@@ -100,6 +111,7 @@ export default memo( function Kledingstuk() {
 
         </Content>
         </Layout>
+        </Spin>
         </div>
     );
     });

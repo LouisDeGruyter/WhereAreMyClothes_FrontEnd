@@ -1,7 +1,7 @@
 import {memo,useState, useEffect,useCallback} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
-import {Button,Form, Select, Input, InputNumber, Layout, notification,Spin} from 'antd';
+import {Button,Form, Select, Input,Layout, notification,Spin} from 'antd';
 import Error from '../Error';
 import * as kledingstukApi from '../../api/kledingstukken';
 import * as kleerkastApi from '../../api/kleerkasten';
@@ -32,13 +32,13 @@ export default memo(function KledingstukForm() {
                 await kledingstukApi.updateKledingstuk(id, values);
                 openNotificationUpdate();
             }
-            setLoading(false);
-
         } catch (error) {
             setError(error);
+        } finally {
+            setLoading(false);
         }
     };
-    const onFinishFailed = (errorInfo) => {
+    const onFinishFailed = () => {
         setError("De gegevens zijn niet correct ingevuld");
     };
    const  openNotificationCreate = () => {
@@ -46,6 +46,7 @@ export default memo(function KledingstukForm() {
             message: 'Kledingstuk toegevoegd',
             description:
                 'Het kledingstuk is toegevoegd aan de database',
+                
         });
     };
     const  openNotificationUpdate = () => {
@@ -62,17 +63,20 @@ export default memo(function KledingstukForm() {
     useEffect(() => {
         const fetchKleerkasten = async () => {
             try {
+                setLoading(true);
                 setError(null);
                 const kleerkasten = await kleerkastApi.getAll();
                 setKleerkasten(kleerkasten);
             } catch (error) {
                 setError(error);
+            } finally {
+                setLoading(false);
             }
         };
         const fetchKledingstuk = async () => {
             try {
                 setError(null);
-                
+                setLoading(true);
                 const kledingstuk = await kledingstukApi.getKledingstukById(id);
                 console.log(kledingstuk);
                 setKledingstuk(kledingstuk);
@@ -86,15 +90,15 @@ export default memo(function KledingstukForm() {
 
             } catch (error) {
                 setError(error);
+            } finally {
+                setLoading(false);
             }
         };
-        setLoading(true);
         fetchKleerkasten();
-        if(id){
+        if(id)
             fetchKledingstuk();
-        }
-        setLoading(false);
-    }, [id]);
+        
+    }, [id, form]);
     const handleKleerkast = (value) => {
         if(value === 0){
             navigate(`/kleerkasten/add`);
@@ -104,7 +108,7 @@ export default memo(function KledingstukForm() {
     return (
 
     <div>
-        <Spin spinning={loading}>
+        <Spin spinning={loading} size="large">
         {contextHolder}
         <Layout>
         <Header style={{backgroundColor:"white"}}>
@@ -168,13 +172,12 @@ export default memo(function KledingstukForm() {
    
                     rules={[{required: true, message: 'Vul een maat in!'}]}
                 >
-                    <InputNumber style={{display:"block", width:"100%" ,textAlign:"center"}} placeholder="Vul de maat van het kledingstuk in"/>
+                    <Input type="number" placeholder="Vul de maat van het kledingstuk in" />
                 </Form.Item>
-                <Form.Item wrapperCol={{offset: 7,span: 9, }}>
+                <Form.Item wrapperCol={{offset: 8,span: 9, }}>
                     <Button block type="primary" htmlType="submit">
                         Submit
                     </Button>
-                    {/* create a button that empties the fields */}
                     <Button block danger onClick={() => form.resetFields()} style={{marginTop:"10px"}}>
                         Reset
                     </Button>
