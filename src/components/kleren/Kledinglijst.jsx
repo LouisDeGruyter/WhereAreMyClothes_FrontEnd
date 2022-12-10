@@ -3,14 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Table, Input, Alert, Layout} from 'antd';
 import * as kledingstukApi from '../../api/kledingstukken';
 import Error from '../Error';
+import {notification} from 'antd';
 const { Header, Content } = Layout;
-const getFilteredItems = (query, items) => {
-  if (!query) {
-    return items;
-  }
 
-  return items.filter((kledingstuk) =>  `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
-};
+
 
 const getFilterTekst = (text) => {
   if (!text) {
@@ -20,30 +16,49 @@ const getFilterTekst = (text) => {
   return `Zoekopdracht: ${text}`;
 };
 
-export default function Kledinglijst() {
+export default memo( function Kledinglijst() {
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
   const [kledingstukken, setKledingstukken] = useState([]);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = () => {
+    api['success']({
+        message: 'Kledingstuk is succesvol verwijderd',
+          placement: 'topRight',
+          duration: 3,
+
+          });
+};
+const refreshKledingstukken = useCallback(async () => {
+  try{
+    setError(null);
+  const kledingstukken = await kledingstukApi.getAll();
+  setKledingstukken(kledingstukken);
+  } catch (error) {
+    setError(error);
+  }
+}, []);
   useEffect(() => {
+    refreshKledingstukken();
+  }, [refreshKledingstukken]);
+  
+  const onDelete = useCallback(async (idToDelete) => {
+    try {
+      setError(null);
+      await kledingstukApi.deleteKledingstuk(idToDelete);
+      setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
+      openNotification();
 
-    const fetchKledingstukken = async () => {
-      try{
-        setError(null);
-      const kledingstukken = await kledingstukApi.getAll();
-      setKledingstukken(kledingstukken);
-      } catch (error) {
-        setError(error);
-      }
-      
-    };
-    fetchKledingstukken();
- 
-
+    } catch (error) {
+      setError(error);
+    }
   }, []);
+  
 
-  const memoizedOnRow = useCallback((record, rowIndex) => {
+
+  const OnRow = useCallback((record, rowIndex) => {
     return {
       onClick: event => {
                     navigate(`/kleren/${record.kledingstukId}`);
@@ -51,15 +66,21 @@ export default function Kledinglijst() {
                 },
                 onMouseEnter: event => {
                     event.target.style.cursor = "pointer";
-                    event.target.title = "Klik om kledingstuk met id " + record.id + " te bekijken";
+                    event.target.title = "Klik om kledingstuk met id " + record.kledingstukId + " te bekijken";
                     event.stopPropagation();
     
                 },
     };
   }, []);
-  const filteredItems = useMemo(() => getFilteredItems(text, kledingstukken), [text, kledingstukken]);
+  const filteredItems = useMemo(() => {
+    if (!query) {
+      return kledingstukken;
+    }
+    return kledingstukken.filter((kledingstuk) =>  `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
+  }, [query, kledingstukken]);
   return (
     <div className="justify-content-center">
+      {contextHolder}
       <Layout>
         <Header style={{backgroundColor:"white"}}>
           <h1>Kledinglijst</h1>
@@ -78,7 +99,7 @@ export default function Kledinglijst() {
         </Button>
         <div>{getFilterTekst(text)}</div>
         <Error error={error}/>
-        <Table onRow={memoizedOnRow} locale={{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
+        <Table onRow={OnRow} locale={{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
           columns={[
             {
               title: "Merk",
@@ -129,13 +150,16 @@ export default function Kledinglijst() {
                     <Button onClick={()=> {navigate(`/kleren/${id}/edit`)}}>
                     Bewerk
                     </Button>
+                    <Button onClick={()=> {onDelete(id)}}>
+                    Verwijder
+                    </Button>
                 </div>
             ),
         },
     ]}
     dataSource={filteredItems}
     rowKey="kledingstukId"
-    style={{marginLeft:30, marginRight:30}}
+    style={{marginLeft:30, marginRight:30, width:"95%"}}
     ></Table>
    
      </div>
@@ -144,4 +168,4 @@ export default function Kledinglijst() {
     </div>
     );
 
-};
+});
