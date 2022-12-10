@@ -79,10 +79,10 @@ export default memo( function Kledingstuk() {
             <Header style={{backgroundColor:"white"}}> <h2> Kledingstuk {kledingstuk.kledingstukId}</h2></Header>
             <Content style={{backgroundColor:"white"}}>
             <Input.Group compact>
-            <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" onClick={() => {navigate('/kleren')}}>Terug naar kledingstukken</Button>
-            <Button type="primary" onClick={() =>{ navigate(`/kleerkasten/${kledingstuk.kleerkastId}`)}}>Bekijk kleerkast</Button>
+            <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" onClick={() =>{ navigate(`/kleren/${kledingstuk.kledingstukId}/edit`)}}>Wijzig kledingstuk</Button>
+            <Button type="primary" onClick={() =>{ navigate(`/kleerkasten/${kledingstuk.kleerkastId}`)}}>Bekijk kleerkast</Button>
             <InputNumber min={1} onChange={ handleKleerkastChange}  style={{marginLeft:"10%"}}/>
             <Button type="primary" onClick={wijzigKleerkast}>Wijzig kleerkast</Button> 
             

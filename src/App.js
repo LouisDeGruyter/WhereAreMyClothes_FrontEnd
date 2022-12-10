@@ -6,6 +6,7 @@ import Kleerkastenlijst from './components/kleerkasten/Kleerkastenlijst';
 import Kledinglijst from './components/kleren/Kledinglijst';
 import Kledingstuk from './components/kleren/Kledingstuk';
 import LogIn from './components/users/LogIn';
+import KledingstukForm from './components/kleren/KledingstukForm';
 import 'antd/dist/reset.css';
 
 function App() {
@@ -18,9 +19,9 @@ function App() {
                 <Route path="/home" element={<div>Home</div>} ></Route>
                 <Route path="/" element={<LogIn/>} ></Route>
                 <Route path="/register" element={<div> Registreer </div>} ></Route>
-                <Route path="/kleren/add" element={<div>kledingstukForm to be implemented</div>} ></Route>
+                <Route path="/kleren/add" element={<KledingstukForm/>} ></Route>
                 <Route path="/kleren/:id" element={<Kledingstuk/>} ></Route>
-                <Route path="kleren/:id/edit" element={<div>kledingstuk edit to be implemented</div>} ></Route>
+                <Route path="kleren/:id/edit" element={<KledingstukForm/>} ></Route>
                 <Route path="/kleerkasten/add" element={<div>kleerkastForm to be implemented</div>} ></Route>
                 <Route path="/kleerkasten/:id" element={<div>kleerkastDetail to be implemented</div>} ></Route>
 
