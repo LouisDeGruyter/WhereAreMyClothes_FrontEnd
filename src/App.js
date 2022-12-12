@@ -5,26 +5,26 @@ import Navbar from './components/navbar/Navbar';
 import Kleerkastenlijst from './components/kleerkasten/Kleerkastenlijst';
 import Kledinglijst from './components/kleren/Kledinglijst';
 import Kledingstuk from './components/kleren/Kledingstuk';
-import LogIn from './components/users/LogIn';
 import KledingstukForm from './components/kleren/KledingstukForm';
 import 'antd/dist/reset.css';
+import RequireAuth from './components/authentication/RequireAuth';
+import AuthLanding from './components/authentication/AuthLanding';
+
 
 function App() {
   return (
     <div className="App">
       <Navbar />
             <Routes>
-                <Route path="/kleerkasten" element={<Kleerkastenlijst />} > </Route>
-                <Route path="/kleren" element={<Kledinglijst />} > </Route>
-                <Route path="/home" element={<div>Home</div>} ></Route>
-                <Route path="/" element={<LogIn/>} ></Route>
-                <Route path="/register" element={<div> Registreer </div>} ></Route>
-                <Route path="/kleren/add" element={<KledingstukForm/>} ></Route>
-                <Route path="/kleren/:id" element={<Kledingstuk/>} ></Route>
-                <Route path="kleren/:id/edit" element={<KledingstukForm/>} ></Route>
-                <Route path="/kleerkasten/add" element={<div>kleerkastForm to be implemented</div>} ></Route>
-                <Route path="/kleerkasten/:id" element={<div>kleerkastDetail to be implemented</div>} ></Route>
-
+                <Route path="/kleerkasten" element={<RequireAuth><Kleerkastenlijst /></RequireAuth> } > </Route>
+                <Route path="/kleren" element={<RequireAuth><Kledinglijst /></RequireAuth>} > </Route>
+                <Route path="/" element={<div>Home</div>} ></Route>
+                <Route path="/kleren/add" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
+                <Route path="/kleren/:id" element={<RequireAuth><Kledingstuk/></RequireAuth>} ></Route>
+                <Route path="kleren/:id/edit" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
+                <Route path="/kleerkasten/add" element={<RequireAuth><div>kleerkastForm to be implemented</div></RequireAuth>} ></Route>
+                <Route path="/kleerkasten/:id" element={<RequireAuth><div>kleerkastDetail to be implemented</div></RequireAuth>} ></Route>
+                <Route path="/login" element={<AuthLanding/>} ></Route>
             </Routes>
             
     </div>

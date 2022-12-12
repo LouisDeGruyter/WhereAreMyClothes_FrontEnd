@@ -1,10 +1,11 @@
 import { useState, useMemo, useCallback, memo, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Table, Input, Alert, Layout,Spin} from 'antd';
-import * as kledingstukApi from '../../api/kledingstukken';
+import { Button, Table, Input, Alert, Layout,Spin, Modal} from 'antd';
+import useKledingstukken  from '../../api/kledingstukken';
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import Error from '../Error';
 import {notification} from 'antd';
-import { Tab } from 'bootstrap';
+
 const { Header, Content } = Layout;
 
 
@@ -18,6 +19,7 @@ const getFilterTekst = (text) => {
 };
 
 export default memo( function Kledinglijst() {
+  const kledingstukApi= useKledingstukken();
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
   const [kledingstukken, setKledingstukken] = useState([]);
@@ -52,19 +54,27 @@ const refreshKledingstukken = useCallback(async () => {
   }, [refreshKledingstukken]);
   
   const onDelete = useCallback(async (idToDelete) => {
+    Modal.confirm({
+      title: 'Weet je zeker dat je dit kledingstuk wilt verwijderen?',
+      content: 'Dit kan niet ongedaan worden gemaakt',
+      okText: 'Ja',
+      okType: 'danger',
+      cancelText: 'Nee',
+      onOk: async () => {
+        try {
+          setLoading(true);
+          setError(null);
+          await kledingstukApi.deleteKledingstuk(idToDelete);
+          setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
+          openNotification();
     
-    try {
-      setLoading(true);
-      setError(null);
-      await kledingstukApi.deleteKledingstuk(idToDelete);
-      setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
-      openNotification();
-
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
+        } catch (error) {
+          setError(error);
+        } finally {
+          setLoading(false);
+        }
+      },
+    });
   }, []);
   
 
@@ -91,7 +101,7 @@ const refreshKledingstukken = useCallback(async () => {
   }, [query, kledingstukken]);
   return (
     <div className="justify-content-center">
-      <Spin spinning={loading} size="large"   >
+      <Spin spinning={loading} size="large"  data-cy="loading" >
       {contextHolder}
       <Layout>
         <Header style={{backgroundColor:"white"}}>
@@ -112,13 +122,14 @@ const refreshKledingstukken = useCallback(async () => {
         <div>{getFilterTekst(text)}</div>
         <Error error={error}/>
         {/* If loading set locale empty otherwise set locale {{ emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}} */}
-        <Table onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
+        <Table data-cy="kledinglijst" onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
           columns={[
             {
               title: "Merk",
               dataIndex: "brand",
               sorter: (a, b) => a.brand.localeCompare(b.brand),
                 width:"16%",
+                
 
             },
             {
@@ -150,22 +161,12 @@ const refreshKledingstukken = useCallback(async () => {
 
         },
         {
-            title: 'Acties',
+            title: '',
             dataIndex: 'kledingstukId',
-            width:"16%",
             render: (id) => (
                 <div onClick={(event)=> event.stopPropagation()}>
-                   
-                    <Button onClick={()=> {navigate(`/kleren/${id}`)}}>
-                        Bekijk kledingstuk
-                    </Button>
-
-                    <Button onClick={()=> {navigate(`/kleren/${id}/edit`)}}>
-                    Bewerk
-                    </Button>
-                    <Button onClick={()=> {onDelete(id)}}>
-                    Verwijder
-                    </Button>
+                   <EditOutlined onClick={()=> {navigate(`/kleren/${id}/edit`)}}/>
+                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kledingstuk"/>
                 </div>
             ),
         },

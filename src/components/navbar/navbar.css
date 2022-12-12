@@ -12,4 +12,7 @@
     
     
 }
+.profiel:hover::after{
+    border-bottom: none !important;
+}
     

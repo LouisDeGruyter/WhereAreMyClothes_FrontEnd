@@ -3,14 +3,17 @@ import {useNavigate, useParams} from 'react-router-dom';
 
 import {Button,Form, Select, Input,Layout, notification,Spin} from 'antd';
 import Error from '../Error';
-import * as kledingstukApi from '../../api/kledingstukken';
-import * as kleerkastApi from '../../api/kleerkasten';
+import useKledingstukken from '../../api/kledingstukken';
+import useKleerkasten from '../../api/kleerkasten';
+
 import './KledingForm.css'
 
 const {Header, Content} = Layout;
 const { Option } = Select;
 
 export default memo(function KledingstukForm() {
+    const kledingstukApi= useKledingstukken();
+    const kleerkastApi = useKleerkasten();
     const [error, setError] = useState(null);
     const [kleerkasten, setKleerkasten] = useState([]);
     const [kledingstuk, setKledingstuk] = useState({});
@@ -26,6 +29,7 @@ export default memo(function KledingstukForm() {
             if(!id){
             await kledingstukApi.createKledingstuk(values);
             openNotificationCreate();
+            
             form.resetFields();
             }
             else{
@@ -132,11 +136,13 @@ export default memo(function KledingstukForm() {
                 style={{width: "70%", margin: "auto"}}
             >
                 <Form.Item
+                
+                    
                     label="Kleerkast"
                     name="kleerkastId"
                     rules={[{required: true, message: 'Vul een kleerkast in!'}]}
                 >
-                    <Select placeholder="Selecteer een kleerkast" onChange={handleKleerkast}>
+                    <Select placeholder="Selecteer een kleerkast" onChange={handleKleerkast} data-cy="kleerkast_input">
                         <Option value={0} onClick={() =>{ navigate(`/kleerkasten/add`)}} > Klik hier om een kleerkast toe te voegen</Option>
 
                         {kleerkasten.map((kleerkast) => (
@@ -146,6 +152,7 @@ export default memo(function KledingstukForm() {
                     </Select>
                 </Form.Item>
                 <Form.Item
+                    data-cy="brand_input"
                     label="Merk"
                     name="brand"
                     rules={[{required: true, message: 'Vul een merk in!'}]}
@@ -153,6 +160,7 @@ export default memo(function KledingstukForm() {
                     <Input placeholder='Vul het merk in' style={{textAlign:"center"}}/>
                 </Form.Item>
                 <Form.Item
+                    data-cy="color_input"
                     label="Kleur"
                     name="color"
                     rules={[{required: true, message: 'Vul een kleur in!'}]}
@@ -160,6 +168,7 @@ export default memo(function KledingstukForm() {
                     <Input placeholder='Vul de kleur van het kledingstuk in' />
                 </Form.Item>
                 <Form.Item
+                    data-cy="type_input"
                     label="Type"
                     name="type"
                     rules={[{required: true, message: 'Vul een type in!'}]}
@@ -167,6 +176,7 @@ export default memo(function KledingstukForm() {
                     <Input placeholder='Vul het type kledingstuk in'/>
                 </Form.Item>
                 <Form.Item
+                    data-cy="size_input"
                     label="Maat"
                     name="size"
    
@@ -175,10 +185,10 @@ export default memo(function KledingstukForm() {
                     <Input type="number" placeholder="Vul de maat van het kledingstuk in" />
                 </Form.Item>
                 <Form.Item wrapperCol={{offset: 8,span: 9, }}>
-                    <Button block type="primary" htmlType="submit">
+                    <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
                         Submit
                     </Button>
-                    <Button block danger onClick={() => form.resetFields()} style={{marginTop:"10px"}}>
+                    <Button block danger onClick={() => form.resetFields()} style={{marginTop:"10px"}} >
                         Reset
                     </Button>
                 </Form.Item>

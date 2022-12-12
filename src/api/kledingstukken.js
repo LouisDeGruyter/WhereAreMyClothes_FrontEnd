@@ -1,37 +1,93 @@
 import axios from 'axios';
 
-export const getAll = async () => {
-    const response = await axios.get('http://localhost:9000/api/kledingstukken');
-    return response.data.kledingstukken;
+import { useAuth0 } from "@auth0/auth0-react";
+import  {useCallback} from 'react';
+
+const baseUrl = `${process.env.REACT_APP_API_URL}/kledingstukken`;
+
+const useKledingstukken = () => {
+    const {getAccessTokenSilently} = useAuth0();
+
+
+ const getAll = useCallback (async () => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.get(baseUrl, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data.kledingstukken;
+    }, [getAccessTokenSilently]);
+
+    const getKledingstukById = useCallback (async (id) => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.get(`${baseUrl}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data;
+    }, [getAccessTokenSilently]);
+
+    const createKledingstuk = useCallback (async (kledingstuk) => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.post(baseUrl, kledingstuk, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data;
+    }, [getAccessTokenSilently]);
+
+    const deleteKledingstuk = useCallback (async (id) => {
+    const token = await getAccessTokenSilently();
+    await axios.delete(`${baseUrl}/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    }, [getAccessTokenSilently]);
+
+    const updateKledingstuk = useCallback (async (id, kledingstuk) => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.put(`${baseUrl}/${id}`, kledingstuk, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data;
+    }, [getAccessTokenSilently]);
+
+    const getKleerkast = useCallback (async (id) => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.get(`${baseUrl}/${id}/kleerkast`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data;
+    }, [getAccessTokenSilently]);
+
+    const getUser = useCallback (async (id) => {
+    const token = await getAccessTokenSilently();
+    const {data} = await axios.get(`${baseUrl}/${id}/user`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return data;
+    }, [getAccessTokenSilently]);
+
+    return {
+        getAll,
+        getKledingstukById,
+        createKledingstuk,
+        deleteKledingstuk,
+        updateKledingstuk,
+        getKleerkast,
+        getUser,
     };
 
-export const getKledingstukById = async (id) => {
-    const response = await axios.get(`http://localhost:9000/api/kledingstukken/${id}`);
-    return response.data;
-    };
+};
 
-export const createKledingstuk = async (kledingstuk) => {
-    const response = await axios.post('http://localhost:9000/api/kledingstukken', kledingstuk);
-    return response.data;
-    };
-
-export const deleteKledingstuk = async (id) => {
- await axios.delete(`http://localhost:9000/api/kledingstukken/${id}`);
-
-    };
-
-export const updateKledingstuk = async (id, kledingstuk) => {
-    const response = await axios.put(`http://localhost:9000/api/kledingstukken/${id}`, kledingstuk);
-    return response.data;
-    };
-
-export const getKleerkast = async (id) => {
-    const response = await axios.get(`http://localhost:9000/api/kledingstukken/${id}/kleerkast`);
-    return response.data;
-    };
-
-export const getUser = async (id) => {
-    const response = await axios.get(`http://localhost:9000/api/kledingstukken/${id}/user`);
-    return response.data;
-    };
-
+export default useKledingstukken;

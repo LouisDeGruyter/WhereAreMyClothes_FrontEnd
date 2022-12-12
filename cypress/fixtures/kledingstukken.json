@@ -1,0 +1,14 @@
+{
+    "kledingstukken": [
+        {
+            "kledingstukId": 90,
+            "brand": "Converse",
+            "color": "Zwart",
+            "size": "55",
+            "type": "broek",
+            "kleerkastId": 1
+
+        }
+    ],
+    "lengte": 1
+}

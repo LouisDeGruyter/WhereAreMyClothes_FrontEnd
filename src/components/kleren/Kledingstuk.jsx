@@ -1,27 +1,36 @@
 import {  useEffect,useState,useCallback, memo} from 'react';
-import * as kledingstukApi from '../../api/kledingstukken';
+import useKledingstukken from '../../api/kledingstukken';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
-import { Layout,Button,Descriptions, Input,InputNumber, notification,Spin} from 'antd';
+import useKleerkasten from '../../api/kleerkasten';
+
+import { Layout,Button,Descriptions, Input,InputNumber, notification,Spin, Select} from 'antd';
 const { Header, Content } = Layout;
+const { Option } = Select;
+
 // export function kledingstuk with memo
 
 export default memo( function Kledingstuk() {
+    const kledingstukApi= useKledingstukken();
+    const kleerkastApi= useKleerkasten();
     const [kledingstuk, setKledingstuk] = useState({});
     const [error, setError] = useState(null);
     const [kleerkast, setKleerkast] = useState({});
-    const [kleerkastId, setKleerkastId] = useState(null)
     const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
+    const [kleerkasten,setKleerkasten] = useState([]);
+
     const refresh = useCallback(async () => {
         try{
             setLoading(true);
             setError(null);
             const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
             const kleerkast1 = await kledingstukApi.getKleerkast(id);
+            const kleerkasten = await kleerkastApi.getAll();
             setKledingstuk(kledingstuk1);
             setKleerkast(kleerkast1);
+            setKleerkasten(kleerkasten);
         } catch (error) {
             setError(error);
         } finally {
@@ -32,7 +41,7 @@ export default memo( function Kledingstuk() {
     useEffect(() => {
         refresh();
       }, [refresh]);
-      const wijzigKleerkast = ( ) => {
+      const handleWijzigKleerkast = useCallback((kleerkastId) => {
         
         const fetchKleerkast = async () => {
             try{
@@ -41,7 +50,7 @@ export default memo( function Kledingstuk() {
                 await kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
                 const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
                 setKledingstuk(kledingstuk1);
-                const kleerkast1 = await kledingstukApi.getKleerkast(kledingstuk.kledingstukId);
+                const kleerkast1 = kleerkasten.find(kleerkast => kleerkast.kleerkastId === kledingstuk1.kleerkastId);
                 setKleerkast (kleerkast1);
             } catch (error) {
                 setError(error);
@@ -54,7 +63,7 @@ export default memo( function Kledingstuk() {
     }
     else
         fetchKleerkast();
-    }
+    }, [id, kledingstuk, kleerkasten]);
 
     const handleDelete = async () => {
         try{setLoading(true);
@@ -77,9 +86,6 @@ export default memo( function Kledingstuk() {
               onClose: () => {navigate('/kleren')},
               });
     };
-    const handleKleerkastChange = useCallback((value) => {
-        setKleerkastId((id)=> value);
-      }, []);
 
     const navigate = useNavigate();
     return (
@@ -94,9 +100,14 @@ export default memo( function Kledingstuk() {
             <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" onClick={() =>{ navigate(`/kleren/${kledingstuk.kledingstukId}/edit`)}}>Wijzig kledingstuk</Button>
             <Button type="primary" onClick={() =>{ navigate(`/kleerkasten/${kledingstuk.kleerkastId}`)}}>Bekijk kleerkast</Button>
-            <InputNumber min={1} onChange={ handleKleerkastChange}  style={{marginLeft:"10%"}}/>
-            <Button type="primary" onClick={wijzigKleerkast}>Wijzig kleerkast</Button> 
-            
+            <Select placeholder="Wijzig kleerkast" onChange={handleWijzigKleerkast} data-cy="kleerkast_input">
+                        <Option value={0} onClick={() =>{ navigate(`/kleerkasten/add`)}} > Klik hier om een kleerkast toe te voegen</Option>
+
+                        {kleerkasten.map((kleerkast) => (
+                            <Option key={kleerkast.kleerkastId} value={kleerkast.kleerkastId}>{kleerkast.name}</Option>
+                        ))}
+                    
+                    </Select>
             </Input.Group>
             <Error error={error}/>
             <Descriptions  bordered style={{marginTop:50}} contentStyle={{backgroundColor:"#D1D1D1"}} labelStyle={{backgroundColor:"#B2AFAF"}}>
@@ -108,7 +119,6 @@ export default memo( function Kledingstuk() {
             <Descriptions.Item label="Kleerkast Naam">{kleerkast.name}</Descriptions.Item>
             <Descriptions.Item label="Kleerkast Locatie">{kleerkast.location}</Descriptions.Item>
             </Descriptions>
-
         </Content>
         </Layout>
         </Spin>
