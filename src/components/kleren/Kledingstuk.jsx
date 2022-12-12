@@ -28,6 +28,7 @@ export default memo( function Kledingstuk() {
             const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
             const kleerkast1 = await kledingstukApi.getKleerkast(id);
             const kleerkasten = await kleerkastApi.getAll();
+            
             setKledingstuk(kledingstuk1);
             setKleerkast(kleerkast1);
             setKleerkasten(kleerkasten);
@@ -42,11 +43,16 @@ export default memo( function Kledingstuk() {
         refresh();
       }, [refresh]);
       const handleWijzigKleerkast = useCallback((kleerkastId) => {
+        if(kleerkastId === 0){
+            navigate(`/kleerkasten/add`);
+            return;
+    };
         
         const fetchKleerkast = async () => {
             try{
                 setLoading(true);
                 setError(null);
+                console.log(kledingstuk);
                 await kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
                 kledingstuk.kleerkastId=kleerkastId;
                 const kleerkast1 = kleerkasten.find(kleerkast => kleerkast.kleerkastId === kledingstuk.kleerkastId);
@@ -62,7 +68,7 @@ export default memo( function Kledingstuk() {
     }
     else
         fetchKleerkast();
-    }, []);
+    }, [ kledingstuk]);
 
     const handleDelete = async () => {
         try{setLoading(true);
