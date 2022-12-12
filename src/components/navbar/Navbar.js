@@ -5,7 +5,6 @@ import "./navbar.css";
 import { HomeOutlined, MenuOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import kleerkastIcon from '../../images/wardrobe.png';
 import kledingIcon from '../../images/shirt.png';
-import LogIn from '../users/LogIn';
 import { useAuth0 } from '@auth0/auth0-react';
  export default memo(function Navbar() {
   

@@ -64,7 +64,7 @@ const refreshKledingstukken = useCallback(async () => {
         try {
           setLoading(true);
           setError(null);
-          await kledingstukApi.deleteKledingstuk(idToDelete);
+          kledingstukApi.deleteKledingstuk(idToDelete);
           setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
           openNotification();
     

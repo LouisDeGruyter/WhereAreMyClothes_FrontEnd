@@ -4,7 +4,7 @@ import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 
-import { Layout,Button,Descriptions, Input,InputNumber, notification,Spin, Select} from 'antd';
+import { Layout,Button,Descriptions, Input, notification,Spin, Select} from 'antd';
 const { Header, Content } = Layout;
 const { Option } = Select;
 
@@ -48,9 +48,8 @@ export default memo( function Kledingstuk() {
                 setLoading(true);
                 setError(null);
                 await kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
-                const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
-                setKledingstuk(kledingstuk1);
-                const kleerkast1 = kleerkasten.find(kleerkast => kleerkast.kleerkastId === kledingstuk1.kleerkastId);
+                kledingstuk.kleerkastId=kleerkastId;
+                const kleerkast1 = kleerkasten.find(kleerkast => kleerkast.kleerkastId === kledingstuk.kleerkastId);
                 setKleerkast (kleerkast1);
             } catch (error) {
                 setError(error);
@@ -63,7 +62,7 @@ export default memo( function Kledingstuk() {
     }
     else
         fetchKleerkast();
-    }, [id, kledingstuk, kleerkasten]);
+    }, []);
 
     const handleDelete = async () => {
         try{setLoading(true);

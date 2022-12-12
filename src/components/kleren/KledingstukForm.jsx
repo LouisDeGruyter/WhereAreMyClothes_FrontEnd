@@ -16,7 +16,6 @@ export default memo(function KledingstukForm() {
     const kleerkastApi = useKleerkasten();
     const [error, setError] = useState(null);
     const [kleerkasten, setKleerkasten] = useState([]);
-    const [kledingstuk, setKledingstuk] = useState({});
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
     const navigate = useNavigate();
@@ -82,8 +81,6 @@ export default memo(function KledingstukForm() {
                 setError(null);
                 setLoading(true);
                 const kledingstuk = await kledingstukApi.getKledingstukById(id);
-                console.log(kledingstuk);
-                setKledingstuk(kledingstuk);
                 form.setFieldsValue({
                     kleerkastId: kledingstuk.kleerkastId,
                     color: kledingstuk.color,
