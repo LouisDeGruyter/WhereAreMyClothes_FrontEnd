@@ -40,23 +40,27 @@ export default function Kleerkastenlijst(){
             title: "Naam",
             dataIndex: "name",
             key: "name",
+            align:"center",
             sorter: (a, b) => a.name.localeCompare(b.name),
         },
         {
             title: "Locatie",
             dataIndex: "location",
+            align:"center",
             key: "location",
             sorter: (a, b) => a.location.localeCompare(b.location),
         },
         {
             title: "Aantal kledingstukken",
             dataIndex: "aantalKledingstukken",
+            align:"center",
             key: "aantalKledingstukken",
             sorter: (a, b) => a.aantalKledingstukken - b.aantalKledingstukken,
         },
         {
-            title: '',
+            title: 'Bewerk of verwijder',
             dataIndex: 'kleerkastId',
+            align:"center",
             render: (id) => (
                 <div onClick={(event)=> event.stopPropagation()}>
                    <EditOutlined onClick={()=> {navigate(`/kleerkasten/${id}/edit`)}}/>
@@ -104,7 +108,7 @@ export default function Kleerkastenlijst(){
       const onDelete = useCallback(async (idToDelete) => {
         Modal.confirm({
           title: 'Weet je zeker dat je deze kleerkast wilt verwijderen?',
-          content: 'Dit kan niet ongedaan worden gemaakt',
+          content: 'Dit kan niet ongedaan worden gemaakt alle kledingstukken die zich in de kleerkast bevinden worden ook verwijderd',
           okText: 'Ja',
           okType: 'danger',
           cancelText: 'Nee',

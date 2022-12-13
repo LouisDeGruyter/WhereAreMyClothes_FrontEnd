@@ -11,7 +11,7 @@ import RequireAuth from './components/authentication/RequireAuth';
 import AuthLanding from './components/authentication/AuthLanding';
 import KleerkastForm from './components/kleerkasten/KleerkastForm';
 import Home from './components/home/Home';
-
+import Kleerkast from './components/kleerkasten/Kleerkast';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
                 <Route path="kleren/:id/edit" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
                 <Route path="/kleerkasten/add" element={<RequireAuth><KleerkastForm/></RequireAuth>} ></Route>
                 <Route path="/kleerkasten/:id/edit" element={<RequireAuth><KleerkastForm/></RequireAuth>} ></Route>
-                <Route path="/kleerkasten/:id" element={<RequireAuth><div>kleerkastDetail to be implemented</div></RequireAuth>} ></Route>
+                <Route path="/kleerkasten/:id" element={<RequireAuth><Kleerkast/></RequireAuth>} ></Route>
                 <Route path="/login" element={<AuthLanding/>} ></Route>
             </Routes>
             

@@ -72,7 +72,7 @@ export default memo( function Kledingstuk() {
 
     const handleDelete = useCallback( async () => {
         Modal.confirm({
-            title: 'Weet je zeker dat je deze kleerkast wilt verwijderen?',
+            title: 'Weet je zeker dat je dit keldingstuk wilt verwijderen?',
             content: 'Dit kan niet ongedaan worden gemaakt',
             okText: 'Ja',
             okType: 'danger',
