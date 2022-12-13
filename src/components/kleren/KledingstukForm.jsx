@@ -128,6 +128,7 @@ export default memo(function KledingstukForm() {
         </Header>
         <Content>
             <Error error={error}/>
+            <Button block type="primary" onClick={() => navigate(`/kleren`)} style={{marginBottom: "10px"}}>Terug naar kleren</Button>
             <Form
                 name="basic"
                 labelCol={{

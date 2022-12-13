@@ -104,6 +104,7 @@ export default memo(function KleerkastForm() {
         <Content>
             
             <Error error={error} />
+            <Button block type="primary" onClick={() => navigate("/kleerkasten")} style={{marginBottom:"10px"}}>Terug naar kleerkasten</Button>
                 <Form
                      name="basic"
                      labelCol={{
