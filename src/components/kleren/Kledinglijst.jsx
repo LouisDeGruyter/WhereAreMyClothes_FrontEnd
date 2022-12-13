@@ -5,6 +5,7 @@ import useKledingstukken  from '../../api/kledingstukken';
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import Error from '../Error';
 import {notification} from 'antd';
+import KledingTable from './KledingTable';
 
 const { Header, Content } = Layout;
 
@@ -121,60 +122,7 @@ const refreshKledingstukken = useCallback(async () => {
         </Button>
         <div>{getFilterTekst(text)}</div>
         <Error error={error}/>
-        {/* If loading set locale empty otherwise set locale {{ emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}} */}
-        <Table data-cy="kledinglijst" onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:<Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
-          columns={[
-            {
-              title: "Merk",
-              dataIndex: "brand",
-              sorter: (a, b) => a.brand.localeCompare(b.brand),
-                width:"16%",
-                
-
-            },
-            {
-            title: 'Kleur',
-            dataIndex: 'color',
-            sorter: (a, b) => a.color.localeCompare(b.color),
-            width:"16%",
-
-        },
-        {
-            title: 'Type',
-            dataIndex: 'type',
-            sorter: (a, b) => a.type.localeCompare(b.type),
-            width:"16%",
-
-        },
-        {
-            title: 'Maat',
-            dataIndex: 'size',
-            sorter: (a, b) => a.size - b.size,
-            width:"16%",
-
-        },
-        {
-            title: 'KleerkastNummer',
-            dataIndex: 'kleerkastId',
-            width:"16%",
-            sorter: (a, b) => a.kleerkastId - b.kleerkastId,
-
-        },
-        {
-            title: '',
-            dataIndex: 'kledingstukId',
-            render: (id) => (
-                <div onClick={(event)=> event.stopPropagation()}>
-                   <EditOutlined onClick={()=> {navigate(`/kleren/${id}/edit`)}}/>
-                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kledingstuk"/>
-                </div>
-            ),
-        },
-    ]}
-    dataSource={filteredItems}
-    rowKey="kledingstukId"
-    style={{marginLeft:30, marginRight:30, width:"95%"}}
-    ></Table>
+    <KledingTable kledingstukken={filteredItems} onDelete={onDelete} loading={loading} kleerkasten={true} />
    
      </div>
       </Content>
