@@ -6,6 +6,7 @@ import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import Error from '../Error';
 import {notification} from 'antd';
 import KledingTable from './KledingTable';
+import useKleerkasten from '../../api/kleerkasten';
 
 const { Header, Content } = Layout;
 
@@ -28,6 +29,8 @@ export default memo( function Kledinglijst() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  const [kleerkasten, setKleerkasten] = useState([]);
+  const kleerkastApi = useKleerkasten();
   const openNotification = () => {
     api['success']({
         message: 'Kledingstuk is succesvol verwijderd',
@@ -49,7 +52,19 @@ const refreshKledingstukken = useCallback(async () => {
   }
 }, []);
   useEffect(() => {
- 
+    const fetchKleerkasten = async () => {
+    try{
+      setLoading(true);
+      setError(null);
+    const kleerkasten = await kleerkastApi.getAll();
+    setKleerkasten(kleerkasten);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchKleerkasten();
     refreshKledingstukken();
     
   }, [refreshKledingstukken]);
@@ -79,27 +94,17 @@ const refreshKledingstukken = useCallback(async () => {
   }, []);
   
 
-
-  const OnRow = useCallback((record, rowIndex) => {
-    return {
-      onClick: event => {
-                    navigate(`/kleren/${record.kledingstukId}`);
-                    event.stopPropagation();
-                },
-                onMouseEnter: event => {
-                    event.target.style.cursor = "pointer";
-                    event.target.title = "Klik om kledingstuk met id " + record.kledingstukId + " te bekijken";
-                    event.stopPropagation();
-    
-                },
-    };
-  }, []);
   const filteredItems = useMemo(() => {
     if (!query) {
       return kledingstukken;
     }
     return kledingstukken.filter((kledingstuk) =>  `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
   }, [query, kledingstukken]);
+  const dataSource = useMemo(() =>
+    filteredItems.map((kledingstuk) => ({ kleerkastLocatie: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).location, kleerkastNaam: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).name , ...kledingstuk }))
+  , [filteredItems]);
+
+
   return (
     <div className="justify-content-center">
       <Spin spinning={loading} size="large"  data-cy="loading" >
@@ -122,7 +127,7 @@ const refreshKledingstukken = useCallback(async () => {
         </Button>
         <div>{getFilterTekst(text)}</div>
         <Error error={error}/>
-    <KledingTable kledingstukken={filteredItems} onDelete={onDelete} loading={loading} />
+    <KledingTable kledingstukken={dataSource} onDelete={onDelete} loading={loading} />
    
      </div>
       </Content>

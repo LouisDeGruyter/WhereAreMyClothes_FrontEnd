@@ -10,6 +10,7 @@ import 'antd/dist/reset.css';
 import RequireAuth from './components/authentication/RequireAuth';
 import AuthLanding from './components/authentication/AuthLanding';
 import KleerkastForm from './components/kleerkasten/KleerkastForm';
+import Home from './components/home/Home';
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <Routes>
                 <Route path="/kleerkasten" element={<RequireAuth><Kleerkastenlijst /></RequireAuth> } > </Route>
                 <Route path="/kleren" element={<RequireAuth><Kledinglijst /></RequireAuth>} > </Route>
-                <Route path="/" element={<div>Home</div>} ></Route>
+                <Route path="/" element={<Home/>} ></Route>
                 <Route path="/kleren/add" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
                 <Route path="/kleren/:id" element={<RequireAuth><Kledingstuk/></RequireAuth>} ></Route>
                 <Route path="kleren/:id/edit" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>

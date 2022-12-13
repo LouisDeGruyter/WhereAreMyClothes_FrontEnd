@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import {Table, Alert,} from "antd"
 import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
 
-
 export default memo(function  KledingTable({kledingstukken,loading,onDelete,kleerkasten}) {
     const navigate = useNavigate();
     
@@ -55,11 +54,17 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
 ];
 if(!kleerkasten){
     columns.push({
-        title: 'KleerkastNummer',
-        dataIndex: 'kleerkastId',
+        title: 'Kleerkast naam',
+        dataIndex: 'kleerkastNaam',
         width:"16%",
-        sorter: (a, b) => a.kleerkastId - b.kleerkastId,
-    })
+        sorter: (a, b) => a.kleerkastNaam.localeCompare(b.kleerkastNaam),
+    });
+    columns.push({
+        title: 'Kleerkast locatie',
+        dataIndex: 'kleerkastLocatie',
+        width:"16%",
+        sorter: (a, b) => a.kleerkastLocatie.localeCompare(b.kleerkastLocatie),
+    });
 }
 columns.push({title: '',
 dataIndex: 'kledingstukId',

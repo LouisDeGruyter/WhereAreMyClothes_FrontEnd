@@ -39,7 +39,7 @@ import { useAuth0 } from '@auth0/auth0-react';
     let items;
   if(isAuthenticated){
     const {name,picture,givenName}=user;
-     items= [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/home')},
+     items= [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/')},
     {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', children:[
       {label: 'Kleerkastlijst' , key: '/kleerkastenlijst', onClick: () => navigate('/kleerkasten')},
       {label: 'Voeg toe', key: '/kleerkasten/add', onClick: () => navigate('/kleerkasten/add')}
