@@ -4,7 +4,7 @@ import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 
-import { Layout,Button,Descriptions, Input, notification,Spin, Select} from 'antd';
+import { Layout,Button,Descriptions, Input, notification,Spin, Select,Modal} from 'antd';
 const { Header, Content } = Layout;
 const { Option } = Select;
 
@@ -20,6 +20,7 @@ export default memo( function Kledingstuk() {
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
     const [kleerkasten,setKleerkasten] = useState([]);
+    const [visible, setVisible] = useState(true);
 
     const refresh = useCallback(async () => {
         try{
@@ -37,7 +38,7 @@ export default memo( function Kledingstuk() {
         } finally {
             setLoading(false);
         }
-    }, [id]);
+    }, []);
     
     useEffect(() => {
         refresh();
@@ -52,7 +53,6 @@ export default memo( function Kledingstuk() {
             try{
                 setLoading(true);
                 setError(null);
-                console.log(kledingstuk);
                 await kledingstukApi.updateKledingstuk(kledingstuk.kledingstukId, {kleerkastId:kleerkastId, brand:kledingstuk.brand, color: kledingstuk.color, type:kledingstuk.type, size:kledingstuk.size});
                 kledingstuk.kleerkastId=kleerkastId;
                 const kleerkast1 = kleerkasten.find(kleerkast => kleerkast.kleerkastId === kledingstuk.kleerkastId);
@@ -70,18 +70,30 @@ export default memo( function Kledingstuk() {
         fetchKleerkast();
     }, [ kledingstuk]);
 
-    const handleDelete = async () => {
-        try{setLoading(true);
+    const handleDelete = useCallback( async () => {
+        Modal.confirm({
+            title: 'Weet je zeker dat je deze kleerkast wilt verwijderen?',
+            content: 'Dit kan niet ongedaan worden gemaakt',
+            okText: 'Ja',
+            okType: 'danger',
+            cancelText: 'Nee',
+            onOk: async () => {
+              try {
+                setLoading(true);
             setError(null);
-            await kledingstukApi.deleteKledingstuk(kledingstuk.kledingstukId);
+            setVisible(false);
+            await kledingstukApi.deleteKledingstuk(id);
+            
             openNotification();
-        } catch (error) {
-            setError(error);
-        } finally {
-            setLoading(false);
-        }
+              } catch (error) {
+                setError(error);
+              } finally {
+                setLoading(false);
+              }
+            },
+          });
         
-    }
+    }, [kledingstuk]);
     const openNotification = () => {
         api['success']({
             message: 'Kledingstuk verwijderd',
@@ -115,7 +127,7 @@ export default memo( function Kledingstuk() {
                     </Select>
             </Input.Group>
             <Error error={error}/>
-            <Descriptions  bordered style={{marginTop:50}} contentStyle={{backgroundColor:"#D1D1D1"}} labelStyle={{backgroundColor:"#B2AFAF"}}>
+            <Descriptions  bordered style={visible===true?{marginTop:50}:{display:"none"}} contentStyle={{backgroundColor:"#D1D1D1"}} labelStyle={{backgroundColor:"#B2AFAF"}}>
             <Descriptions.Item label="Naam">{kledingstuk.brand}</Descriptions.Item>
             <Descriptions.Item label="Kleur">{kledingstuk.color}</Descriptions.Item>
             <Descriptions.Item label="Type">{kledingstuk.type}</Descriptions.Item>
