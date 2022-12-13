@@ -1,11 +1,12 @@
 import { memo,useCallback } from "react"
 import { useNavigate } from "react-router-dom"
-import {Table, Alert} from "antd"
+import {Table, Alert,} from "antd"
 import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
 
 
 export default memo(function  KledingTable({kledingstukken,loading,onDelete,kleerkasten}) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    
     const OnRow = useCallback((record, rowIndex) => {
         return {
           onClick: event => {
@@ -20,6 +21,7 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
                     },
         };
       }, []);
+
       const columns = [
         {
           title: "Merk",
@@ -51,7 +53,7 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
 
     },
 ];
-if(kleerkasten===true){
+if(!kleerkasten){
     columns.push({
         title: 'KleerkastNummer',
         dataIndex: 'kleerkastId',

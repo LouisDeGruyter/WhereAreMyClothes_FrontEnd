@@ -40,8 +40,15 @@ import { useAuth0 } from '@auth0/auth0-react';
   if(isAuthenticated){
     const {name,picture,givenName}=user;
      items= [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/home')},
-    {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', onClick: () => navigate('/kleerkasten')},
-    {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren', onClick: () => navigate('/kleren')},
+    {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', children:[
+      {label: 'Kleerkastlijst' , key: '/kleerkastenlijst', onClick: () => navigate('/kleerkasten')},
+      {label: 'Voeg toe', key: '/kleerkasten/add', onClick: () => navigate('/kleerkasten/add')}
+    ]},
+    {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren',  children:[
+      {label: 'Klerenlijst' , key: '/klerenlijst', onClick: () => navigate('/kleren')},
+      {label: 'Voeg toe', key: '/kleren/add', onClick: () => navigate('/kleren/add')},
+
+    ]},
     {label: name, icon: <img src={picture} alt={givenName} style={{width:15, height:15}}/>, key: '/profiel',className:"profiel",style:{marginLeft:"auto"}, },
     {label: 'Log out', icon: <LogoutOutlined />, key: '/logout', onClick: () => logout({ returnTo: window.location.origin }), style:{color:"darkred"}}
   ];
@@ -49,8 +56,15 @@ import { useAuth0 } from '@auth0/auth0-react';
   }
   else{
      items= [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick: () => navigate('/home')},
-    {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', onClick: () => navigate('/kleerkasten')},
-    {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren', onClick: () => navigate('/kleren')},
+    {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}}/>, key: '/kleerkasten', children:[
+      {label: 'Kleerkastlijst' , key: '/kleerkastenlijst', onClick: () => navigate('/kleerkasten')},
+      {label: 'Voeg toe', key: '/kleerkasten/add', onClick: () => navigate('/kleerkasten/add')}
+    ]},
+    {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={{width:15, height:15}}/>, key: '/kleren', children:[
+      {label: 'Klerenlijst' , key: '/klerenlijst', onClick: () => navigate('/kleren')},
+      {label: 'Voeg toe', key: '/kleren/add', onClick: () => navigate('/kleren/add')},
+      
+    ]},
     {label: 'Log in',style:{marginLeft:"auto"}, icon: <LoginOutlined />, key: '/login', onClick: () => handleLogin()}];
   }
   return(

@@ -9,6 +9,7 @@ import KledingstukForm from './components/kleren/KledingstukForm';
 import 'antd/dist/reset.css';
 import RequireAuth from './components/authentication/RequireAuth';
 import AuthLanding from './components/authentication/AuthLanding';
+import KleerkastForm from './components/kleerkasten/KleerkastForm';
 
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
                 <Route path="/kleren/add" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
                 <Route path="/kleren/:id" element={<RequireAuth><Kledingstuk/></RequireAuth>} ></Route>
                 <Route path="kleren/:id/edit" element={<RequireAuth><KledingstukForm/></RequireAuth>} ></Route>
-                <Route path="/kleerkasten/add" element={<RequireAuth><div>kleerkastForm to be implemented</div></RequireAuth>} ></Route>
+                <Route path="/kleerkasten/add" element={<RequireAuth><KleerkastForm/></RequireAuth>} ></Route>
+                <Route path="/kleerkasten/:id/edit" element={<RequireAuth><KleerkastForm/></RequireAuth>} ></Route>
                 <Route path="/kleerkasten/:id" element={<RequireAuth><div>kleerkastDetail to be implemented</div></RequireAuth>} ></Route>
                 <Route path="/login" element={<AuthLanding/>} ></Route>
             </Routes>

@@ -87,7 +87,18 @@ export default function Kleerkastenlijst(){
         refreshKleerkasten();
         }, [refreshKleerkasten]);
     const OnRow = (record) => {
-        return;
+        return {
+            onClick: event => {
+                          navigate(`/kleerkasten/${record.kleerkastId}`);
+                          event.stopPropagation();
+                      },
+                      onMouseEnter: event => {
+                          event.target.style.cursor = "pointer";
+                          event.target.title = "Klik om kleerkast met id " + record.kleerkastId + " te bekijken";
+                          event.stopPropagation();
+          
+                      },
+          };
     }
     
       const onDelete = useCallback(async (idToDelete) => {
@@ -175,7 +186,7 @@ export default function Kleerkastenlijst(){
             rowKey="kleerkastId"
                 style={{marginLeft:30, marginRight:30, width:"95%"}}
                 expandable={{ rowExpandable: record => record.kledingstukken.length && record.kledingstukken.length > 0}}
-                expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={false} />}
+                expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
             >
                 
 

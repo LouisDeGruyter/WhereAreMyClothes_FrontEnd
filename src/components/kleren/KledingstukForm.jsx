@@ -1,4 +1,4 @@
-import {memo,useState, useEffect,useCallback} from 'react';
+import {memo,useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
 import {Button,Form, Select, Input,Layout, notification,Spin} from 'antd';
@@ -18,6 +18,7 @@ export default memo(function KledingstukForm() {
     const [kleerkasten, setKleerkasten] = useState([]);
     const [loading, setLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
+    const [kledingstuk, setKledingstuk]= useState(null);
     const navigate = useNavigate();
     const {id} = useParams();
     const [form] = Form.useForm();
@@ -32,6 +33,10 @@ export default memo(function KledingstukForm() {
             form.resetFields();
             }
             else{
+                if(values.kleerkastId === kledingstuk.kleerkastId && values.brand === kledingstuk.brand && values.color === kledingstuk.color && values.size === kledingstuk.size && values.type === kledingstuk.type ){
+                    setError("Er zijn geen aanpassingen gemaakt");
+                    return;
+                }
                 await kledingstukApi.updateKledingstuk(id, values);
                 openNotificationUpdate();
             }
@@ -81,6 +86,7 @@ export default memo(function KledingstukForm() {
                 setError(null);
                 setLoading(true);
                 const kledingstuk = await kledingstukApi.getKledingstukById(id);
+                setKledingstuk(kledingstuk);
                 form.setFieldsValue({
                     kleerkastId: kledingstuk.kleerkastId,
                     color: kledingstuk.color,
@@ -98,6 +104,10 @@ export default memo(function KledingstukForm() {
         fetchKleerkasten();
         if(id)
             fetchKledingstuk();
+            else{
+                form.resetFields();
+            }
+            
         
     }, [id, form]);
     const handleKleerkast = (value) => {
@@ -113,7 +123,7 @@ export default memo(function KledingstukForm() {
         {contextHolder}
         <Layout>
         <Header style={{backgroundColor:"white"}}>
-            {id ? <h2>Wijzig kledingstuk</h2> : <h2>Maak een kledingstuk aan</h2>}
+            {id ? <h2>Wijzig kledingstuk {id}</h2> : <h2>Maak een kledingstuk aan</h2>}
 
         </Header>
         <Content>

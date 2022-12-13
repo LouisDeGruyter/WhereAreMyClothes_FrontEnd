@@ -122,7 +122,7 @@ const refreshKledingstukken = useCallback(async () => {
         </Button>
         <div>{getFilterTekst(text)}</div>
         <Error error={error}/>
-    <KledingTable kledingstukken={filteredItems} onDelete={onDelete} loading={loading} kleerkasten={true} />
+    <KledingTable kledingstukken={filteredItems} onDelete={onDelete} loading={loading} />
    
      </div>
       </Content>
