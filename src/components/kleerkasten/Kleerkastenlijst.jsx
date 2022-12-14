@@ -7,7 +7,10 @@ import {EditOutlined,DeleteOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import KledingTable from '../kleren/KledingTable';
 import useKledingstukken from '../../api/kledingstukken';
+import './kleerkastenlijst.css'
+
 const { Header, Content } = Layout;
+
 
 
 const getFilterTekst = (text) => {
@@ -29,6 +32,11 @@ export default function Kleerkastenlijst(){
     const [text, setText] = useState("");
     const [api, contextHolder] = notification.useNotification();
     const navigate= useNavigate();
+
+    const handleEdit = useCallback((id) => {
+        navigate(`/kleerkasten/${id}/edit`);
+      }, []);
+
     const filteredItems = useMemo(() => {
         if (!query) {
           return kleerkasten;
@@ -63,7 +71,7 @@ export default function Kleerkastenlijst(){
             align:"center",
             render: (id) => (
                 <div onClick={(event)=> event.stopPropagation()}>
-                   <EditOutlined onClick={()=> {navigate(`/kleerkasten/${id}/edit`)}}/>
+                   <EditOutlined onClick={()=>handleEdit(id)}/>
                     <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kledingstuk"/>
                 </div>
             ),
@@ -162,6 +170,10 @@ export default function Kleerkastenlijst(){
     
               });
     };
+    const handleNewKleerkast = useCallback(() => {
+      navigate(`/kleerkasten/add`);
+    }, []);
+
       
     return(
         <div className="justify-content-center">
@@ -177,18 +189,19 @@ export default function Kleerkastenlijst(){
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onSearch={(e) => setText(query)}
-          style={{ marginBottom: 8, width: "50%", display: "inline-block", marginLeft: "auto", marginRight: "auto" }}
+          style={{ marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%"}}
         />
-        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={() => { navigate(`/kleerkasten/add`) }}>
+        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={handleNewKleerkast}>
           Klik hier om een nieuwe kleerkast toe te voegen
         </Button>
+        
         <div>{getFilterTekst(text)}</div>
             <Error error={error} />
             <Table data-cy="kledinglijst" onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:<Alert message="Er zijn nog geen kleerkasten, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
             columns= {columns}
             dataSource={dataSource}
             rowKey="kleerkastId"
-                style={{marginLeft:30, marginRight:30, width:"95%"}}
+                style={{marginLeft:"auto", marginRight:"auto", width:"95%"}}
                 expandable={{ rowExpandable: record => record.kledingstukken.length && record.kledingstukken.length > 0}}
                 expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
             >

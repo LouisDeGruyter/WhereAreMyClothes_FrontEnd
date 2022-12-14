@@ -21,6 +21,12 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
                     },
         };
       }, []);
+      const handleEdit = useCallback((id) => {
+        navigate(`/kleren/${id}/edit`);
+    }, []);
+    const handleKleerkast = useCallback((id) => {
+        navigate(`/kleerkasten/${kledingstukken.find(kledingstuk => kledingstuk.kledingstukId===id).kleerkastId}`)
+    }, [kledingstukken]);
 
       const columns = [
         {
@@ -73,10 +79,10 @@ dataIndex: 'kledingstukId',
 align:"center",
 
 render: (id) => (
-    <div onClick={(event)=> event.stopPropagation()} >
-       <EditOutlined onClick={()=> {navigate(`/kleren/${id}/edit`)}}/>
+    <div  onClick={(event)=> event.stopPropagation()}>
+       <EditOutlined onClick={()=> handleEdit(id)}/>
         <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12,marginRight:12}} data-cy="remove_kledingstuk"/>
-        <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}} onClick={()=> {navigate(`/kleerkasten/${kledingstukken.find(kledingstuk => kledingstuk.kledingstukId===id).kleerkastId}`)}}/>
+        <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}} onClick={()=>handleKleerkast(id)}/>
     </div>
 ),});
 let emptytext;
@@ -86,6 +92,7 @@ if(kleerkasten){
 else{
     emptytext = <Alert message="Er zijn nog geen kledingstukken, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>
 }
+
 
 return (
 <Table data-cy="kledinglijst" onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:emptytext}}

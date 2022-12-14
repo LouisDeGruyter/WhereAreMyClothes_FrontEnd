@@ -1,12 +1,20 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from 'antd';
+import { useCallback } from 'react';
 import { useNavigate,Navigate } from 'react-router-dom';
 import Error from '../Error';
 import LoginButton from './LoginButton';
+const buttonStyle = {
+  marginTop: 10,
+};
 
 export default function AuthLanding() {
   const navigate = useNavigate();
   const { error, isAuthenticated, isLoading } = useAuth0();
+  const handleButton = useCallback( () =>{
+    navigate("/");
+  },[]);
+
 
   if (error) {
     <div className="container">
@@ -38,7 +46,7 @@ export default function AuthLanding() {
             <p>You need to login to access this page.</p>
             <div><LoginButton /></div>
             
-            <div style={{marginTop:10}}><Button onClick={()=> navigate("/")}>Home</Button></div>
+            <div style={buttonStyle}><Button onClick={handleButton}>Home</Button></div>
 
           </div>
         </div>

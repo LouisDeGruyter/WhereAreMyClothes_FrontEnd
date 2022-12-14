@@ -101,10 +101,18 @@ const refreshKledingstukken = useCallback(async () => {
     return kledingstukken.filter((kledingstuk) =>  `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
   }, [query, kledingstukken]);
   const dataSource = useMemo(() =>
+  kleerkasten.length === 0 ? [] :
     filteredItems.map((kledingstuk) => ({ kleerkastLocatie: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).location, kleerkastNaam: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).name , ...kledingstuk }))
-  , [filteredItems]);
-
-
+  , [filteredItems, kleerkasten]);
+  const handleSearch= useCallback((e) => {
+    setText(query);
+  }, [query]);
+  const handleChange = useCallback((e) => {
+    setQuery(e.target.value);
+  }, []);
+  const handleNewKledingstuk = useCallback(() => {
+    navigate(`/kleren/add`);
+  }, []);
   return (
     <div className="justify-content-center">
       <Spin spinning={loading} size="large"  data-cy="loading" >
@@ -118,11 +126,11 @@ const refreshKledingstukken = useCallback(async () => {
         <Input.Search
           placeholder="Zoek hier..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onSearch={(e) => setText(query)}
+          onChange={handleChange}
+          onSearch={handleSearch}
           style={{ marginBottom: 8, width: "50%", display: "inline-block", marginLeft: "auto", marginRight: "auto" }}
         />
-        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={() => { navigate(`/kleren/add`) }}>
+        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={handleNewKledingstuk}>
           Klik hier om een nieuw kledingstuk toe te voegen
         </Button>
         <div>{getFilterTekst(text)}</div>

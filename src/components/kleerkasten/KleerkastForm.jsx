@@ -4,6 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Button,Form, Input,Layout, notification,Spin} from 'antd';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
+import { useCallback } from 'react';
 
 
 const {Content, Header} = Layout;
@@ -68,6 +69,12 @@ export default memo(function KleerkastForm() {
             }
         
     }, [id, form]);
+    const handleReset = useCallback (() => {
+        form.resetFields();
+    }, [form]);
+    const handleTerug = useCallback (() => {
+        navigate("/kleerkasten");
+    }, [navigate]);
 
     const onFinish = async (values) => {
         try {
@@ -104,7 +111,7 @@ export default memo(function KleerkastForm() {
         <Content>
             
             <Error error={error} />
-            <Button block type="primary" onClick={() => navigate("/kleerkasten")} style={{marginBottom:"10px"}}>Terug naar kleerkasten</Button>
+            <Button block type="primary" onClick={handleTerug} style={{marginBottom:"10px"}}>Terug naar kleerkasten</Button>
                 <Form
                      name="basic"
                      labelCol={{
@@ -137,7 +144,7 @@ export default memo(function KleerkastForm() {
                     <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
                         Submit
                     </Button>
-                    <Button block danger onClick={() => form.resetFields()} style={{marginTop:"10px"}} >
+                    <Button block danger onClick={handleReset} style={{marginTop:"10px"}} >
                         Reset
                     </Button>
                 </Form.Item>

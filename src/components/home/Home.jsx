@@ -1,16 +1,19 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Layout } from 'antd';
-import './home.css';
+import { useMemo } from 'react';
 
 const { Content, Header } = Layout;
 
 export default memo(function Home(){
 const navigate = useNavigate();
+const header = useMemo (() => {
+    return {backgroundColor:"white"};
+},[]);
 
     return (
         <Layout>
-            <Header style={{backgroundColor:"white"}}>
+            <Header style={header}>
                 <h1>Mijn kleren</h1>
             </Header>
             <Content>

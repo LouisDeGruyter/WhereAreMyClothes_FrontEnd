@@ -7,6 +7,7 @@ import useKledingstukken from '../../api/kledingstukken';
 import useKleerkasten from '../../api/kleerkasten';
 
 import './KledingForm.css'
+import { useCallback } from 'react';
 
 const {Header, Content} = Layout;
 const { Option } = Select;
@@ -115,6 +116,15 @@ export default memo(function KledingstukForm() {
             navigate(`/kleerkasten/add`);
     };
     };
+    const handleReset = useCallback (() => {
+        form.resetFields();
+    }, [form]);
+    const handleAddKleerkast = useCallback (() => {
+        navigate(`/kleerkasten/add`);
+    }, []);
+    const handleBackClick = useCallback (() => {
+        navigate(`/kleren`);
+    }, []);
 
     return (
 
@@ -128,7 +138,7 @@ export default memo(function KledingstukForm() {
         </Header>
         <Content>
             <Error error={error}/>
-            <Button block type="primary" onClick={() => navigate(`/kleren`)} style={{marginBottom: "10px"}}>Terug naar kleren</Button>
+            <Button block type="primary" onClick={handleBackClick} style={{marginBottom: "10px"}}>Terug naar kleren</Button>
             <Form
                 name="basic"
                 labelCol={{
@@ -151,7 +161,7 @@ export default memo(function KledingstukForm() {
                     rules={[{required: true, message: 'Vul een kleerkast in!'}]}
                 >
                     <Select placeholder="Selecteer een kleerkast" onChange={handleKleerkast} data-cy="kleerkast_input">
-                        <Option value={0} onClick={() =>{ navigate(`/kleerkasten/add`)}} > Klik hier om een kleerkast toe te voegen</Option>
+                        <Option value={0} onClick={handleAddKleerkast} > Klik hier om een kleerkast toe te voegen</Option>
 
                         {kleerkasten.map((kleerkast) => (
                             <Option key={kleerkast.kleerkastId} value={kleerkast.kleerkastId}>{kleerkast.name}</Option>
@@ -196,7 +206,7 @@ export default memo(function KledingstukForm() {
                     <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
                         Submit
                     </Button>
-                    <Button block danger onClick={() => form.resetFields()} style={{marginTop:"10px"}} >
+                    <Button block danger onClick={handleReset} style={{marginTop:"10px"}} >
                         Reset
                     </Button>
                 </Form.Item>

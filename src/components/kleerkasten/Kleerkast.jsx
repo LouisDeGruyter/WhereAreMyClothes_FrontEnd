@@ -1,9 +1,10 @@
-import {  useEffect,useState,useCallback, memo} from 'react';
+import {  useEffect,useState,useCallback, memo,useMemo} from 'react';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import useKledingstukken from '../../api/kledingstukken';
 import KledingTable from '../kleren/KledingTable';
+
 import { Layout,Button,Descriptions, Input, notification,Spin,Modal} from 'antd';
 const { Header, Content } = Layout;
 
@@ -18,6 +19,20 @@ export default memo( function Kleerkast(){
     const {id} = useParams();
     const kledingstukApi   = useKledingstukken();
     const navigate= useNavigate();
+
+    function handleBackToKleerkasten() {
+        navigate('/kleerkasten');
+      }
+      
+      
+      function handleEdit() {
+        navigate(`/kleerkasten/${id}/edit`);
+      }
+      
+      function handleAddClothing() {
+        navigate(`/kleren/add`);
+      }
+      
 
     const refresh = useCallback(async () =>{
         try{
@@ -95,22 +110,32 @@ export default memo( function Kleerkast(){
         
                   });
         };
+        const styleDiv = useMemo(() => {
+        if(visible===true){
+            return {};
+        } else {
+            return {display:"none"};
+        }
+        }, [visible]);
+                
+
         return(
             <div>
                 <Spin spinning={loading} size="large">
                 {contextHolder}
                 <Layout>
                 <Header style={{backgroundColor:"white"}}> <h1> Kleerkast {kleerkast.kleerkastId}</h1></Header>
-                <Content style={{backgroundColor:"white"}}>
+                <Content >
                 <Input.Group compact>
-                <Button type="primary" onClick={() => {navigate('/kleerkasten')}}>Terug naar kleerkasten</Button>
+                <Button type="primary" onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
                 <Button type="primary" onClick={handleDelete}>Verwijder kleerkast</Button>
-                <Button type="primary" onClick={() => {navigate(`/kleerkasten/${id}/edit`)}}>Bewerk kleerkast</Button>
-                <Button type="primary" onClick={() => {navigate(`/kleren/add`)}}>Voeg kledingstuk toe</Button>
+                <Button type="primary" onClick={handleEdit}>Bewerk kleerkast</Button>
+                <Button type="primary" onClick={handleAddClothing}>Voeg kledingstuk toe</Button>
+
                 </Input.Group>
                 <br/>
                 <Error error={error}/>
-                <div style={visible===true?{}:{display:"none"}}>
+                <div style={styleDiv}>
                 <Descriptions  bordered style={{marginTop:50,margin:"auto", width:"95%"}} contentStyle={{backgroundColor:"#D1D1D1"}} labelStyle={{backgroundColor:"#B2AFAF"}}>
                     <Descriptions.Item label="Kleerkast naam">{kleerkast.name}</Descriptions.Item>
                     <Descriptions.Item label="Kleerkast locatie">{kleerkast.location}</Descriptions.Item>

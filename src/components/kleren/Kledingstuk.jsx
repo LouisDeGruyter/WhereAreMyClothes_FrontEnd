@@ -105,6 +105,22 @@ export default memo( function Kledingstuk() {
     };
 
     const navigate = useNavigate();
+    const handleBackClick = useCallback(() => {
+        navigate('/kleren');
+      }, []);
+      
+      const handleEditClick = useCallback(() => {
+        navigate(`/kleren/${kledingstuk.kledingstukId}/edit`);
+      }, [kledingstuk.kledingstukId, navigate]);
+      
+      const handleViewClick = useCallback(() => {
+        navigate(`/kleerkasten/${kledingstuk.kleerkastId}`);
+      }, [kledingstuk.kleerkastId, navigate]);
+      
+      const handleAddClick = useCallback(() => {
+        navigate(`/kleerkasten/add`);
+      }, [navigate]);
+      
     return (
         <div >
             <Spin spinning={loading} size="large">
@@ -113,12 +129,12 @@ export default memo( function Kledingstuk() {
             <Header style={{backgroundColor:"white"}}> <h2> Kledingstuk {kledingstuk.kledingstukId}</h2></Header>
             <Content style={{backgroundColor:"white"}}>
             <Input.Group compact>
-            <Button type="primary" onClick={() => {navigate('/kleren')}}>Terug naar kledingstukken</Button>
+            <Button type="primary" onClick={handleBackClick}>Terug naar kledingstukken</Button>
             <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
-            <Button type="primary" onClick={() =>{ navigate(`/kleren/${kledingstuk.kledingstukId}/edit`)}}>Wijzig kledingstuk</Button>
-            <Button type="primary" onClick={() =>{ navigate(`/kleerkasten/${kledingstuk.kleerkastId}`)}}>Bekijk kleerkast</Button>
+            <Button type="primary" onClick={handleEditClick}>Wijzig kledingstuk</Button>
+            <Button type="primary" onClick={handleViewClick}>Bekijk kleerkast</Button>
             <Select placeholder="Wijzig kleerkast" onChange={handleWijzigKleerkast} data-cy="kleerkast_input">
-                        <Option value={0} onClick={() =>{ navigate(`/kleerkasten/add`)}} > Klik hier om een kleerkast toe te voegen</Option>
+                        <Option value={0} onClick={handleAddClick} > Klik hier om een kleerkast toe te voegen</Option>
 
                         {kleerkasten.map((kleerkast) => (
                             <Option key={kleerkast.kleerkastId} value={kleerkast.kleerkastId}>{kleerkast.name}</Option>
