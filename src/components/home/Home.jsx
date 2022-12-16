@@ -14,7 +14,7 @@ const header = useMemo (() => {
     return (
         <Layout>
             <Header style={header}>
-                <h1>Mijn kleren</h1>
+                <h1>Welkom bij WhereAreMyClothes</h1>
             </Header>
             <Content>
 
