@@ -6,6 +6,7 @@ const style={
 }
 export default function Error({error}) {
     if(error) {
+        console.log(error);
         if(error.response && error.response.data && error.response.data.message){
            return <Alert type="error" message={error.response.data.message} banner style={style} />
         }

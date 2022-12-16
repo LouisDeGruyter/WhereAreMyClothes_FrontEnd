@@ -133,6 +133,7 @@ export default memo(function KleerkastForm() {
                     <Form.Item
                         label="Naam"
                         name="name"
+                        data-cy="kleerkast_naam"
                         rules={[{required: true, message: 'Kleerkast naam is verplicht'}]}
                     >
                         <Input />
@@ -140,12 +141,13 @@ export default memo(function KleerkastForm() {
                     <Form.Item
                         label="Locatie"
                         name="location"
+                        data-cy="kleerkast_locatie"
                         rules={[{required: true, message: 'Kleerkast locatie is verplicht'}]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8,span: 9, }}>
-                    <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
+                    <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast">
                         Submit
                     </Button>
                     <Button block danger onClick={handleReset} style={{marginTop:"10px"}} >

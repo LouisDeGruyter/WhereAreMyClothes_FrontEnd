@@ -50,7 +50,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
     ]},
     {label: name, icon: <img src={picture} alt={givenName} style={{width:15, height:15}}/>, key: '/profiel',className:"profiel",style:{marginLeft:"auto"}, },
-    {label: 'Log out', icon: <LogoutOutlined />, key: '/logout', onClick: () => logout({ returnTo: window.location.origin }), style:{color:"darkred"}}
+    {label: 'Log out', icon: <LogoutOutlined />, key: '/logout', onClick: () => logout({ returnTo: window.location.origin }), style:{color:"darkred"}, }
   ];
 
   }
