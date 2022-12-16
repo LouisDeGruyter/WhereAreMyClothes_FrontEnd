@@ -34,6 +34,7 @@ export default function AuthLanding() {
   }
 
   if (!isLoading && isAuthenticated) {
+    
     return <Navigate to="/" />;
   }
 

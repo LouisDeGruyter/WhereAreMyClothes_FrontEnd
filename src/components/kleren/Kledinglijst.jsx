@@ -1,12 +1,12 @@
 import { useState, useMemo, useCallback, memo, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Table, Input, Alert, Layout,Spin, Modal} from 'antd';
+import { Button, Input, Layout,Spin, Modal} from 'antd';
 import useKledingstukken  from '../../api/kledingstukken';
-import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import Error from '../Error';
 import {notification} from 'antd';
 import KledingTable from './KledingTable';
 import useKleerkasten from '../../api/kleerkasten';
+import useUsers from '../../api/users';
 
 const { Header, Content } = Layout;
 
@@ -22,6 +22,7 @@ const getFilterTekst = (text) => {
 
 export default memo( function Kledinglijst() {
   const kledingstukApi= useKledingstukken();
+  const userApi = useUsers();
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
   const [kledingstukken, setKledingstukken] = useState([]);
@@ -43,7 +44,7 @@ const refreshKledingstukken = useCallback(async () => {
   try{
     setLoading(true);
     setError(null);
-  const kledingstukken = await kledingstukApi.getAll();
+  const kledingstukken = await userApi.getKledingstukken();
   setKledingstukken(kledingstukken);
   } catch (error) {
     setError(error);
@@ -128,7 +129,7 @@ const refreshKledingstukken = useCallback(async () => {
           value={query}
           onChange={handleChange}
           onSearch={handleSearch}
-          style={{ marginBottom: 8, width: "50%", display: "inline-block", marginLeft: "auto", marginRight: "auto" }}
+          style={{ marginBottom: 8, width: "50%", display: "inline-block", marginLeft: "2.5%", float:"left" }}
         />
         <Button style={{ float: "right", marginRight: "2.5%" }} onClick={handleNewKledingstuk}>
           Klik hier om een nieuw kledingstuk toe te voegen

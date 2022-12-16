@@ -99,7 +99,7 @@ return (
     columns={columns}
     dataSource={kledingstukken}
     rowKey="kledingstukId"
-    style={{marginLeft:30, marginRight:30, width:"95%"}}
+    style={{marginLeft:"auto", marginRight:"auto", width:"95%"}}
     ></Table>
 )
 });

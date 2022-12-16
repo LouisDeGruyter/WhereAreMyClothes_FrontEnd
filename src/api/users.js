@@ -1,38 +1,93 @@
 import axios from 'axios';
+import {useCallback} from 'react';
+import {useAuth0} from "@auth0/auth0-react";
 const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
-export const getAll = async () => {
-    const response = await axios.get(baseUrl);
-    return response.data.users;
-    };
 
-export const getUserById = async (id) => {
-    const response = await axios.get(`${baseUrl}/${id}`);
-    return response.data;
-    };
+const useUsers = () => {
+    const {getAccessTokenSilently} = useAuth0();
 
-export const createUser = async (user) => {
-    const response = await axios.post(baseUrl, user);
-    return response.data;
-    };
+    const getAll = useCallback (async () => {
 
-export const deleteUser = async (id) => {
-    const response = await axios.delete(`${baseUrl}/${id}`);
-    return response.data;
-    };
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.get(baseUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data.users;
+    }, [getAccessTokenSilently]);
 
-export const updateUser = async (id, user) => {
-    const response = await axios.put(`${baseUrl}/${id}`, user);
-    return response.data;
-    };
+    const getUserById = useCallback (async (id) => {
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.get(`${baseUrl}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data;
+    }, [getAccessTokenSilently]);
 
-export const getKleerkasten = async (id) => {
-    const response = await axios.get(`${baseUrl}/${id}/kleerkasten`);
-    return response.data;
-    };
+    const createUser = useCallback (async (user) => {
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.post(baseUrl, user, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data;
+    }, [getAccessTokenSilently]);
 
-export const getKledingstukken = async (id) => {
-    const response = await axios.get(`${baseUrl}/${id}/kledingstukken`);
-    return response.data;
-    };
-
+    const deleteUser = useCallback (async (id) => {
+        const token = await getAccessTokenSilently();
+        await axios.delete(`${baseUrl}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+    }, [getAccessTokenSilently]);
     
+    const updateUser = useCallback (async (id, user) => {
+
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.put(`${baseUrl}/${id}`, user, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data;
+    }, [getAccessTokenSilently]);
+
+    const getKleerkasten = useCallback (async () => {
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.get(`${baseUrl}/1/kleerkasten`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }); 
+        return data.kleerkasten;
+    }, [getAccessTokenSilently]);
+
+    const getKledingstukken = useCallback (async () => {
+        const token = await getAccessTokenSilently();
+        const {data} = await axios.get(`${baseUrl}/1/kledingstukken`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return data.kledingstukken;
+    }, [getAccessTokenSilently]);
+
+    return {
+        getAll,
+        getUserById,
+        createUser,
+        deleteUser,
+        updateUser,
+        getKleerkasten,
+        getKledingstukken,
+    };
+};
+
+export default useUsers;
+
+

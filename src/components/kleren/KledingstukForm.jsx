@@ -34,6 +34,10 @@ export default memo(function KledingstukForm() {
             form.resetFields();
             }
             else{
+                if(!kledingstuk){
+                    setError("Je kan geen kledingstuk updaten die niet van jou is");
+                    return;
+                }
                 if(values.kleerkastId === kledingstuk.kleerkastId && values.brand === kledingstuk.brand && values.color === kledingstuk.color && values.size === kledingstuk.size && values.type === kledingstuk.type ){
                     setError("Er zijn geen aanpassingen gemaakt");
                     return;

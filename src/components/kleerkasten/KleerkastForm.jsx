@@ -87,6 +87,10 @@ export default memo(function KleerkastForm() {
             form.resetFields();
             }
             else{
+                if(!kleerkast){
+                    setError("Je kan geen kleerkast updaten die niet van jou is");
+                    return;
+                }
                 if(values.name === kleerkast.name && values.location === kleerkast.location){
                     setError("Er zijn geen wijzigingen aangebracht");
                     return;

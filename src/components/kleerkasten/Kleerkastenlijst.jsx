@@ -2,6 +2,7 @@
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
+import useUsers from '../../api/users';
 import { Layout,Table, notification,Spin,Alert,Input,Button,Modal} from 'antd';
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useState, useMemo } from 'react';
@@ -25,6 +26,7 @@ const getFilterTekst = (text) => {
 export default function Kleerkastenlijst(){
     const kleerkastApi = useKleerkasten();
     const kledingstukApi = useKledingstukken();
+    const userApi = useUsers();
     const [kleerkasten, setKleerkasten] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -87,7 +89,7 @@ export default function Kleerkastenlijst(){
         try{
             setLoading(true);
             setError(null);
-            const kleerkasten = await kleerkastApi.getAll();
+            const kleerkasten = await userApi.getKleerkasten();
             setKleerkasten(kleerkasten);
         } catch (error) {
             setError(error);

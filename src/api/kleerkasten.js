@@ -7,6 +7,7 @@ const useKleerkasten = () => {
     const {getAccessTokenSilently} = useAuth0();
 
     const getAll = useCallback (async () => {
+        
         const token = await getAccessTokenSilently();
         const {data} = await axios.get(baseUrl, {
             headers: {
