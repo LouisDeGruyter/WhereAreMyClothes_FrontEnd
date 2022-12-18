@@ -6,6 +6,7 @@ describe("mijn eerste test", () => {
 
 describe("Test submit knop", () => {
   it('klikt op de submit knop', () => {
+    cy.login();
     cy.visit('http://localhost:3000/kleren/add');
     cy.get('[data-cy=submit_kledingstuk]').click();
   });

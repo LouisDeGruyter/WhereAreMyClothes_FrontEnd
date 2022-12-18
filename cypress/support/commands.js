@@ -69,8 +69,8 @@ Cypress.Commands.add('goToHomePage', () => { // 👈 1
     Cypress.log({
       displayName: 'logout',
     });
-    cy.goToHomePage();
-    cy.get('[data-cy=logout_btn]').click();
+    cy.visit('http://localhost:3000/logout')
+    cy.get('.ant-menu').first().find('.anticon-logout').click();
   });
   
   

@@ -74,7 +74,7 @@ export default function Kleerkastenlijst(){
             render: (id) => (
                 <div onClick={(event)=> event.stopPropagation()}>
                    <EditOutlined onClick={()=>handleEdit(id)}/>
-                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kledingstuk"/>
+                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kleerkast"/>
                 </div>
             ),
         },

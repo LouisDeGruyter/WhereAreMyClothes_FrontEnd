@@ -2,11 +2,16 @@ describe("add kledingstuk test", () => {
     beforeEach(() => {
         cy.login();
     });
+    afterEach(() => {
+        cy.wait(2000);
+    });
     it("add kleerkast test", () => {
         cy.visit("http://localhost:3000/kleerkasten/add");
         cy.get('[data-cy="kleerkast_naam"]').type("Kleerkast 1");
         cy.get('[data-cy="kleerkast_locatie"]').type("kamer");
         cy.get('[data-cy="submit_kleerkast"]').click();
+        cy.window().then((win) => {   cy.spy(win.console, "log") })
+
     });
 
     it("add kledingstuk test1", () => {
@@ -36,6 +41,7 @@ it("add kledingstuk test2", () => {
     });
 
     it("delete kledingstuk test", () => {
+        
         cy.visit("http://localhost:3000/kleren");
         cy.get("[data-cy=remove_kledingstuk]").last({force:true}).click();
         cy.get('.ant-modal:visible').find('.ant-modal-confirm-btns').find('.ant-btn-dangerous').click();
@@ -71,4 +77,12 @@ it("add kledingstuk test2", () => {
         cy.wait(4000);
         cy.get('[data-cy=loading]').should('not.contain', 'spinning={true}');
     });
+    it("delete kledingstuk test", () => {
+            
+            cy.visit("http://localhost:3000/kleerkasten");
+            cy.get("[data-cy=remove_kleerkast]").last({force:true}).click();
+            cy.get('.ant-modal:visible').find('.ant-modal-confirm-btns').find('.ant-btn-dangerous').click();
+            cy.get("tr").last({force:true}).contains("td", "Kleerkast 1").should("not.exist");
+        });
+
 });

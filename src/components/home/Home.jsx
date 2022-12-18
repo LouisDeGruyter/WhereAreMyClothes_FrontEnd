@@ -17,8 +17,6 @@ const header = useMemo (() => {
                 <h1>Welkom bij WhereAreMyClothes</h1>
             </Header>
             <Content>
-
-                <h2>Welkom</h2>
             <p>Met onze website kunt u eenvoudig uw kleding bijhouden en precies weten welke kledingkast ze bevinden.</p>
             <h3>Bekijk uw kleding</h3>
             <p>Klik op de onderstaande knop om alle kleding en de kledingkast waar ze zich bevinden te bekijken.</p>
