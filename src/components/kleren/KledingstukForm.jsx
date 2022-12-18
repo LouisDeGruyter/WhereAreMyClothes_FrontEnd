@@ -134,11 +134,18 @@ export default memo(function KledingstukForm() {
             width: "70%",
             margin: "auto",
         },
-        buttonterug: {
+        backButton: {
             marginBottom: "10px",
+            color: "white",
+            backgroundColor: "#181649",
+            width: "100%",
+            height: "40px",
         },
         buttonreset: {
             marginTop: "10px",
+        },
+        layout: {
+            backgroundColor: "white",
         },
     }), []);
 
@@ -148,13 +155,12 @@ export default memo(function KledingstukForm() {
         <Spin spinning={loading} size="large">
         {contextHolder}
         <Layout>
-        <Header style={{backgroundColor:"white"}}>
+        <Header style={styles.layout}>
             {id ? <h2>Wijzig kledingstuk {id}</h2> : <h2>Maak een kledingstuk aan</h2>}
 
         </Header>
-        <Content>
+        <Content style={styles.layout}>
             <Error error={error}/>
-            <Button block type="primary" onClick={handleBackClick} style={styles.buttonterug}>Terug naar kleren</Button>
             <Form
                 name="basic"
                 labelCol={{
@@ -169,6 +175,9 @@ export default memo(function KledingstukForm() {
                 form={form}
                 style={styles.form}
             >
+                <Form.Item wrapperCol={{offset: 4,span: 17}}>
+                <Button block  onClick={handleBackClick} style={styles.backButton}>Terug naar kleren</Button>
+                </Form.Item>
                 <Form.Item
                 
                     

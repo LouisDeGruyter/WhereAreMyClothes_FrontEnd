@@ -29,15 +29,21 @@ export default memo( function Kledingstuk() {
         },
         description: {
           marginTop:25,
-           width:"95%", border:"1px solid black", borderRadius:5, backgroundColor:"white",
+           width:"95%", backgroundColor:"white",
+           marginLeft:"2.5%",
       },
         content: {
           backgroundColor:"white",
       },
       label: {
-          backgroundColor:"#D1D1D1"
+          backgroundColor:"rgb(161, 176, 186)"
       },
-      }), [visible]);
+      button: {
+        marginBottom: "10px",
+        color: "white",
+        backgroundColor: "#181649",
+    },
+      }), []);
 
 
 
@@ -155,10 +161,10 @@ export default memo( function Kledingstuk() {
             <Header style={styles.layout}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
             <Content style={styles.layout}>
             <Input.Group compact>
-            <Button type="primary" onClick={handleBackClick}>Terug naar kledingstukken</Button>
-            <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
-            <Button type="primary" onClick={handleEditClick}>Wijzig kledingstuk</Button>
-            <Button type="primary" onClick={handleViewClick}>Bekijk kleerkast</Button>
+            <Button type="primary" style={styles.button} onClick={handleBackClick}>Terug naar kledingstukken</Button>
+            <Button type="primary" style={styles.button} onClick={handleDelete}>Delete kledingstuk</Button>
+            <Button type="primary" style={styles.button} onClick={handleEditClick}>Wijzig kledingstuk</Button>
+            <Button type="primary" style={styles.button} onClick={handleViewClick}>Bekijk kleerkast</Button>
             <Select placeholder="Wijzig kleerkast" onChange={handleWijzigKleerkast} data-cy="kleerkast_input" style={styles.kleerkast}>
                         <Option value={0} onClick={handleAddClick} > Klik hier om een kleerkast toe te voegen</Option>
 

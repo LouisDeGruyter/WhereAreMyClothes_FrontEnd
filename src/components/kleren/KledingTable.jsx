@@ -22,7 +22,10 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
         table: {
             marginLeft:"auto", 
             marginRight:"auto",
-             width:"95%"
+             width:"95%",
+             
+             border: !kleerkasten? "2px solid #020034":"",
+             borderRadius: !kleerkasten?8:"",
         }
     }), []);
 

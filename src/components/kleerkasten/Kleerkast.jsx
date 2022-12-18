@@ -24,7 +24,7 @@ export default memo( function Kleerkast(){
             backgroundColor:"white",
         },
         description: {
-            marginTop:50,margin:"auto", width:"95%", border:"1px solid black", borderRadius:5, backgroundColor:"white",
+            marginTop:50,margin:"auto", width:"95%",  backgroundColor:"white",
         },
         h2: {
             marginBottom: 16,
@@ -34,7 +34,17 @@ export default memo( function Kleerkast(){
             backgroundColor:"white",
         },
         label: {
-            backgroundColor:"#D1D1D1"
+            backgroundColor:"rgb(161, 176, 186)"
+        },
+        table: {
+            border: "2px solid #020034",
+            borderRadius: 5,
+            backgroundColor: "white",
+        },
+        button: {
+            marginBottom: "10px",
+            color: "white",
+            backgroundColor: "#181649",
         },
 
     }), []);
@@ -152,10 +162,10 @@ export default memo( function Kleerkast(){
                 <Header style={styles.layout}> <h1> {kleerkast.name}</h1></Header>
                 <Content style={styles.layout}>
                 <Input.Group compact>
-                <Button type="primary" onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
-                <Button type="primary" onClick={handleDelete}>Verwijder kleerkast</Button>
-                <Button type="primary" onClick={handleEdit}>Bewerk kleerkast</Button>
-                <Button type="primary" onClick={handleAddClothing}>Voeg kledingstuk toe</Button>
+                <Button type="primary" style={styles.button} onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
+                <Button type="primary" style={styles.button} onClick={handleDelete}>Verwijder kleerkast</Button>
+                <Button type="primary" style={styles.button} onClick={handleEdit}>Bewerk kleerkast</Button>
+                <Button type="primary" style={styles.button} onClick={handleAddClothing}>Voeg kledingstuk toe</Button>
 
                 </Input.Group>
                 <br/>
@@ -166,7 +176,7 @@ export default memo( function Kleerkast(){
                     <Descriptions.Item label="Kleerkast locatie:">{kleerkast.location}</Descriptions.Item>
                     </Descriptions>
                     <h2 style={styles.h2}>Kledingstukken in {kleerkast.name}</h2>
-                    <KledingTable kledingstukken={kleerkast.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkast} />
+                    <KledingTable kledingstukken={kleerkast.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkast} style={styles.table} />
                     </div>
                 </Content>
                 </Layout>

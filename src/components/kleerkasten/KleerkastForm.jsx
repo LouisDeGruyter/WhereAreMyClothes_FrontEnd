@@ -109,6 +109,8 @@ export default memo(function KleerkastForm() {
         form: {
             width: "70%",
             margin: "auto",
+            
+            
         },
         layout: {
             backgroundColor: "white",
@@ -119,6 +121,13 @@ export default memo(function KleerkastForm() {
         resetButton: {
             marginTop: "10px",
         },
+        backButton: {
+            marginBottom: "10px",
+            color: "white",
+            backgroundColor: "#181649",
+            width: "100%",
+            height: "40px",
+        },
     }), []);
     return (
         <div >
@@ -128,10 +137,10 @@ export default memo(function KleerkastForm() {
             <Header style={styles.layout}>
                 <h2>{id ? `Kleerkast ${id} wijzigen` : 'Kleerkast toevoegen'}</h2>
             </Header>
-        <Content>
+        <Content style={styles.layout}>
             
             <Error error={error} />
-            <Button block type="primary" onClick={handleTerug} style={styles.marginBottom}>Terug naar kleerkasten</Button>
+           
                 <Form
                      name="basic"
                      labelCol={{
@@ -146,9 +155,15 @@ export default memo(function KleerkastForm() {
                      form={form}
                      style={styles.form}
                 >
+                    <Form.Item wrapperCol={{offset: 4,span: 17}}>
+                        <Button block style={styles.backButton} onClick={handleTerug}>
+                            Terug naar kleerkasten
+                        </Button>
+                    </Form.Item>
                     <Form.Item
                         label="Naam"
                         name="name"
+                       
                         data-cy="kleerkast_naam"
                         rules={[{required: true, message: 'Kleerkast naam is verplicht'}]}
                     >
@@ -170,6 +185,7 @@ export default memo(function KleerkastForm() {
                         Reset
                     </Button>
                 </Form.Item>
+                
                 </Form>
            
         </Content>

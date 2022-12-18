@@ -8,20 +8,23 @@ import NavbarItems from './NavbarItems';
  export default memo(function Navbar() {
   const styles = useMemo(() => ({
     menuIcon: {
-      backgroundColor: 'rgb(150,150,150)',
-      height: 60,
-      paddingLeft: 12,
-      paddingTop: 12,
+      fontSize: 30,
+      backgroundColor: '#020034',
+      color: 'white',
+      padding: 10,
     },
     drawer: {
-      backgroundColor: 'rgb(150,150,150)',
+      backgroundColor: '#020034',
+    },
+    div: {
+      paddingBottom: 20,
     },
   }), []);
   const [openMenu, setOpenMenu] = useState(false);
   return (
-  <div style={{paddingBottom:20}}>
+  <div style={styles.div}>
     <div className='menuIcon' style={styles.menuIcon}>
-      <MenuOutlined style={{fontSize:30}} onClick={()=>{
+      <MenuOutlined style={styles.menuIcon} onClick={()=>{
       setOpenMenu(true);
     }}/>
       </div>

@@ -43,16 +43,21 @@ export default function Kleerkastenlijst(){
           backgroundColor: '#fff',
         },
         search: {
-          marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%"
+          marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%",
         },
         newButton: {
-          float: "right", marginRight: "2.5%" 
+          float: "right",
+      marginRight: "2.5%",
+      color: "white",
+      backgroundColor: "#181649",
+          
         },
         filtertekst: {
           clear:"both", marginBottom:10,
         },
         table: {
-          marginLeft:"auto", marginRight:"auto", width:"95%"
+          marginLeft:"auto", marginRight:"auto", width:"95%",  border: "2px solid #020034",
+          borderRadius: 8,
         }
       }), []);
 
@@ -207,7 +212,7 @@ export default function Kleerkastenlijst(){
                 <Header style={styles.header}>
             <h1>Kleerkastenlijst</h1>
             </Header>
-            <Content>
+            <Content style={styles.header}>
               <div>
             <Input.Search
           placeholder="Zoek hier..."

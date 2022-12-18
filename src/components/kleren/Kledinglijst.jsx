@@ -129,11 +129,14 @@ const refreshKledingstukken = useCallback(async () => {
     buttonKledingstuk: {
       float: "right",
       marginRight: "2.5%",
+      color: "white",
+      backgroundColor: "#181649",
     },
     filtertekst: {
       clear: "both",
       marginBottom: 10,
     },
+ 
 
   }), []);
   return (

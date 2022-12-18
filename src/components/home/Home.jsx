@@ -26,7 +26,7 @@ const styles = useMemo(() => ({
     },
     button: {
         backgroundColor:"white",
-        marginBottom: 5,
+        marginBottom: 8,
         marginTop:5,
     },
 }), []);

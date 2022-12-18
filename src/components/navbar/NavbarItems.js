@@ -1,11 +1,12 @@
 import { useNavigate  } from 'react-router-dom';
-import React, {memo,useState, useCallback,useMemo} from "react";
+import React, {memo, useCallback,useMemo} from "react";
 import {Menu,Modal,notification } from "antd";
 import "./navbar.css";
 import { HomeOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
-import kleerkastIcon from '../../images/wardrobe.png';
-import kledingIcon from '../../images/shirt.png';
+import kleerkastIcon from '../../images/wardrobeWhite.png';
+import kledingIcon from '../../images/shirtWhite.png';
 import { useAuth0 } from '@auth0/auth0-react';
+import './navbarItems.scss';
 
 
 export default memo(function NavbarItems({isInline=false}){
@@ -73,14 +74,27 @@ export default memo(function NavbarItems({isInline=false}){
             },
             profiel: {
                 marginLeft: 'auto',
+                color: 'white',
             },
             logout: {
-                color: 'darkred',
+                color: 'red',
             },
             menu: {
-                backgroundColor:'rgb(150,150,150)',
+                backgroundColor:'#020034',
                 border:'none',
                 fontSize:18
+            },
+            label: {
+                color: 'white',
+            },
+            profielfoto: {
+                width: 20,
+                height: 20,
+          
+            },
+            login: {
+                color: 'white',
+                marginLeft: 'auto',
             },
 
         }), []);
@@ -90,9 +104,9 @@ export default memo(function NavbarItems({isInline=false}){
         if (isAuthenticated) {
           const {name, picture, givenName} = user;
           return [
-            {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome},
+            {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome, style:styles.label},
             {
-              label: 'Kleerkasten',
+              label: 'Kleerkasten', style:styles.label,
               icon: <img src={kleerkastIcon} alt="Kleerkasten" style={styles.imgIcon}/>,
               key: '/kleerkasten',
               children: [
@@ -101,7 +115,7 @@ export default memo(function NavbarItems({isInline=false}){
               ]
             },
             {
-              label: 'Kleren',
+              label: 'Kleren', style:styles.label,
               icon: <img src={kledingIcon} alt="Kleren" style={styles.imgIcon}/>,
               key: '/kleren',
               children: [
@@ -109,9 +123,10 @@ export default memo(function NavbarItems({isInline=false}){
                 {label: 'Voeg toe', key: '/kleren/add', onClick:handleKlerenAdd}
               ]
             },
-            {label: name, icon: <img src={picture} alt={givenName} style={styles.imgIcon}/>, key: '/profiel', className:"profiel", style:styles.profiel},
+            {label: name, style:styles.label,  icon: <img src={picture} alt={givenName} style={styles.profielfoto}/>, key: '/profiel', className:"profiel", style:styles.profiel},
             {
               label: 'Log out',
+              
               icon: <LogoutOutlined />,
               key: '/logout',
               onClick:handleLogout,
@@ -119,17 +134,17 @@ export default memo(function NavbarItems({isInline=false}){
             }
           ];
         } else {
-            return [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome},
-           {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={styles.imgIcon}/>, key: '/kleerkasten', children:[
+            return [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome, style:styles.label},
+           {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={styles.imgIcon}/>, key: '/kleerkasten', style:styles.label, children:[
              {label: 'Kleerkastlijst' , key: '/kleerkastenlijst', onClick:handleKleerkasten},
              {label: 'Voeg toe', key: '/kleerkasten/add', onClick:handleKleerkastenAdd}
            ]},
-           {label: 'Kleren', icon: <img src={kledingIcon} alt="Kleren" style={styles.imgIcon}/>, key: '/kleren', children:[
+           {label: 'Kleren', style:styles.label, icon: <img src={kledingIcon} alt="Kleren" style={styles.imgIcon}/>, key: '/kleren', children:[
              {label: 'Klerenlijst' , key: '/klerenlijst', onClick: handleKleren},
              {label: 'Voeg toe', key: '/kleren/add', onClick:handleKlerenAdd},
              
            ]},
-           {label: 'Log in',style:styles.profiel, icon: <LoginOutlined />, key: '/login', onClick:handleLogin}];
+           {label: 'Log in',style:styles.login, icon: <LoginOutlined />, key: '/login', onClick:handleLogin}];
          }
         },
         [isAuthenticated, user, logout, navigate, handleLogin],
