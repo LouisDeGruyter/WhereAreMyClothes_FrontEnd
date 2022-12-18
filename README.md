@@ -25,7 +25,8 @@ yarn start
     "auth_client_secret": "iv1v7WGS7kZAixDs68Hf7rekyX7rq1Xx01axPl62koJof92FZ8pw_eJj7ApdlTOk",
     "auth_username": "e2e-testing@gmail.be",
     "auth_password": "e2e-testing"
-  }```  
+  }
+  ```
   2) Voer de volgende commando(s) uit:    
   yarn cypress open  
   3) In de geopende cypress applicatie, klik op E2E Testing
