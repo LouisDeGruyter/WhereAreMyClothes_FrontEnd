@@ -5,6 +5,7 @@ import {Button,Form, Input,Layout, notification,Spin} from 'antd';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import { useCallback } from 'react';
+import { useMemo } from 'react';
 
 
 const {Content, Header} = Layout;
@@ -104,18 +105,33 @@ export default memo(function KleerkastForm() {
             setLoading(false);
         }
     };
+    const styles= useMemo (() => ({
+        form: {
+            width: "70%",
+            margin: "auto",
+        },
+        layout: {
+            backgroundColor: "white",
+        },
+        error: {
+            marginBottom: "10px",
+        },
+        resetButton: {
+            marginTop: "10px",
+        },
+    }), []);
     return (
         <div >
             <Spin spinning={loading} size="large">
             {contextHolder}
         <Layout>
-            <Header style={{backgroundColor:"white"}}>
+            <Header style={styles.layout}>
                 <h2>{id ? `Kleerkast ${id} wijzigen` : 'Kleerkast toevoegen'}</h2>
             </Header>
         <Content>
             
             <Error error={error} />
-            <Button block type="primary" onClick={handleTerug} style={{marginBottom:"10px"}}>Terug naar kleerkasten</Button>
+            <Button block type="primary" onClick={handleTerug} style={styles.marginBottom}>Terug naar kleerkasten</Button>
                 <Form
                      name="basic"
                      labelCol={{
@@ -128,7 +144,7 @@ export default memo(function KleerkastForm() {
                      onFinish={onFinish}
                      onFinishFailed={onFinishFailed}
                      form={form}
-                     style={{width: "70%", margin: "auto"}}
+                     style={styles.form}
                 >
                     <Form.Item
                         label="Naam"
@@ -150,7 +166,7 @@ export default memo(function KleerkastForm() {
                     <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast">
                         Submit
                     </Button>
-                    <Button block danger onClick={handleReset} style={{marginTop:"10px"}} >
+                    <Button block danger onClick={handleReset} style={styles.resetButton} >
                         Reset
                     </Button>
                 </Form.Item>

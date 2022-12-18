@@ -1,4 +1,4 @@
-import {  useEffect,useState,useCallback, memo} from 'react';
+import {  useEffect,useState,useCallback, memo, useMemo} from 'react';
 import useKledingstukken from '../../api/kledingstukken';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
@@ -20,6 +20,26 @@ export default memo( function Kledingstuk() {
     const [api, contextHolder] = notification.useNotification();
     const [kleerkasten,setKleerkasten] = useState([]);
     const [visible, setVisible] = useState(true);
+    const styles= useMemo (() => ({
+        layout: {
+          backgroundColor:"white",
+        },
+        kleerkast: {
+          width:280,
+        },
+        description: {
+          marginTop:25,
+           width:"95%", border:"1px solid black", borderRadius:5, backgroundColor:"white",
+      },
+        content: {
+          backgroundColor:"white",
+      },
+      label: {
+          backgroundColor:"#D1D1D1"
+      },
+      }), [visible]);
+
+
 
     const refresh = useCallback(async () => {
         try{
@@ -119,20 +139,27 @@ export default memo( function Kledingstuk() {
       const handleAddClick = useCallback(() => {
         navigate(`/kleerkasten/add`);
       }, [navigate]);
+      const styleDiv = useMemo(() => {
+        if(visible===true){
+            return {};
+        } else {
+            return {display:"none"};
+        }
+        }, [visible]);
       
     return (
         <div >
             <Spin spinning={loading} size="large">
             {contextHolder}
             <Layout>
-            <Header style={{backgroundColor:"white"}}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
-            <Content style={{backgroundColor:"white"}}>
+            <Header style={styles.layout}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
+            <Content style={styles.layout}>
             <Input.Group compact>
             <Button type="primary" onClick={handleBackClick}>Terug naar kledingstukken</Button>
             <Button type="primary" onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" onClick={handleEditClick}>Wijzig kledingstuk</Button>
             <Button type="primary" onClick={handleViewClick}>Bekijk kleerkast</Button>
-            <Select placeholder="Wijzig kleerkast" onChange={handleWijzigKleerkast} data-cy="kleerkast_input">
+            <Select placeholder="Wijzig kleerkast" onChange={handleWijzigKleerkast} data-cy="kleerkast_input" style={styles.kleerkast}>
                         <Option value={0} onClick={handleAddClick} > Klik hier om een kleerkast toe te voegen</Option>
 
                         {kleerkasten.map((kleerkast) => (
@@ -142,7 +169,8 @@ export default memo( function Kledingstuk() {
                     </Select>
             </Input.Group>
             <Error error={error}/>
-            <Descriptions  bordered style={visible===true?{marginTop:50}:{display:"none"}} contentStyle={{backgroundColor:"#D1D1D1"}} labelStyle={{backgroundColor:"#B2AFAF"}}>
+            <div style={styleDiv}>
+            <Descriptions  bordered style={styles.description} contentStyle={styles.content} labelStyle={styles.label}>
             <Descriptions.Item label="Naam">{kledingstuk.brand}</Descriptions.Item>
             <Descriptions.Item label="Kleur">{kledingstuk.color}</Descriptions.Item>
             <Descriptions.Item label="Type">{kledingstuk.type}</Descriptions.Item>
@@ -150,6 +178,7 @@ export default memo( function Kledingstuk() {
             <Descriptions.Item label="Kleerkast Naam">{kleerkast.name}</Descriptions.Item>
             <Descriptions.Item label="Kleerkast Locatie">{kleerkast.location}</Descriptions.Item>
             </Descriptions>
+            </div>
         </Content>
         </Layout>
         </Spin>

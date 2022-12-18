@@ -114,27 +114,49 @@ const refreshKledingstukken = useCallback(async () => {
   const handleNewKledingstuk = useCallback(() => {
     navigate(`/kleren/add`);
   }, []);
+  const styles = useMemo(() => ({
+   layout: {
+      backgroundColor: "white",
+   },
+   search: {
+      width: "50%",
+      display: "inline-block",
+      marginLeft: "2.5%",
+      float:"left",
+      marginBottom: 8,
+
+    },
+    buttonKledingstuk: {
+      float: "right",
+      marginRight: "2.5%",
+    },
+    filtertekst: {
+      clear: "both",
+      marginBottom: 10,
+    },
+
+  }), []);
   return (
     <div className="justify-content-center">
       <Spin spinning={loading} size="large"  data-cy="loading" >
       {contextHolder}
       <Layout>
-        <Header style={{backgroundColor:"white"}}>
+        <Header style={styles.layout}>
           <h1>Kledinglijst</h1>
         </Header>
-        <Content style={{backgroundColor:"white"}}>
+        <Content style={styles.layout}>
       <div>
         <Input.Search
           placeholder="Zoek hier..."
           value={query}
           onChange={handleChange}
           onSearch={handleSearch}
-          style={{ marginBottom: 8, width: "50%", display: "inline-block", marginLeft: "2.5%", float:"left" }}
+          style={styles.search}
         />
-        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={handleNewKledingstuk}>
+        <Button style={styles.buttonKledingstuk} onClick={handleNewKledingstuk}>
           Klik hier om een nieuw kledingstuk toe te voegen
         </Button>
-        <div>{getFilterTekst(text)}</div>
+        <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
         <Error error={error}/>
     <KledingTable kledingstukken={dataSource} onDelete={onDelete} loading={loading} />
    

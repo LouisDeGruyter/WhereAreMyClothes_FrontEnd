@@ -7,6 +7,7 @@ import useKledingstukken from '../../api/kledingstukken';
 import useUsers from '../../api/users';
 import './KledingForm.css'
 import { useCallback } from 'react';
+import { useMemo } from 'react';
 
 const {Header, Content} = Layout;
 const { Option } = Select;
@@ -128,6 +129,18 @@ export default memo(function KledingstukForm() {
     const handleBackClick = useCallback (() => {
         navigate(`/kleren`);
     }, []);
+    const styles = useMemo (() => ({
+        form: {
+            width: "70%",
+            margin: "auto",
+        },
+        buttonterug: {
+            marginBottom: "10px",
+        },
+        buttonreset: {
+            marginTop: "10px",
+        },
+    }), []);
 
     return (
 
@@ -141,7 +154,7 @@ export default memo(function KledingstukForm() {
         </Header>
         <Content>
             <Error error={error}/>
-            <Button block type="primary" onClick={handleBackClick} style={{marginBottom: "10px"}}>Terug naar kleren</Button>
+            <Button block type="primary" onClick={handleBackClick} style={styles.buttonterug}>Terug naar kleren</Button>
             <Form
                 name="basic"
                 labelCol={{
@@ -154,7 +167,7 @@ export default memo(function KledingstukForm() {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 form={form}
-                style={{width: "70%", margin: "auto"}}
+                style={styles.form}
             >
                 <Form.Item
                 
@@ -178,7 +191,7 @@ export default memo(function KledingstukForm() {
                     name="brand"
                     rules={[{required: true, message: 'Vul een merk in!'}]}
                 >
-                    <Input placeholder='Vul het merk in' style={{textAlign:"center"}}/>
+                    <Input placeholder='Vul het merk in'/>
                 </Form.Item>
                 <Form.Item
                     data-cy="color_input"
@@ -209,7 +222,7 @@ export default memo(function KledingstukForm() {
                     <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
                         Submit
                     </Button>
-                    <Button block danger onClick={handleReset} style={{marginTop:"10px"}} >
+                    <Button block danger onClick={handleReset} style={styles.buttonreset} >
                         Reset
                     </Button>
                 </Form.Item>

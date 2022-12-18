@@ -34,6 +34,28 @@ export default function Kleerkastenlijst(){
     const [text, setText] = useState("");
     const [api, contextHolder] = notification.useNotification();
     const navigate= useNavigate();
+    const styles = useMemo(() => ({
+        delete: {
+          color: 'red',
+          marginLeft: 12,
+        },
+        header: {
+          backgroundColor: '#fff',
+        },
+        search: {
+          marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%"
+        },
+        newButton: {
+          float: "right", marginRight: "2.5%" 
+        },
+        filtertekst: {
+          clear:"both", marginBottom:10,
+        },
+        table: {
+          marginLeft:"auto", marginRight:"auto", width:"95%"
+        }
+      }), []);
+
 
     const handleEdit = useCallback((id) => {
         navigate(`/kleerkasten/${id}/edit`);
@@ -74,7 +96,7 @@ export default function Kleerkastenlijst(){
             render: (id) => (
                 <div onClick={(event)=> event.stopPropagation()}>
                    <EditOutlined onClick={()=>handleEdit(id)}/>
-                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12}} data-cy="remove_kleerkast"/>
+                    <DeleteOutlined onClick={()=> {onDelete(id)}} style={styles.delete} data-cy="remove_kleerkast"/>
                 </div>
             ),
         },
@@ -182,28 +204,29 @@ export default function Kleerkastenlijst(){
             {contextHolder}
             <Spin spinning={loading}>
             <Layout>
-                <Header style={{backgroundColor:"white"}}>
+                <Header style={styles.header}>
             <h1>Kleerkastenlijst</h1>
             </Header>
             <Content>
+              <div>
             <Input.Search
           placeholder="Zoek hier..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onSearch={(e) => setText(query)}
-          style={{ marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%"}}
+          style={styles.search}
         />
-        <Button style={{ float: "right", marginRight: "2.5%" }} onClick={handleNewKleerkast}>
+        <Button style={styles.newButton} onClick={handleNewKleerkast}>
           Klik hier om een nieuwe kleerkast toe te voegen
         </Button>
-        
-        <div>{getFilterTekst(text)}</div>
+        </div>
+        <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
             <Error error={error} />
             <Table data-cy="kledinglijst" onRow={OnRow} locale= {loading?{emptyText:"Loading"}:{emptyText:<Alert message="Er zijn nog geen kleerkasten, klik op de bovenstaande knop om er toe te voegen" type="warning" showIcon closable/>}}
             columns= {columns}
             dataSource={dataSource}
             rowKey="kleerkastId"
-                style={{marginLeft:"auto", marginRight:"auto", width:"95%"}}
+                style={styles.table}
                 expandable={{ rowExpandable: record => record.kledingstukken.length && record.kledingstukken.length > 0}}
                 expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
             >

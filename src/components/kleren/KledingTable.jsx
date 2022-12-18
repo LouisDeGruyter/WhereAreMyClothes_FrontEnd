@@ -1,4 +1,4 @@
-import { memo,useCallback } from "react"
+import { memo,useCallback,useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import {Table, Alert,} from "antd"
 import {EditOutlined, DeleteOutlined} from "@ant-design/icons"
@@ -6,6 +6,27 @@ import kleerkastIcon from '../../images/wardrobe.png';
 
 export default memo(function  KledingTable({kledingstukken,loading,onDelete,kleerkasten}) {
     const navigate = useNavigate();
+    const styles = useMemo(() => ({
+        delete: {
+            color: "red",
+            marginLeft:12,
+            marginRight:12
+        },
+        edit: {
+            
+        },
+        kleerkast: {
+            width: 15,
+            height: 15,
+        },
+        table: {
+            marginLeft:"auto", 
+            marginRight:"auto",
+             width:"95%"
+        }
+    }), []);
+
+
     
     const OnRow = useCallback((record, rowIndex) => {
         return {
@@ -80,9 +101,9 @@ align:"center",
 
 render: (id) => (
     <div  onClick={(event)=> event.stopPropagation()}>
-       <EditOutlined onClick={()=> handleEdit(id)}/>
-        <DeleteOutlined onClick={()=> {onDelete(id)}} style={{color:"red", marginLeft:12,marginRight:12}} data-cy="remove_kledingstuk"/>
-        <img src={kleerkastIcon} alt="Kleerkasten" style={{width:15, height:15}} onClick={()=>handleKleerkast(id)}/>
+       <EditOutlined onClick={()=> handleEdit(id)} style={styles.edit}/>
+        <DeleteOutlined onClick={()=> {onDelete(id)}} style={styles.delete} data-cy="remove_kledingstuk"/>
+        <img src={kleerkastIcon} alt="Kleerkasten" style={styles.kleerkast} onClick={()=>handleKleerkast(id)}/>
     </div>
 ),});
 let emptytext;
@@ -99,7 +120,7 @@ return (
     columns={columns}
     dataSource={kledingstukken}
     rowKey="kledingstukId"
-    style={{marginLeft:"auto", marginRight:"auto", width:"95%"}}
+    style={styles.table}
     ></Table>
 )
 });
