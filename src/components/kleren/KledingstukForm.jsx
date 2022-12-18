@@ -4,8 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Button,Form, Select, Input,Layout, notification,Spin} from 'antd';
 import Error from '../Error';
 import useKledingstukken from '../../api/kledingstukken';
-import useKleerkasten from '../../api/kleerkasten';
-
+import useUsers from '../../api/users';
 import './KledingForm.css'
 import { useCallback } from 'react';
 
@@ -14,7 +13,7 @@ const { Option } = Select;
 
 export default memo(function KledingstukForm() {
     const kledingstukApi= useKledingstukken();
-    const kleerkastApi = useKleerkasten();
+    const userApi = useUsers();
     const [error, setError] = useState(null);
     const [kleerkasten, setKleerkasten] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -78,7 +77,7 @@ export default memo(function KledingstukForm() {
             try {
                 setLoading(true);
                 setError(null);
-                const kleerkasten = await kleerkastApi.getAll();
+                const kleerkasten = await userApi.getKleerkasten();
                 setKleerkasten(kleerkasten);
             } catch (error) {
                 setError(error);

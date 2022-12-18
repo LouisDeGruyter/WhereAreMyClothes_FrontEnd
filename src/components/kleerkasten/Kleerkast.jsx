@@ -124,7 +124,7 @@ export default memo( function Kleerkast(){
                 <Spin spinning={loading} size="large">
                 {contextHolder}
                 <Layout>
-                <Header style={{backgroundColor:"white"}}> <h1> Kleerkast {kleerkast.kleerkastId}</h1></Header>
+                <Header style={{backgroundColor:"white"}}> <h1> {kleerkast.name}</h1></Header>
                 <Content >
                 <Input.Group compact>
                 <Button type="primary" onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
@@ -140,7 +140,7 @@ export default memo( function Kleerkast(){
                     <Descriptions.Item label="Kleerkast naam">{kleerkast.name}</Descriptions.Item>
                     <Descriptions.Item label="Kleerkast locatie">{kleerkast.location}</Descriptions.Item>
                     </Descriptions>
-                    <h2>Kledingstukken in kleerkast {id}</h2>
+                    <h2>Kledingstukken in {kleerkast.name}</h2>
                     <KledingTable kledingstukken={kleerkast.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkast} />
                     </div>
                 </Content>

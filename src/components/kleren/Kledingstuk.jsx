@@ -2,8 +2,7 @@ import {  useEffect,useState,useCallback, memo} from 'react';
 import useKledingstukken from '../../api/kledingstukken';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
-import useKleerkasten from '../../api/kleerkasten';
-
+import useUsers from '../../api/users';
 import { Layout,Button,Descriptions, Input, notification,Spin, Select,Modal} from 'antd';
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -12,7 +11,7 @@ const { Option } = Select;
 
 export default memo( function Kledingstuk() {
     const kledingstukApi= useKledingstukken();
-    const kleerkastApi= useKleerkasten();
+    const userApi = useUsers();
     const [kledingstuk, setKledingstuk] = useState({});
     const [error, setError] = useState(null);
     const [kleerkast, setKleerkast] = useState({});
@@ -28,7 +27,7 @@ export default memo( function Kledingstuk() {
             setError(null);
             const kledingstuk1 = await kledingstukApi.getKledingstukById(id);
             const kleerkast1 = await kledingstukApi.getKleerkast(id);
-            const kleerkasten = await kleerkastApi.getAll();
+            const kleerkasten = await userApi.getKleerkasten();
             
             setKledingstuk(kledingstuk1);
             setKleerkast(kleerkast1);
@@ -126,7 +125,7 @@ export default memo( function Kledingstuk() {
             <Spin spinning={loading} size="large">
             {contextHolder}
             <Layout>
-            <Header style={{backgroundColor:"white"}}> <h2> Kledingstuk {kledingstuk.kledingstukId}</h2></Header>
+            <Header style={{backgroundColor:"white"}}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
             <Content style={{backgroundColor:"white"}}>
             <Input.Group compact>
             <Button type="primary" onClick={handleBackClick}>Terug naar kledingstukken</Button>
@@ -148,7 +147,6 @@ export default memo( function Kledingstuk() {
             <Descriptions.Item label="Kleur">{kledingstuk.color}</Descriptions.Item>
             <Descriptions.Item label="Type">{kledingstuk.type}</Descriptions.Item>
             <Descriptions.Item label="Maat">{kledingstuk.size}</Descriptions.Item>
-            <Descriptions.Item label="Kleerkast Id">{kleerkast.kleerkastId}</Descriptions.Item>
             <Descriptions.Item label="Kleerkast Naam">{kleerkast.name}</Descriptions.Item>
             <Descriptions.Item label="Kleerkast Locatie">{kleerkast.location}</Descriptions.Item>
             </Descriptions>
