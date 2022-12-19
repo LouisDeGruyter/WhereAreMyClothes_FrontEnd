@@ -107,7 +107,7 @@ export default memo(function KleerkastForm() {
     };
     const styles= useMemo (() => ({
         form: {
-            width: "50%",
+            width: "60%",
             margin: "auto",
             
             

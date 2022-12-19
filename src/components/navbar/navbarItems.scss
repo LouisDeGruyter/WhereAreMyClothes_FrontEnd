@@ -8,11 +8,17 @@
     color: rgb(141, 199, 235)!important;
 }
 .ant-menu-submenu-selected {
-   .ant-menu-title-content {
+    .ant-menu-submenu-title{
+        color: rgb(141, 199, 235)!important;
+    }
+   .ant-menu-item-selected {
         color: rgb(141, 199, 235)!important;
         background-color: #020034;
-        color: rgb(161, 176, 186);
+        
     }
+    
+    
+    
   }
   .ant-menu-item-only-child {
     color: white!important;
