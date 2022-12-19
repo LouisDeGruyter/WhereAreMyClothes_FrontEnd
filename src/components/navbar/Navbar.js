@@ -1,5 +1,5 @@
 
-import React, {memo,useMemo,useState} from "react";
+import React, {memo,useCallback,useMemo,useState} from "react";
 import {Drawer } from "antd";
 import "./navbar.scss";
 import {MenuOutlined } from '@ant-design/icons';
@@ -22,6 +22,9 @@ import NavbarItems from './NavbarItems';
     },
   }), []);
   const [openMenu, setOpenMenu] = useState(false);
+  const closeMenu = useCallback(() => {
+    setOpenMenu(false);
+  },[]);
   return (
   <div style={styles.div}>
     <div className='menuIcon' style={styles.menuIcon}>
@@ -33,7 +36,7 @@ import NavbarItems from './NavbarItems';
     <NavbarItems/>
     </span>
     <Drawer open={openMenu} onClose={()=> {setOpenMenu(false)}} closable={true} bodyStyle={styles.drawer} size={"default"}>
-      <NavbarItems isInline/>
+      <NavbarItems isInline closeMenu={closeMenu}/>
     </Drawer>
     </div>
   );

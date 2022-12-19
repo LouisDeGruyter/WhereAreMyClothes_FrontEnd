@@ -8,16 +8,20 @@ import { useAuth0 } from '@auth0/auth0-react';
 import './navbarItems.scss';
 
 
-export default memo(function NavbarItems({isInline=false}){
+export default memo(function NavbarItems({isInline=false,closeMenu}){
     const navigate= useNavigate();
     const {isAuthenticated,user,logout,loginWithRedirect} = useAuth0();
     const [api, contextHolder] = notification.useNotification();
     const handleLogin = useCallback( () => {
         loginWithRedirect();
+        if(isInline)
+            closeMenu();
       },
       [loginWithRedirect],
     );
     const handleLogout = useCallback( () => {
+        if(isInline)
+            closeMenu();
         Modal.confirm({
             title: 'Uitloggen?',
             content: 'Weet u zeker dat u wilt uitloggen?',
@@ -41,28 +45,38 @@ export default memo(function NavbarItems({isInline=false}){
         };
     const handleKleerkasten = useCallback( () => {
             navigate('/kleerkasten');
+            if(isInline)
+            closeMenu();
         },
         [navigate],
         );
         const handleKleerkastenAdd = useCallback( () => {
                 navigate('/kleerkasten/add');
+                if(isInline)
+            closeMenu();
             },
             [navigate],
             );
 
     const handleKleren = useCallback(() => {
             navigate('/kleren');
+            if(isInline)
+            closeMenu();
         },
         [navigate],
         );
     const handleHome = useCallback( () => {
             navigate('/');
+            if(isInline)
+            closeMenu();
         },
         [navigate],
         );
 
     const handleKlerenAdd = useCallback( () => {
             navigate('/kleren/add');
+            if(isInline)
+            closeMenu();
         },
         [navigate],
         );
