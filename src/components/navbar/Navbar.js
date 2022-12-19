@@ -32,7 +32,7 @@ import NavbarItems from './NavbarItems';
       <span className='headerMenu'>
     <NavbarItems/>
     </span>
-    <Drawer open={openMenu} onClose={()=> {setOpenMenu(false)}} closable={true} bodyStyle={styles.drawer}>
+    <Drawer open={openMenu} onClose={()=> {setOpenMenu(false)}} closable={true} bodyStyle={styles.drawer} size={"default"}>
       <NavbarItems isInline/>
     </Drawer>
     </div>
