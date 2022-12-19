@@ -18,6 +18,7 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
         kleerkast: {
             width: 15,
             height: 15,
+            display: kleerkasten?"none":"inline",
         },
         table: {
             marginLeft:"auto", 
