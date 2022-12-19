@@ -8,7 +8,7 @@ import {EditOutlined,DeleteOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import KledingTable from '../kleren/KledingTable';
 import useKledingstukken from '../../api/kledingstukken';
-import './kleerkastenlijst.css'
+
 
 const { Header, Content } = Layout;
 
@@ -58,6 +58,7 @@ export default function Kleerkastenlijst(){
         table: {
           marginLeft:"auto", marginRight:"auto", width:"90%",  border: "2px solid #020034",
           borderRadius: 8,
+          height: "100%",
         }
       }), []);
 
@@ -232,8 +233,8 @@ export default function Kleerkastenlijst(){
             columns= {columns}
             dataSource={dataSource}
             rowKey="kleerkastId"
-            scroll={{x: 768, y: "50vh"}}
-            pagination={{ showTotal: (total, range) => `${range[0]}-${range[1]} van ${total} kleerkasten`, pageSizeOptions: ['5','10','25', '50', '100', '200'], position: ['bottomCenter'],showSizeChanger: true, defaultPageSize: 10, showQuickJumper: true,}}
+            scroll={{x: 768, y: "57vh"}}
+            pagination={{ showTotal: (total, range) => `${range[0]}-${range[1]} van ${total} kleerkasten`, pageSizeOptions: ['1','2','3','5','10','25', '50', '100', '200'], position: ['bottomCenter'],showSizeChanger: true, defaultPageSize: 10, showQuickJumper: true,}}
                 style={styles.table}
                 expandable={{ rowExpandable: record => record.kledingstukken.length && record.kledingstukken.length > 0}}
                 expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
