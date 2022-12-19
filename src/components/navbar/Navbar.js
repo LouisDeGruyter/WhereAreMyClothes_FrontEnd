@@ -1,7 +1,7 @@
 
 import React, {memo,useMemo,useState} from "react";
 import {Drawer } from "antd";
-import "./navbar.css";
+import "./navbar.scss";
 import {MenuOutlined } from '@ant-design/icons';
 
 import NavbarItems from './NavbarItems';
@@ -15,6 +15,7 @@ import NavbarItems from './NavbarItems';
     },
     drawer: {
       backgroundColor: '#020034',
+      width: '100%',
     },
     div: {
       paddingBottom: 20,
@@ -31,7 +32,7 @@ import NavbarItems from './NavbarItems';
       <span className='headerMenu'>
     <NavbarItems/>
     </span>
-    <Drawer open={openMenu} onClose={()=> {setOpenMenu(false)}} closable={false} bodyStyle={styles.drawer}>
+    <Drawer open={openMenu} onClose={()=> {setOpenMenu(false)}} closable={true} bodyStyle={styles.drawer}>
       <NavbarItems isInline/>
     </Drawer>
     </div>

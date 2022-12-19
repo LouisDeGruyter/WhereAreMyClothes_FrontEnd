@@ -120,17 +120,15 @@ const refreshKledingstukken = useCallback(async () => {
    },
    search: {
       width: "50%",
-      display: "inline-block",
-      marginLeft: "2.5%",
-      float:"left",
-      marginBottom: 8,
+      marginBottom: 15,
 
     },
     buttonKledingstuk: {
-      float: "right",
-      marginRight: "2.5%",
       color: "white",
       backgroundColor: "#181649",
+      width: "50%",
+      marginBottom: 8,
+      height: 40,
     },
     filtertekst: {
       clear: "both",
@@ -156,8 +154,9 @@ const refreshKledingstukken = useCallback(async () => {
           onSearch={handleSearch}
           style={styles.search}
         />
+        <br />
         <Button style={styles.buttonKledingstuk} onClick={handleNewKledingstuk}>
-          Klik hier om een nieuw kledingstuk toe te voegen
+          Voeg kledingstuk toe
         </Button>
         <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
         <Error error={error}/>

@@ -131,21 +131,29 @@ export default memo(function KledingstukForm() {
     }, []);
     const styles = useMemo (() => ({
         form: {
-            width: "70%",
+            width: "50%",
             margin: "auto",
         },
         backButton: {
             marginBottom: "10px",
             color: "white",
             backgroundColor: "#181649",
-            width: "100%",
-            height: "40px",
+            width: "70%",
+            height: "50px",
         },
         buttonreset: {
             marginTop: "10px",
+            width: "70%",
+            height: "50px",
         },
         layout: {
             backgroundColor: "white",
+        },
+        submit: {
+            width: "70%",
+            height: "50px",
+            marginTop: "20px",
+            marginBottom: "20px",
         },
     }), []);
 
@@ -163,25 +171,22 @@ export default memo(function KledingstukForm() {
             <Error error={error}/>
             <Form
                 name="basic"
-                labelCol={{
-                    span: 4,
-                  }}
-                  wrapperCol={{
-                    span: 17,
-                  }}
                 initialValues={{remember: true}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 form={form}
                 style={styles.form}
+                labelCol={{span: 24}}
             >
-                <Form.Item wrapperCol={{offset: 4,span: 17}}>
+                <Form.Item >
                 <Button block  onClick={handleBackClick} style={styles.backButton}>Terug naar kleren</Button>
                 </Form.Item>
                 <Form.Item
                 
+                
                     
                     label="Kleerkast"
+                    labelPosition="top"
                     name="kleerkastId"
                     rules={[{required: true, message: 'Vul een kleerkast in!'}]}
                 >
@@ -227,10 +232,11 @@ export default memo(function KledingstukForm() {
                 >
                     <Input type="number" placeholder="Vul de maat van het kledingstuk in" />
                 </Form.Item>
-                <Form.Item wrapperCol={{offset: 8,span: 9, }}>
-                    <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk">
+                <Form.Item>
+                    <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk" style={styles.submit}>
                         Submit
                     </Button>
+                    <br />
                     <Button block danger onClick={handleReset} style={styles.buttonreset} >
                         Reset
                     </Button>

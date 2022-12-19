@@ -12,6 +12,14 @@
     
     
 }
+
+.ant-drawer-header {
+    background-color: #020034!important;
+    svg {
+        color: white!important;
+    }
+}
+
 .profiel:hover::after{
     border-bottom: none !important;
 }

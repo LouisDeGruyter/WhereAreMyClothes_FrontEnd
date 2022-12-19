@@ -24,7 +24,7 @@ export default memo( function Kleerkast(){
             backgroundColor:"white",
         },
         description: {
-            marginTop:50,margin:"auto", width:"95%",  backgroundColor:"white",
+            marginTop:50,margin:"auto", width:"90%",  backgroundColor:"white",
         },
         h2: {
             marginBottom: 16,
@@ -45,6 +45,7 @@ export default memo( function Kleerkast(){
             marginBottom: "10px",
             color: "white",
             backgroundColor: "#181649",
+            borderRadius: 0,
         },
 
     }), []);
@@ -161,13 +162,13 @@ export default memo( function Kleerkast(){
                 <Layout>
                 <Header style={styles.layout}> <h1> {kleerkast.name}</h1></Header>
                 <Content style={styles.layout}>
-                <Input.Group compact>
+               
                 <Button type="primary" style={styles.button} onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
                 <Button type="primary" style={styles.button} onClick={handleDelete}>Verwijder kleerkast</Button>
                 <Button type="primary" style={styles.button} onClick={handleEdit}>Bewerk kleerkast</Button>
                 <Button type="primary" style={styles.button} onClick={handleAddClothing}>Voeg kledingstuk toe</Button>
 
-                </Input.Group>
+               
                 <br/>
                 <Error error={error}/>
                 <div style={styleDiv}>

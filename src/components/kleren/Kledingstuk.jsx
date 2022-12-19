@@ -26,6 +26,7 @@ export default memo( function Kledingstuk() {
         },
         kleerkast: {
           width:280,
+          borderRadius: 0,
         },
         description: {
           marginTop:25,
@@ -42,6 +43,7 @@ export default memo( function Kledingstuk() {
         marginBottom: "10px",
         color: "white",
         backgroundColor: "#181649",
+        borderRadius: 0,
     },
       }), []);
 
@@ -160,7 +162,7 @@ export default memo( function Kledingstuk() {
             <Layout>
             <Header style={styles.layout}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
             <Content style={styles.layout}>
-            <Input.Group compact>
+          
             <Button type="primary" style={styles.button} onClick={handleBackClick}>Terug naar kledingstukken</Button>
             <Button type="primary" style={styles.button} onClick={handleDelete}>Delete kledingstuk</Button>
             <Button type="primary" style={styles.button} onClick={handleEditClick}>Wijzig kledingstuk</Button>
@@ -173,7 +175,7 @@ export default memo( function Kledingstuk() {
                         ))}
                     
                     </Select>
-            </Input.Group>
+     
             <Error error={error}/>
             <div style={styleDiv}>
             <Descriptions  bordered style={styles.description} contentStyle={styles.content} labelStyle={styles.label}>

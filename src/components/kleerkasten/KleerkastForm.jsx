@@ -107,7 +107,7 @@ export default memo(function KleerkastForm() {
     };
     const styles= useMemo (() => ({
         form: {
-            width: "70%",
+            width: "50%",
             margin: "auto",
             
             
@@ -120,13 +120,20 @@ export default memo(function KleerkastForm() {
         },
         resetButton: {
             marginTop: "10px",
+            width: "70%",
+            height: "50px",
         },
         backButton: {
-            marginBottom: "10px",
             color: "white",
             backgroundColor: "#181649",
-            width: "100%",
-            height: "40px",
+            width: "70%",
+            height: "50px",
+        },
+        submit: {
+            width: "70%",
+            marginTop: 20,
+            marginBottom: 20,
+            height: "50px",
         },
     }), []);
     return (
@@ -143,19 +150,14 @@ export default memo(function KleerkastForm() {
            
                 <Form
                      name="basic"
-                     labelCol={{
-                         span: 4,
-                       }}
-                       wrapperCol={{
-                         span: 17,
-                       }}
                      initialValues={{remember: true}}
                      onFinish={onFinish}
                      onFinishFailed={onFinishFailed}
                      form={form}
                      style={styles.form}
+                     labelCol={{span: 24}}
                 >
-                    <Form.Item wrapperCol={{offset: 4,span: 17}}>
+                    <Form.Item>
                         <Button block style={styles.backButton} onClick={handleTerug}>
                             Terug naar kleerkasten
                         </Button>
@@ -177,10 +179,11 @@ export default memo(function KleerkastForm() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 8,span: 9, }}>
-                    <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast">
+                    <Form.Item>
+                    <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast" style={styles.submit}>
                         Submit
                     </Button>
+                    <br />
                     <Button block danger onClick={handleReset} style={styles.resetButton} >
                         Reset
                     </Button>

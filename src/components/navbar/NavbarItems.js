@@ -1,7 +1,6 @@
 import { useNavigate  } from 'react-router-dom';
 import React, {memo, useCallback,useMemo} from "react";
 import {Menu,Modal,notification } from "antd";
-import "./navbar.css";
 import { HomeOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import kleerkastIcon from '../../images/wardrobeWhite.png';
 import kledingIcon from '../../images/shirtWhite.png';

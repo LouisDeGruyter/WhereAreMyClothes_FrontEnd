@@ -43,20 +43,20 @@ export default function Kleerkastenlijst(){
           backgroundColor: '#fff',
         },
         search: {
-          marginBottom: 8, width: "50%",float:"left", marginLeft:"2.5%",
+          marginBottom: 15, width: "50%",
         },
         newButton: {
-          float: "right",
-      marginRight: "2.5%",
       color: "white",
       backgroundColor: "#181649",
+      width: "50%",
+      marginBottom: 8,
           
         },
         filtertekst: {
           clear:"both", marginBottom:10,
         },
         table: {
-          marginLeft:"auto", marginRight:"auto", width:"95%",  border: "2px solid #020034",
+          marginLeft:"auto", marginRight:"auto", width:"90%",  border: "2px solid #020034",
           borderRadius: 8,
         }
       }), []);
@@ -221,8 +221,9 @@ export default function Kleerkastenlijst(){
           onSearch={(e) => setText(query)}
           style={styles.search}
         />
+        <br />
         <Button style={styles.newButton} onClick={handleNewKleerkast}>
-          Klik hier om een nieuwe kleerkast toe te voegen
+          Voeg kleerkast toe
         </Button>
         </div>
         <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
