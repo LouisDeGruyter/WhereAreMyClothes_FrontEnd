@@ -23,18 +23,23 @@ const navigate = useNavigate();
 const styles = useMemo(() => ({
     layout: {
         backgroundColor:"white",
+        height: "80px",
     },
     button: {
         marginBottom: "10px",
         color: "white",
         backgroundColor: "#181649",
     },
+    h1:{
+        marginTop: 5,
+    }
+   
 }), []);
 
     return (
         <Layout>
             <Header style={styles.layout}>
-                <h1>Welkom bij WhereAreMyClothes</h1>
+                <h1 style={styles.h1}>Welkom bij WhereAreMyClothes</h1>
             </Header>
             <Content style={styles.layout}>
             <p>Met onze website kunt u eenvoudig uw kleding bijhouden en precies weten welke kledingkast ze bevinden.</p>
