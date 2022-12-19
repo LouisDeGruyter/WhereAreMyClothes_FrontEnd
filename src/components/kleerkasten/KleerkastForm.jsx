@@ -166,18 +166,18 @@ export default memo(function KleerkastForm() {
                         label="Naam"
                         name="name"
                        
-                        data-cy="kleerkast_naam"
+                       
                         rules={[{required: true, message: 'Kleerkast naam is verplicht'}]}
                     >
-                        <Input />
+                        <Input  data-cy="kleerkast_naam"/>
                     </Form.Item>
                     <Form.Item
                         label="Locatie"
                         name="location"
-                        data-cy="kleerkast_locatie"
+                        
                         rules={[{required: true, message: 'Kleerkast locatie is verplicht'}]}
                     >
-                        <Input />
+                        <Input data-cy="kleerkast_locatie"/>
                     </Form.Item>
                     <Form.Item>
                     <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast" style={styles.submit}>

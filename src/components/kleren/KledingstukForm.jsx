@@ -200,37 +200,37 @@ export default memo(function KledingstukForm() {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    data-cy="brand_input"
+                    data-cy="brand_input2"
                     label="Merk"
                     name="brand"
                     rules={[{required: true, message: 'Vul een merk in!'}]}
                 >
-                    <Input placeholder='Vul het merk in'/>
+                    <Input placeholder='Vul het merk in' data-cy="brand_input"/>
                 </Form.Item>
                 <Form.Item
-                    data-cy="color_input"
+                    
                     label="Kleur"
                     name="color"
                     rules={[{required: true, message: 'Vul een kleur in!'}]}
                 >
-                    <Input placeholder='Vul de kleur van het kledingstuk in' />
+                    <Input data-cy="color_input" placeholder='Vul de kleur van het kledingstuk in' />
                 </Form.Item>
                 <Form.Item
-                    data-cy="type_input"
+                    
                     label="Type"
                     name="type"
                     rules={[{required: true, message: 'Vul een type in!'}]}
                 >
-                    <Input placeholder='Vul het type kledingstuk in'/>
+                    <Input data-cy="type_input" placeholder='Vul het type kledingstuk in'/>
                 </Form.Item>
                 <Form.Item
-                    data-cy="size_input"
+                    
                     label="Maat"
                     name="size"
    
                     rules={[{required: true, message: 'Vul een maat in!'}]}
                 >
-                    <Input type="number" placeholder="Vul de maat van het kledingstuk in" />
+                    <Input data-cy="size_input" type="number" placeholder="Vul de maat van het kledingstuk in" />
                 </Form.Item>
                 <Form.Item>
                     <Button block type="primary" htmlType="submit" data-cy="submit_kledingstuk" style={styles.submit}>
