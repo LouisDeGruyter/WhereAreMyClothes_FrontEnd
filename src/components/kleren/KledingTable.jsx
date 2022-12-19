@@ -124,6 +124,8 @@ return (
     dataSource={kledingstukken}
     rowKey="kledingstukId"
     style={styles.table}
+    scroll={{x: 768,y: "40vh"}}
+    pagination={{ showTotal: (total, range) => `${range[0]}-${range[1]} van ${total} kledingstukken`,pageSizeOptions: ['5','10','25', '50', '100', '200'], position: ['bottomCenter'],showSizeChanger: true, defaultPageSize: 10, showQuickJumper: true, }}
     ></Table>
 )
 });

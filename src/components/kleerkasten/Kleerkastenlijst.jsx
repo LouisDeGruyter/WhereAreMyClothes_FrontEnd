@@ -231,10 +231,13 @@ export default function Kleerkastenlijst(){
             columns= {columns}
             dataSource={dataSource}
             rowKey="kleerkastId"
+            scroll={{x: 768, y: "50vh"}}
+            pagination={{ showTotal: (total, range) => `${range[0]}-${range[1]} van ${total} kleerkasten`, pageSizeOptions: ['5','10','25', '50', '100', '200'], position: ['bottomCenter'],showSizeChanger: true, defaultPageSize: 10, showQuickJumper: true,}}
                 style={styles.table}
                 expandable={{ rowExpandable: record => record.kledingstukken.length && record.kledingstukken.length > 0}}
                 expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
             >
+              
                 
 
             </Table>
