@@ -30,7 +30,7 @@ function App() {
         color: 'white',
         height: '100vh',};
     }
-    }, []);
+    }, [theme]);
   return (
     <div className="App" style={styleDiv}>
       <Navbar />
