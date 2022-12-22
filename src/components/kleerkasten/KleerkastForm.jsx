@@ -1,7 +1,7 @@
-import {memo,useState, useEffect} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { memo, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import {Button,Form, Input, notification,Spin} from 'antd';
+import { Button, Form, Input, notification, Spin } from 'antd';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import { useCallback } from 'react';
@@ -12,24 +12,24 @@ import { useMemo } from 'react';
 
 
 export default memo(function KleerkastForm() {
-    const {id} = useParams();
+    const { id } = useParams();
     const kleerkastApi = useKleerkasten();
     const navigate = useNavigate();
-    const [error,setError] = useState(null);
-    const [loading,setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
-    const [kleerkast, setKleerkast]= useState(null);
+    const [kleerkast, setKleerkast] = useState(null);
 
-    const  openNotificationCreate = () => {
+    const openNotificationCreate = () => {
         api.success({
             message: 'Kleerkast toegevoegd',
             description:
                 'De kleerkast is toegevoegd aan de database',
-                
+
         });
     };
-    const  openNotificationUpdate = () => {
+    const openNotificationUpdate = () => {
         api.success({
             message: 'Kleerkast gewijzigd',
             description:
@@ -63,17 +63,17 @@ export default memo(function KleerkastForm() {
             }
         };
 
-        if(id)
+        if (id)
             fetchKleerkast();
-            else{
-                form.resetFields();
-            }
-        
+        else {
+            form.resetFields();
+        }
+
     }, [id, form]);
-    const handleReset = useCallback (() => {
+    const handleReset = useCallback(() => {
         form.resetFields();
     }, [form]);
-    const handleTerug = useCallback (() => {
+    const handleTerug = useCallback(() => {
         navigate("/kleerkasten");
     }, [navigate]);
 
@@ -81,22 +81,22 @@ export default memo(function KleerkastForm() {
         try {
             setLoading(true);
             setError(null);
-            if(!id){
-            await kleerkastApi.createKleerkast({...values,userId:1});
-            openNotificationCreate();
-            
-            form.resetFields();
+            if (!id) {
+                await kleerkastApi.createKleerkast({ ...values, userId: 1 });
+                openNotificationCreate();
+
+                form.resetFields();
             }
-            else{
-                if(!kleerkast){
+            else {
+                if (!kleerkast) {
                     setError("Je kan geen kleerkast updaten die niet van jou is");
                     return;
                 }
-                if(values.name === kleerkast.name && values.location === kleerkast.location){
+                if (values.name === kleerkast.name && values.location === kleerkast.location) {
                     setError("Er zijn geen wijzigingen aangebracht");
                     return;
                 }
-                await kleerkastApi.updateKleerkast(id,{...values,userId:1});
+                await kleerkastApi.updateKleerkast(id, { ...values, userId: 1 });
                 openNotificationUpdate();
             }
         } catch (error) {
@@ -105,12 +105,12 @@ export default memo(function KleerkastForm() {
             setLoading(false);
         }
     };
-    const styles= useMemo (() => ({
+    const styles = useMemo(() => ({
         form: {
             width: "60%",
             margin: "auto",
-            
-            
+
+
         },
         layout: {
             backgroundColor: "white",
@@ -139,23 +139,23 @@ export default memo(function KleerkastForm() {
     return (
         <div >
             <Spin spinning={loading} size="large">
-            {contextHolder}
-     
-          
+                {contextHolder}
+
+
                 <h2>{id ? `Kleerkast ${id} wijzigen` : 'Kleerkast toevoegen'}</h2>
-           
-       
-            
-            <Error error={error} />
-           
+
+
+
+                <Error error={error} />
+
                 <Form
-                     name="basic"
-                     initialValues={{remember: true}}
-                     onFinish={onFinish}
-                     onFinishFailed={onFinishFailed}
-                     form={form}
-                     style={styles.form}
-                     labelCol={{span: 24}}
+                    name="basic"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    form={form}
+                    style={styles.form}
+                    labelCol={{ span: 24 }}
                 >
                     <Form.Item>
                         <Button block style={styles.backButton} onClick={handleTerug}>
@@ -165,32 +165,32 @@ export default memo(function KleerkastForm() {
                     <Form.Item
                         label="Naam"
                         name="name"
-                       
-                       
-                        rules={[{required: true, message: 'Kleerkast naam is verplicht'}]}
+
+
+                        rules={[{ required: true, message: 'Kleerkast naam is verplicht' }]}
                     >
-                        <Input  data-cy="kleerkast_naam"/>
+                        <Input data-cy="kleerkast_naam" />
                     </Form.Item>
                     <Form.Item
                         label="Locatie"
                         name="location"
-                        
-                        rules={[{required: true, message: 'Kleerkast locatie is verplicht'}]}
+
+                        rules={[{ required: true, message: 'Kleerkast locatie is verplicht' }]}
                     >
-                        <Input data-cy="kleerkast_locatie"/>
+                        <Input data-cy="kleerkast_locatie" />
                     </Form.Item>
                     <Form.Item>
-                    <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast" style={styles.submit}>
-                        Submit
-                    </Button>
-                    <br />
-                    <Button block danger onClick={handleReset} style={styles.resetButton} >
-                        Reset
-                    </Button>
-                </Form.Item>
-                
+                        <Button block type="primary" htmlType="submit" data-cy="submit_kleerkast" style={styles.submit}>
+                            Submit
+                        </Button>
+                        <br />
+                        <Button block danger onClick={handleReset} style={styles.resetButton} >
+                            Reset
+                        </Button>
+                    </Form.Item>
+
                 </Form>
-        </Spin>
+            </Spin>
         </div>
     );
 });

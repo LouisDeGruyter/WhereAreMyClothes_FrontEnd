@@ -1,9 +1,9 @@
-import { useState, useMemo, useCallback, memo, useEffect} from 'react';
+import { useState, useMemo, useCallback, memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Spin, Modal} from 'antd';
-import useKledingstukken  from '../../api/kledingstukken';
+import { Button, Input, Spin, Modal } from 'antd';
+import useKledingstukken from '../../api/kledingstukken';
 import Error from '../Error';
-import {notification} from 'antd';
+import { notification } from 'antd';
 import KledingTable from './KledingTable';
 import useKleerkasten from '../../api/kleerkasten';
 import useUsers from '../../api/users';
@@ -15,8 +15,8 @@ import useUsers from '../../api/users';
 
 
 
-export default memo( function Kledinglijst() {
-  const kledingstukApi= useKledingstukken();
+export default memo(function Kledinglijst() {
+  const kledingstukApi = useKledingstukken();
   const userApi = useUsers();
   const [text, setText] = useState('');
   const [query, setQuery] = useState('');
@@ -29,49 +29,49 @@ export default memo( function Kledinglijst() {
   const kleerkastApi = useKleerkasten();
   const openNotification = () => {
     api['success']({
-        message: 'Kledingstuk is succesvol verwijderd',
-          placement: 'topRight',
-          duration: 3,
+      message: 'Kledingstuk is succesvol verwijderd',
+      placement: 'topRight',
+      duration: 3,
 
-          });
-};
-const getFilterTekst = useCallback((text) => {
-  if (!text) {
-    return;
-  }
+    });
+  };
+  const getFilterTekst = useCallback((text) => {
+    if (!text) {
+      return;
+    }
 
-  return `Zoekopdracht: ${text}`;
-}, []);
-const refreshKledingstukken = useCallback(async () => {
-  try{
-    setLoading(true);
-    setError(null);
-  const kledingstukken = await userApi.getKledingstukken();
-  setKledingstukken(kledingstukken);
-  } catch (error) {
-    setError(error);
-  } finally {
-    setLoading(false);
-  }
-}, []);
-  useEffect(() => {
-    const fetchKleerkasten = async () => {
-    try{
+    return `Zoekopdracht: ${text}`;
+  }, []);
+  const refreshKledingstukken = useCallback(async () => {
+    try {
       setLoading(true);
       setError(null);
-    const kleerkasten = await kleerkastApi.getAll();
-    setKleerkasten(kleerkasten);
+      const kledingstukken = await userApi.getKledingstukken();
+      setKledingstukken(kledingstukken);
     } catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  };
-  fetchKleerkasten();
+  }, []);
+  useEffect(() => {
+    const fetchKleerkasten = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const kleerkasten = await kleerkastApi.getAll();
+        setKleerkasten(kleerkasten);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchKleerkasten();
     refreshKledingstukken();
-    
+
   }, [refreshKledingstukken]);
-  
+
   const onDelete = useCallback(async (idToDelete) => {
     Modal.confirm({
       title: 'Weet je zeker dat je dit kledingstuk wilt verwijderen?',
@@ -84,9 +84,9 @@ const refreshKledingstukken = useCallback(async () => {
           setLoading(true);
           setError(null);
           kledingstukApi.deleteKledingstuk(idToDelete);
-          setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
+          setKledingstukken(oldKledingstukken => oldKledingstukken.filter(({ kledingstukId }) => kledingstukId !== idToDelete));
           openNotification();
-    
+
         } catch (error) {
           setError(error);
         } finally {
@@ -95,19 +95,19 @@ const refreshKledingstukken = useCallback(async () => {
       },
     });
   }, []);
-  
+
 
   const filteredItems = useMemo(() => {
     if (!query) {
       return kledingstukken;
     }
-    return kledingstukken.filter((kledingstuk) =>  `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
+    return kledingstukken.filter((kledingstuk) => `${kledingstuk.brand} ${kledingstuk.color} ${kledingstuk.type} ${kledingstuk.size} ${kledingstuk.kleerkastId}`.toLowerCase().includes(query.toLowerCase()));
   }, [query, kledingstukken]);
   const dataSource = useMemo(() =>
-  kleerkasten.length === 0 ? [] :
-    filteredItems.map((kledingstuk) => ({ kleerkastLocatie: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).location, kleerkastNaam: kleerkasten.find(({kleerkastId}) => kleerkastId === kledingstuk.kleerkastId).name , ...kledingstuk }))
-  , [filteredItems, kleerkasten]);
-  const handleSearch= useCallback((e) => {
+    kleerkasten.length === 0 ? [] :
+      filteredItems.map((kledingstuk) => ({ kleerkastLocatie: kleerkasten.find(({ kleerkastId }) => kleerkastId === kledingstuk.kleerkastId).location, kleerkastNaam: kleerkasten.find(({ kleerkastId }) => kleerkastId === kledingstuk.kleerkastId).name, ...kledingstuk }))
+    , [filteredItems, kleerkasten]);
+  const handleSearch = useCallback((e) => {
     setText(query);
   }, [query]);
   const handleChange = useCallback((e) => {
@@ -117,10 +117,10 @@ const refreshKledingstukken = useCallback(async () => {
     navigate(`/kleren/add`);
   }, []);
   const styles = useMemo(() => ({
-   layout: {
+    layout: {
       backgroundColor: "white",
-   },
-   search: {
+    },
+    search: {
       width: "50%",
       marginBottom: 15,
 
@@ -136,35 +136,35 @@ const refreshKledingstukken = useCallback(async () => {
       clear: "both",
       marginBottom: 10,
     },
- 
+
 
   }), []);
   return (
     <div className="justify-content-center">
-      <Spin spinning={loading} size="large"  data-cy="loading" >
-      {contextHolder}
-          <h1>Kledinglijst</h1>
-      
-      <div>
-        <Input.Search
-          placeholder="Zoek hier..."
-          value={query}
-          onChange={handleChange}
-          onSearch={handleSearch}
-          style={styles.search}
-        />
-        <br />
-        <Button style={styles.buttonKledingstuk} onClick={handleNewKledingstuk}>
-          Voeg kledingstuk toe
-        </Button>
-        <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
-        <Error error={error}/>
-    <KledingTable kledingstukken={dataSource} onDelete={onDelete} loading={loading} />
-   
-     </div>
+      <Spin spinning={loading} size="large" data-cy="loading" >
+        {contextHolder}
+        <h1>Kledinglijst</h1>
+
+        <div>
+          <Input.Search
+            placeholder="Zoek hier..."
+            value={query}
+            onChange={handleChange}
+            onSearch={handleSearch}
+            style={styles.search}
+          />
+          <br />
+          <Button style={styles.buttonKledingstuk} onClick={handleNewKledingstuk}>
+            Voeg kledingstuk toe
+          </Button>
+          <div style={styles.filtertekst}>{getFilterTekst(text)}</div>
+          <Error error={error} />
+          <KledingTable kledingstukken={dataSource} onDelete={onDelete} loading={loading} />
+
+        </div>
 
       </Spin>
     </div>
-    );
+  );
 
 });

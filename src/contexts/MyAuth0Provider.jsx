@@ -8,7 +8,7 @@ function MyAuth0Provider({ children }) {
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-        audience={audience}
+      audience={audience}
       redirectUri={`${window.location.origin}/login`}
       cacheLocation="localstorage" // 👈 extra, niet in tutorial!
       useRefreshTokens
