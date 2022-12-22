@@ -12,12 +12,12 @@ import AuthLanding from './components/authentication/AuthLanding';
 import KleerkastForm from './components/kleerkasten/KleerkastForm';
 import Home from './components/home/Home';
 import Kleerkast from './components/kleerkasten/Kleerkast';
-import {useThemeColors} from './contexts/Theme.context';
+import {useTheme} from './contexts/Theme.context';
 import { useMemo } from 'react';
 
 
 function App() {
-  const {theme} = useThemeColors();
+  const {theme} = useTheme();
   const styleDiv = useMemo(() => {
     if( theme === 'light'){
         return {

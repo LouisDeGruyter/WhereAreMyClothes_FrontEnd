@@ -1,29 +1,28 @@
 ---
-name: Ik heb een probleem
-about: Vraag onze hulp bij een probleem
+name: Probleem bij themes
+about: themes, useContext
 title: ''
 labels: ''
-assignees: ksa607, thomasaelbrecht, Pieter-hogent
+assignees: thomasaelbrecht
 
 ---
 
-> Zorg ervoor dat enkel jouw docent bij de assignees staat
 
 **Beschrijving**
-Beschrijf duidelijk en beknopt wat het probleem precies is.
+Wanneer het theme wordt aangepast door op de knop in de navigatiebar te klikken, krijg ik deze error :<br/> ![error](./error.png) <br/> Ik heb kunnen achterhalen dat deze error niet gebeurd wanneer ik lijn 20 van app.jsx in commentaar zet.
 
 **Probleem reproduceren**
 Stappen om het probleem te reproduceren:
 
 1. Start de server d.m.v. de instructies in de README
-2. Voer een POST uit op '...'
+2. Klik op de maan of zon in de navigatiebar om de theme te veranderen
 3. See error
 
 **Verwacht gedrag**
-Een duidelijke en beknopte beschrijving van wat je verwacht dat ze zou gebeuren (als het goed gaat).
+Wanneer op de theme knop wordt gedrukt veranderd de theme zonder dat er een error wordt gesmeten.
 
 **Screenshots**
-Indien nodig, voeg screenshots, een GIF of een video toe om het probleem te demonstreren.
+![gif](./issue.gif)
 
 **Extra context**
-Indien nodig, voeg hier extra context toe die nodig is om de applicatie/het probleem te begrijpen.
+/
