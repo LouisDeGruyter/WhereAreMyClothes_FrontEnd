@@ -5,8 +5,8 @@ import useKleerkasten from '../../api/kleerkasten';
 import useKledingstukken from '../../api/kledingstukken';
 import KledingTable from '../kleren/KledingTable';
 
-import { Layout,Button,Descriptions, Input, notification,Spin,Modal} from 'antd';
-const { Header, Content } = Layout;
+import {Button,Descriptions, Input, notification,Spin,Modal} from 'antd';
+
 
 
 export default memo( function Kleerkast(){
@@ -50,18 +50,18 @@ export default memo( function Kleerkast(){
 
     }), []);
 
-    function handleBackToKleerkasten() {
+    const handleBackToKleerkasten = useCallback(() => {
         navigate('/kleerkasten');
-      }
+      }, [navigate]);
       
       
-      function handleEdit() {
+      const handleEdit = useCallback(() => {
         navigate(`/kleerkasten/${id}/edit`);
-      }
+      }, [navigate, id]);
       
-      function handleAddClothing() {
+      const handleAddClothing = useCallback(() => {
         navigate(`/kleren/add`);
-      }
+      }, [navigate]);
       
 
     const refresh = useCallback(async () =>{
@@ -75,10 +75,19 @@ export default memo( function Kleerkast(){
         } finally{
             setLoading(false);
         }
-    },[]);
+    },[id]);
     useEffect(() => {
         refresh();
       }, [refresh]);
+      const openNotification = useCallback(() => {
+        api['success']({
+            message: 'Kleerkast verwijderd',
+              placement: 'topRight',
+              description: 'Sluit dit venster om terug te gaan naar de kledingstukken',
+              duration: 0,
+              onClose: () => {navigate('/kleerkasten')},
+              });
+    }, [api, navigate]);
         const handleDelete = useCallback(async () => {
             Modal.confirm({
                 title: 'Weet je zeker dat je deze kleerkast wilt verwijderen?',
@@ -100,16 +109,16 @@ export default memo( function Kleerkast(){
                     }
                 },
             });
-        }, [kleerkast]);
-        const openNotification = () => {
+        }, [ id ,kleerkastApi, openNotification]);
+        const openNotificationDelete = useCallback((item) => {
             api['success']({
-                message: 'Kleerkast verwijderd',
+                message: `${item} is succesvol verwijderd`,
                   placement: 'topRight',
-                  description: 'Sluit dit venster om terug te gaan naar de kledingstukken',
-                  duration: 0,
-                  onClose: () => {navigate('/kleerkasten')},
+                  duration: 3,
+        
                   });
-        };
+        }, [api]);
+        
         const onDeleteKledingstuk = useCallback(async (idToDelete) => {
             Modal.confirm({
                 title: 'Weet je zeker dat je dit kledingstuk wilt verwijderen?',
@@ -122,7 +131,8 @@ export default memo( function Kleerkast(){
                         setLoading(true);
                         setError(null);
                         kledingstukApi.deleteKledingstuk(idToDelete);
-                        setKleerkast( ...kleerkast, kleerkast.kledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete));
+                        let kledingstukken1 = kleerkast.kledingstukken.filter(({kledingstukId}) => kledingstukId !== idToDelete);
+                        setKleerkast({...kleerkast, kledingstukken:kledingstukken1});
                         openNotificationDelete("Kledingstuk");
                     } catch (error) {
                         setError(error);
@@ -131,16 +141,7 @@ export default memo( function Kleerkast(){
                     }
                 },
             });
-        }, []);
-          const openNotificationDelete = (item) => {
-            api['success']({
-                message: `${item} is succesvol verwijderd`,
-                  placement: 'topRight',
-                  duration: 3,
-        
-                  });
-        };
-        
+        }, [kledingstukApi, openNotificationDelete, kleerkast]);
         const styleDiv = useMemo(() => {
         if(visible===true){
             return {};
@@ -149,19 +150,13 @@ export default memo( function Kleerkast(){
         }
         }, [visible]);
         
-        
-
-        
-               
-
-
         return(
-            <div>
+            <div style={styleDiv}>
                 <Spin spinning={loading} size="large">
                 {contextHolder}
-                <Layout>
-                <Header style={styles.layout}> <h1> {kleerkast.name}</h1></Header>
-                <Content style={styles.layout}>
+                
+                 <h1> {kleerkast.name}</h1>
+                
                
                 <Button type="primary" style={styles.button} onClick={handleBackToKleerkasten}>Terug naar kleerkasten</Button>
                 <Button type="primary" style={styles.button} onClick={handleDelete}>Verwijder kleerkast</Button>
@@ -171,7 +166,7 @@ export default memo( function Kleerkast(){
                
                 <br/>
                 <Error error={error}/>
-                <div style={styleDiv}>
+                <div >
                 <Descriptions  bordered style={styles.description} contentStyle={styles.content} labelStyle={styles.label}>
                     <Descriptions.Item label="Kleerkast naam:">{kleerkast.name}</Descriptions.Item>
                     <Descriptions.Item label="Kleerkast locatie:">{kleerkast.location}</Descriptions.Item>
@@ -179,8 +174,6 @@ export default memo( function Kleerkast(){
                     <h2 style={styles.h2}>Kledingstukken in {kleerkast.name}</h2>
                     <KledingTable kledingstukken={kleerkast.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkast} style={styles.table} />
                     </div>
-                </Content>
-                </Layout>
                 </Spin>
             </div>
 

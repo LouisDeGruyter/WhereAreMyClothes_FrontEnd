@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import MyAuth0Provider from './contexts/MyAuth0Provider';
+import { ThemeProvider } from './contexts/Theme.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <MyAuth0Provider>
+    <ThemeProvider>
     <BrowserRouter>
     <App />
     </BrowserRouter>
+    </ThemeProvider>
     </MyAuth0Provider>
   </React.StrictMode>
 );

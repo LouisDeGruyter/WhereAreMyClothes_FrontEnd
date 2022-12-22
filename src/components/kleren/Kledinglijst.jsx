@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, memo, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Layout,Spin, Modal} from 'antd';
+import { Button, Input, Spin, Modal} from 'antd';
 import useKledingstukken  from '../../api/kledingstukken';
 import Error from '../Error';
 import {notification} from 'antd';
@@ -8,17 +8,12 @@ import KledingTable from './KledingTable';
 import useKleerkasten from '../../api/kleerkasten';
 import useUsers from '../../api/users';
 
-const { Header, Content } = Layout;
 
 
 
-const getFilterTekst = (text) => {
-  if (!text) {
-    return;
-  }
 
-  return `Zoekopdracht: ${text}`;
-};
+
+
 
 export default memo( function Kledinglijst() {
   const kledingstukApi= useKledingstukken();
@@ -40,6 +35,13 @@ export default memo( function Kledinglijst() {
 
           });
 };
+const getFilterTekst = useCallback((text) => {
+  if (!text) {
+    return;
+  }
+
+  return `Zoekopdracht: ${text}`;
+}, []);
 const refreshKledingstukken = useCallback(async () => {
   try{
     setLoading(true);
@@ -141,11 +143,8 @@ const refreshKledingstukken = useCallback(async () => {
     <div className="justify-content-center">
       <Spin spinning={loading} size="large"  data-cy="loading" >
       {contextHolder}
-      <Layout>
-        <Header style={styles.layout}>
           <h1>Kledinglijst</h1>
-        </Header>
-        <Content style={styles.layout}>
+      
       <div>
         <Input.Search
           placeholder="Zoek hier..."
@@ -163,8 +162,7 @@ const refreshKledingstukken = useCallback(async () => {
     <KledingTable kledingstukken={dataSource} onDelete={onDelete} loading={loading} />
    
      </div>
-      </Content>
-      </Layout>
+
       </Spin>
     </div>
     );

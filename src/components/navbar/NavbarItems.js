@@ -5,6 +5,8 @@ import { HomeOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import kleerkastIcon from '../../images/wardrobeWhite.png';
 import kledingIcon from '../../images/shirtWhite.png';
 import { useAuth0 } from '@auth0/auth0-react';
+import { IoMoonSharp, IoSunny} from 'react-icons/io5';
+import { useTheme, themes, useThemeColors } from '../../contexts/Theme.context';
 import './navbarItems.scss';
 
 
@@ -12,6 +14,7 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
     const navigate= useNavigate();
     const {isAuthenticated,user,logout,loginWithRedirect} = useAuth0();
     const [api, contextHolder] = notification.useNotification();
+    const { theme, toggleTheme } = useTheme();
     const handleLogin = useCallback( () => {
         loginWithRedirect();
         if(isInline)
@@ -109,14 +112,22 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
                 color: 'white',
                 marginLeft: 'auto',
             },
+          
 
         }), []);
+        const handleTheme = useCallback( () => {
+            toggleTheme();
+        }, [toggleTheme]);
+
 
     
     const items = useMemo(() => {
         if (isAuthenticated) {
           const {name, picture, givenName} = user;
           return [
+            {
+              label:"",  icon : theme === themes.dark ? <IoMoonSharp /> : <IoSunny />, key: '/theme', onClick:toggleTheme, style:styles.label
+            },
             {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome, style:styles.label},
             {
               label: 'Kleerkasten', style:styles.label,
@@ -136,7 +147,8 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
                 {label: 'Voeg toe', key: '/kleren/add', onClick:handleKlerenAdd}
               ]
             },
-            {label: name, style:styles.label,  icon: <img src={picture} alt={givenName} style={styles.profielfoto}/>, key: '/profiel', className:"profiel", style:styles.profiel},
+           
+            {label: name, style:styles.profiel,  icon: <img src={picture} alt={givenName} style={styles.profielfoto}/>, key: '/profiel', className:"profiel"},
             {
               label: 'Log out',
               
@@ -147,7 +159,10 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
             }
           ];
         } else {
-            return [{label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome, style:styles.label},
+            return [{
+              label:"",  icon : theme === themes.dark ? <IoMoonSharp /> : <IoSunny />, key: '/theme', onClick:toggleTheme, style:styles.label
+            },
+              {label: 'Home', icon: <HomeOutlined size={30}/>, key: '/', onClick:handleHome, style:styles.label},
            {label: 'Kleerkasten', icon: <img src={kleerkastIcon} alt="Kleerkasten" style={styles.imgIcon}/>, key: '/kleerkasten', style:styles.label, children:[
              {label: 'Kleerkastlijst' , key: '/kleerkastenlijst', onClick:handleKleerkasten},
              {label: 'Voeg toe', key: '/kleerkasten/add', onClick:handleKleerkastenAdd}
@@ -157,10 +172,11 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
              {label: 'Voeg toe', key: '/kleren/add', onClick:handleKlerenAdd},
              
            ]},
+           
            {label: 'Log in',style:styles.login, icon: <LoginOutlined />, key: '/login', onClick:handleLogin}];
          }
         },
-        [isAuthenticated, user, logout, navigate, handleLogin],
+        [isAuthenticated, user, logout, navigate, handleLogin, theme],
         );
     return(
         <>

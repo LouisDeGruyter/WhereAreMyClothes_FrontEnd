@@ -1,7 +1,7 @@
 import {memo,useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
-import {Button,Form, Select, Input,Layout, notification,Spin} from 'antd';
+import {Button,Form, Select, Input, notification,Spin} from 'antd';
 import Error from '../Error';
 import useKledingstukken from '../../api/kledingstukken';
 import useUsers from '../../api/users';
@@ -9,7 +9,7 @@ import './KledingForm.css'
 import { useCallback } from 'react';
 import { useMemo } from 'react';
 
-const {Header, Content} = Layout;
+
 const { Option } = Select;
 
 export default memo(function KledingstukForm() {
@@ -162,12 +162,11 @@ export default memo(function KledingstukForm() {
     <div>
         <Spin spinning={loading} size="large">
         {contextHolder}
-        <Layout>
-        <Header style={styles.layout}>
+     
+     
             {id ? <h2>Wijzig kledingstuk {id}</h2> : <h2>Maak een kledingstuk aan</h2>}
 
-        </Header>
-        <Content style={styles.layout}>
+   
             <Error error={error}/>
             <Form
                 name="basic"
@@ -242,8 +241,7 @@ export default memo(function KledingstukForm() {
                     </Button>
                 </Form.Item>
             </Form>
-        </Content>
-        </Layout>
+    
         </Spin>
     </div>
     );

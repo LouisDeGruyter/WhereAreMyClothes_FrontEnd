@@ -12,10 +12,27 @@ import AuthLanding from './components/authentication/AuthLanding';
 import KleerkastForm from './components/kleerkasten/KleerkastForm';
 import Home from './components/home/Home';
 import Kleerkast from './components/kleerkasten/Kleerkast';
+import {useThemeColors} from './contexts/Theme.context';
+import { useMemo } from 'react';
+
 
 function App() {
+  const {theme} = useThemeColors();
+  const styleDiv = useMemo(() => {
+    if( theme === 'light'){
+        return {
+            backgroundColor: 'white',
+            color: 'black',
+            height: '100vh',
+        };
+    } else {
+        return {backgroundColor: '#0e0f0f',
+        color: 'white',
+        height: '100vh',};
+    }
+    }, []);
   return (
-    <div className="App">
+    <div className="App" style={styleDiv}>
       <Navbar />
             <Routes>
                 <Route path="/kleerkasten" element={<RequireAuth><Kleerkastenlijst /></RequireAuth> } > </Route>

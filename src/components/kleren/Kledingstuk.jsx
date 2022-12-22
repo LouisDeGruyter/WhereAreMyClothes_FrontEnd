@@ -3,8 +3,8 @@ import useKledingstukken from '../../api/kledingstukken';
 import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useUsers from '../../api/users';
-import { Layout,Button,Descriptions, Input, notification,Spin, Select,Modal} from 'antd';
-const { Header, Content } = Layout;
+import { Button,Descriptions, notification,Spin, Select,Modal} from 'antd';
+
 const { Option } = Select;
 
 // export function kledingstuk with memo
@@ -156,12 +156,11 @@ export default memo( function Kledingstuk() {
         }, [visible]);
       
     return (
-        <div >
+        <div style={styleDiv}>
             <Spin spinning={loading} size="large">
             {contextHolder}
-            <Layout>
-            <Header style={styles.layout}> <h2> {kledingstuk.type} {kledingstuk.brand}</h2></Header>
-            <Content style={styles.layout}>
+             <h2> {kledingstuk.type} {kledingstuk.brand}</h2>
+         
           
             <Button type="primary" style={styles.button} onClick={handleBackClick}>Terug naar kledingstukken</Button>
             <Button type="primary" style={styles.button} onClick={handleDelete}>Delete kledingstuk</Button>
@@ -177,7 +176,7 @@ export default memo( function Kledingstuk() {
                     </Select>
      
             <Error error={error}/>
-            <div style={styleDiv}>
+            <div >
             <Descriptions  bordered style={styles.description} contentStyle={styles.content} labelStyle={styles.label}>
             <Descriptions.Item label="Naam">{kledingstuk.brand}</Descriptions.Item>
             <Descriptions.Item label="Kleur">{kledingstuk.color}</Descriptions.Item>
@@ -187,8 +186,7 @@ export default memo( function Kledingstuk() {
             <Descriptions.Item label="Kleerkast Locatie">{kleerkast.location}</Descriptions.Item>
             </Descriptions>
             </div>
-        </Content>
-        </Layout>
+
         </Spin>
         </div>
     );

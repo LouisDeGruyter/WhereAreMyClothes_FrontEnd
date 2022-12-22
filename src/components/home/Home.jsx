@@ -1,9 +1,7 @@
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Layout } from 'antd';
+import { Button } from 'antd';
 import { useMemo } from 'react';
-
-const { Content, Header } = Layout;
 
 export default memo(function Home(){
 const navigate = useNavigate();
@@ -22,8 +20,7 @@ const navigate = useNavigate();
         }, [navigate]);
 const styles = useMemo(() => ({
     layout: {
-        backgroundColor:"white",
-        height: "80px",
+        height: "100vh",
     },
     button: {
         marginBottom: "10px",
@@ -37,12 +34,10 @@ const styles = useMemo(() => ({
 }), []);
 
     return (
-        <Layout>
-            <Header style={styles.layout}>
+        <>
+        
                 <h1 style={styles.h1}>Welkom bij WhereAreMyClothes</h1>
-            </Header>
-            <Content style={styles.layout}>
-            <p>Met onze website kunt u eenvoudig uw kleding bijhouden en precies weten welke kledingkast ze bevinden.</p>
+            <p>Waar zijn mijn kleren? Dat is een vraag die iedereen zich wel eens heeft gesteld. Met onze website kunt u eenvoudig uw kleding bijhouden en precies weten welke kledingkast ze bevinden.</p>
             <h3>Bekijk uw kleding</h3>
             <p>Klik op de onderstaande knop om alle kleding en de kledingkast waar ze zich bevinden te bekijken.</p>
             <Button onClick={handleKleren} style={styles.button}>Bekijk kleding</Button>
@@ -56,10 +51,10 @@ const styles = useMemo(() => ({
             <p>Klik op de onderstaande knop om een kledingkast toe te voegen.</p>
             <Button onClick={handleKleerkastenAdd} style={styles.button}>Voeg kledingkast toe</Button>
             
-                
+            </>    
 
-            </Content>
-        </Layout>
+            
+        
     );
 
 })

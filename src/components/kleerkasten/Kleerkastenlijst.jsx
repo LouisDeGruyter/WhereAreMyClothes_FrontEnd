@@ -3,25 +3,11 @@ import { useNavigate, useParams  } from 'react-router-dom';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import useUsers from '../../api/users';
-import { Layout,Table, notification,Spin,Alert,Input,Button,Modal} from 'antd';
+import {Table, notification,Spin,Alert,Input,Button,Modal} from 'antd';
 import {EditOutlined,DeleteOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import KledingTable from '../kleren/KledingTable';
 import useKledingstukken from '../../api/kledingstukken';
-
-
-const { Header, Content } = Layout;
-
-
-
-const getFilterTekst = (text) => {
-    if (!text) {
-      return;
-    }
-  
-    return `Zoekopdracht: ${text}`;
-  };
-
 
 export default function Kleerkastenlijst(){
     const kleerkastApi = useKleerkasten();
@@ -34,6 +20,13 @@ export default function Kleerkastenlijst(){
     const [text, setText] = useState("");
     const [api, contextHolder] = notification.useNotification();
     const navigate= useNavigate();
+    const getFilterTekst = useCallback((text) => {
+      if (!text) {
+        return;
+      }
+    
+      return `Zoekopdracht: ${text}`;
+    }, []);
     const styles = useMemo(() => ({
         delete: {
           color: 'red',
@@ -59,6 +52,7 @@ export default function Kleerkastenlijst(){
           marginLeft:"auto", marginRight:"auto", width:"90%",  border: "2px solid #020034",
           borderRadius: 8,
           height: "100%",
+          backgroundColor: "white",
         }
       }), []);
 
@@ -209,11 +203,10 @@ export default function Kleerkastenlijst(){
         <div className="justify-content-center">
             {contextHolder}
             <Spin spinning={loading}>
-            <Layout>
-                <Header style={styles.header}>
+           
+                
             <h1>Kleerkastenlijst</h1>
-            </Header>
-            <Content style={styles.header}>
+            
               <div>
             <Input.Search
           placeholder="Zoek hier..."
@@ -240,12 +233,7 @@ export default function Kleerkastenlijst(){
                 expandedRowRender={record => <KledingTable kledingstukken={record.kledingstukken} loading={loading} onDelete={onDeleteKledingstuk} kleerkasten={kleerkasten} />}
             >
               
-                
-
             </Table>
-
-            </Content>
-            </Layout>
             </Spin>
         </div>
     );

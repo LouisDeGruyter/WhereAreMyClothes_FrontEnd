@@ -21,6 +21,7 @@ export default memo(function  KledingTable({kledingstukken,loading,onDelete,klee
             display: kleerkasten?"none":"inline",
         },
         table: {
+            backgroundColor: "white",
             marginLeft:"auto", 
             marginRight:"auto",
              width:"90%",

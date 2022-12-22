@@ -1,14 +1,14 @@
 import {memo,useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
-import {Button,Form, Input,Layout, notification,Spin} from 'antd';
+import {Button,Form, Input, notification,Spin} from 'antd';
 import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import { useCallback } from 'react';
 import { useMemo } from 'react';
 
 
-const {Content, Header} = Layout;
+
 
 
 export default memo(function KleerkastForm() {
@@ -140,11 +140,11 @@ export default memo(function KleerkastForm() {
         <div >
             <Spin spinning={loading} size="large">
             {contextHolder}
-        <Layout>
-            <Header style={styles.layout}>
+     
+          
                 <h2>{id ? `Kleerkast ${id} wijzigen` : 'Kleerkast toevoegen'}</h2>
-            </Header>
-        <Content style={styles.layout}>
+           
+       
             
             <Error error={error} />
            
@@ -190,9 +190,6 @@ export default memo(function KleerkastForm() {
                 </Form.Item>
                 
                 </Form>
-           
-        </Content>
-        </Layout>
         </Spin>
         </div>
     );
