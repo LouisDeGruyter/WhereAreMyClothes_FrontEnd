@@ -11,7 +11,7 @@
 
 **Logingegevens**
 
-- e-mailadres: demo@gmail.be
+- e-mailadres: demo@mail.be
 - Wachtwoord: Demo@mail
 
 ## Projectbeschrijving
