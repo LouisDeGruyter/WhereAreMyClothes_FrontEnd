@@ -98,6 +98,7 @@ export default function Kleerkastenlijst() {
       align: "center",
       key: "aantalKledingstukken",
       sorter: (a, b) => a.aantalKledingstukken - b.aantalKledingstukken,
+      defaultSortOrder: 'descend',
     },
     {
       title: 'Bewerk of verwijder',
