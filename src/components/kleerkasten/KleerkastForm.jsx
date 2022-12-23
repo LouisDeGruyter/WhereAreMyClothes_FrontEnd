@@ -6,6 +6,7 @@ import Error from '../Error';
 import useKleerkasten from '../../api/kleerkasten';
 import { useCallback } from 'react';
 import { useMemo } from 'react';
+import { useThemeColors } from '../../contexts/Theme.context';
 
 
 
@@ -20,16 +21,17 @@ export default memo(function KleerkastForm() {
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
     const [kleerkast, setKleerkast] = useState(null);
+    const {theme, opposite} = useThemeColors();
 
-    const openNotificationCreate = () => {
+    const openNotificationCreate = useCallback(() => {
         api.success({
             message: 'Kleerkast toegevoegd',
             description:
                 'De kleerkast is toegevoegd aan de database',
 
         });
-    };
-    const openNotificationUpdate = () => {
+    }, [api]);
+    const openNotificationUpdate = useCallback(() => {
         api.success({
             message: 'Kleerkast gewijzigd',
             description:
@@ -39,10 +41,10 @@ export default memo(function KleerkastForm() {
             },
             duration: 0,
         });
-    };
-    const onFinishFailed = () => {
+    }, [api, navigate, id]);
+    const onFinishFailed = useCallback (() => {
         setError("De gegevens zijn niet correct ingevuld");
-    };
+    }, []);
 
     useEffect(() => {
         const fetchKleerkast = async () => {
@@ -77,7 +79,7 @@ export default memo(function KleerkastForm() {
         navigate("/kleerkasten");
     }, [navigate]);
 
-    const onFinish = async (values) => {
+    const onFinish =  useCallback( async (values) => {
         try {
             setLoading(true);
             setError(null);
@@ -104,7 +106,7 @@ export default memo(function KleerkastForm() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id, kleerkast, form, openNotificationCreate, openNotificationUpdate, kleerkastApi]);
     const styles = useMemo(() => ({
         form: {
             width: "60%",
@@ -135,7 +137,10 @@ export default memo(function KleerkastForm() {
             marginBottom: 20,
             height: "50px",
         },
-    }), []);
+        label: {
+            color: theme==="dark" ? "white" : "black",
+        }
+    }), [theme]);
     return (
         <div >
             <Spin spinning={loading} size="large">
@@ -163,8 +168,9 @@ export default memo(function KleerkastForm() {
                         </Button>
                     </Form.Item>
                     <Form.Item
-                        label="Naam"
+                        label={<label style={styles.label}>Naam</label>}
                         name="name"
+                        style={{color: "white"}}
 
 
                         rules={[{ required: true, message: 'Kleerkast naam is verplicht' }]}
@@ -172,7 +178,7 @@ export default memo(function KleerkastForm() {
                         <Input data-cy="kleerkast_naam" />
                     </Form.Item>
                     <Form.Item
-                        label="Locatie"
+                        label={<label style={styles.label}>Locatie</label>}
                         name="location"
 
                         rules={[{ required: true, message: 'Kleerkast locatie is verplicht' }]}

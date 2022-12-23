@@ -8,6 +8,7 @@ import useUsers from '../../api/users';
 import './KledingForm.css'
 import { useCallback } from 'react';
 import { useMemo } from 'react';
+import {useTheme} from '../../contexts/Theme.context';
 
 
 const { Option } = Select;
@@ -23,6 +24,7 @@ export default memo(function KledingstukForm() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
+    const {theme} = useTheme();
     const onFinish = async (values) => {
         try {
             setLoading(true);
@@ -155,7 +157,10 @@ export default memo(function KledingstukForm() {
             marginTop: "20px",
             marginBottom: "20px",
         },
-    }), []);
+        label: {
+            color: theme==="dark" ? "white" : "black",
+        }
+    }), [theme]);
 
     return (
 
@@ -184,7 +189,7 @@ export default memo(function KledingstukForm() {
 
 
 
-                        label="Kleerkast"
+                        label={<label style={styles.label}>Kleerkast</label>}
                         labelPosition="top"
                         name="kleerkastId"
                         rules={[{ required: true, message: 'Vul een kleerkast in!' }]}
@@ -200,7 +205,7 @@ export default memo(function KledingstukForm() {
                     </Form.Item>
                     <Form.Item
                         data-cy="brand_input2"
-                        label="Merk"
+                        label={<label style={styles.label}>Merk</label>}
                         name="brand"
                         rules={[{ required: true, message: 'Vul een merk in!' }]}
                     >
@@ -208,7 +213,7 @@ export default memo(function KledingstukForm() {
                     </Form.Item>
                     <Form.Item
 
-                        label="Kleur"
+                        label={<label style={styles.label}>Kleur</label>}
                         name="color"
                         rules={[{ required: true, message: 'Vul een kleur in!' }]}
                     >
@@ -216,7 +221,7 @@ export default memo(function KledingstukForm() {
                     </Form.Item>
                     <Form.Item
 
-                        label="Type"
+                        label={<label style={styles.label}>Type</label>}
                         name="type"
                         rules={[{ required: true, message: 'Vul een type in!' }]}
                     >
@@ -224,7 +229,7 @@ export default memo(function KledingstukForm() {
                     </Form.Item>
                     <Form.Item
 
-                        label="Maat"
+                        label={<label style={styles.label}>Maat</label>}
                         name="size"
 
                         rules={[{ required: true, message: 'Vul een maat in!' }]}
