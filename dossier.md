@@ -54,7 +54,7 @@ Een gebruiker kan kleerkasten en kledingstukken toevoegen en kan zo kijken in we
   - [x] meerdere API calls (naast login/register)
   - [x] degelijke foutmeldingen indien API call faalt
   - [x] gebruikt useState enkel voor lokale state
-  - [ ] gebruikt Context, useReducer, Redux… voor globale state
+  - [x] gebruikt Context, useReducer, Redux… voor globale state
 <br />
 
 - **hooks**
