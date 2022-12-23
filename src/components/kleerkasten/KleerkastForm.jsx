@@ -21,7 +21,7 @@ export default memo(function KleerkastForm() {
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
     const [kleerkast, setKleerkast] = useState(null);
-    const {theme, opposite} = useThemeColors();
+    const { theme, opposite } = useThemeColors();
 
     const openNotificationCreate = useCallback(() => {
         api.success({
@@ -42,7 +42,7 @@ export default memo(function KleerkastForm() {
             duration: 0,
         });
     }, [api, navigate, id]);
-    const onFinishFailed = useCallback (() => {
+    const onFinishFailed = useCallback(() => {
         setError("De gegevens zijn niet correct ingevuld");
     }, []);
 
@@ -79,7 +79,7 @@ export default memo(function KleerkastForm() {
         navigate("/kleerkasten");
     }, [navigate]);
 
-    const onFinish =  useCallback( async (values) => {
+    const onFinish = useCallback(async (values) => {
         try {
             setLoading(true);
             setError(null);
@@ -138,7 +138,7 @@ export default memo(function KleerkastForm() {
             height: "50px",
         },
         label: {
-            color: theme==="dark" ? "white" : "black",
+            color: theme === "dark" ? "white" : "black",
         }
     }), [theme]);
     return (
@@ -170,7 +170,7 @@ export default memo(function KleerkastForm() {
                     <Form.Item
                         label={<label style={styles.label}>Naam</label>}
                         name="name"
-                        style={{color: "white"}}
+                        style={{ color: "white" }}
 
 
                         rules={[{ required: true, message: 'Kleerkast naam is verplicht' }]}

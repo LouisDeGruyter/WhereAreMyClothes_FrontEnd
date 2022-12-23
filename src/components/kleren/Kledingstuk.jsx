@@ -20,6 +20,18 @@ export default memo(function Kledingstuk() {
   const [api, contextHolder] = notification.useNotification();
   const [kleerkasten, setKleerkasten] = useState([]);
   const [visible, setVisible] = useState(true);
+  const navigate = useNavigate();
+
+  const openNotification = useCallback(() => {
+    api['success']({
+      message: 'Kledingstuk verwijderd',
+      placement: 'topRight',
+      description: 'Sluit dit venster om terug te gaan naar de kledingstukken',
+      duration: 0,
+      onClose: () => { navigate('/kleren') },
+    });
+  }, [api, navigate]);
+
   const styles = useMemo(() => ({
     layout: {
       backgroundColor: "white",
@@ -65,7 +77,7 @@ export default memo(function Kledingstuk() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     refresh();
@@ -95,11 +107,11 @@ export default memo(function Kledingstuk() {
     }
     else
       fetchKleerkast();
-  }, [kledingstuk]);
+  }, [kledingstuk, kledingstukApi, kleerkasten, navigate]);
 
   const handleDelete = useCallback(async () => {
     Modal.confirm({
-      title: 'Weet je zeker dat je dit keldingstuk wilt verwijderen?',
+      title: 'Weet je zeker dat je dit kledingstuk wilt verwijderen?',
       content: 'Dit kan niet ongedaan worden gemaakt',
       okText: 'Ja',
       okType: 'danger',
@@ -120,21 +132,13 @@ export default memo(function Kledingstuk() {
       },
     });
 
-  }, [kledingstuk]);
-  const openNotification = () => {
-    api['success']({
-      message: 'Kledingstuk verwijderd',
-      placement: 'topRight',
-      description: 'Sluit dit venster om terug te gaan naar de kledingstukken',
-      duration: 0,
-      onClose: () => { navigate('/kleren') },
-    });
-  };
+  }, [ id, kledingstukApi, openNotification]);
+ 
 
-  const navigate = useNavigate();
+  
   const handleBackClick = useCallback(() => {
     navigate('/kleren');
-  }, []);
+  }, [navigate]);
 
   const handleEditClick = useCallback(() => {
     navigate(`/kleren/${kledingstuk.kledingstukId}/edit`);

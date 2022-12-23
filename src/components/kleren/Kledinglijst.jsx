@@ -27,14 +27,14 @@ export default memo(function Kledinglijst() {
   const [api, contextHolder] = notification.useNotification();
   const [kleerkasten, setKleerkasten] = useState([]);
   const kleerkastApi = useKleerkasten();
-  const openNotification = () => {
+  const openNotification = useCallback(() => {
     api['success']({
       message: 'Kledingstuk is succesvol verwijderd',
       placement: 'topRight',
       duration: 3,
 
     });
-  };
+  }, [api]);
   const getFilterTekst = useCallback((text) => {
     if (!text) {
       return;
@@ -94,7 +94,7 @@ export default memo(function Kledinglijst() {
         }
       },
     });
-  }, []);
+  }, [kledingstukApi, openNotification]);
 
 
   const filteredItems = useMemo(() => {
@@ -115,7 +115,7 @@ export default memo(function Kledinglijst() {
   }, []);
   const handleNewKledingstuk = useCallback(() => {
     navigate(`/kleren/add`);
-  }, []);
+  }, [navigate]);
   const styles = useMemo(() => ({
     layout: {
       backgroundColor: "white",

@@ -6,7 +6,7 @@ import kleerkastIcon from '../../images/wardrobeWhite.png';
 import kledingIcon from '../../images/shirtWhite.png';
 import { useAuth0 } from '@auth0/auth0-react';
 import { IoMoonSharp, IoSunny} from 'react-icons/io5';
-import { useTheme, themes, useThemeColors } from '../../contexts/Theme.context';
+import { useTheme, themes } from '../../contexts/Theme.context';
 import './navbarItems.scss';
 
 
@@ -15,12 +15,21 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
     const {isAuthenticated,user,logout,loginWithRedirect} = useAuth0();
     const [api, contextHolder] = notification.useNotification();
     const { theme, toggleTheme } = useTheme();
+
+    const openNotification = useCallback( () => {
+      api['success']({
+          message: 'Succesvol uitgelogd',
+            placement: 'topRight',
+            duration: 3,
+            });
+  }, [api]);
+
     const handleLogin = useCallback( () => {
         loginWithRedirect();
         if(isInline)
             closeMenu();
       },
-      [loginWithRedirect],
+      [loginWithRedirect, closeMenu, isInline],
     );
     const handleLogout = useCallback( () => {
         if(isInline)
@@ -37,28 +46,22 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
             },
           });
         },
-        [logout],
+        [logout, openNotification, isInline, closeMenu],
         );
-        const openNotification = () => {
-            api['success']({
-                message: 'Succesvol uitgelogd',
-                  placement: 'topRight',
-                  duration: 3,
-                  });
-        };
+        
     const handleKleerkasten = useCallback( () => {
             navigate('/kleerkasten');
             if(isInline)
             closeMenu();
         },
-        [navigate],
+        [navigate, closeMenu, isInline],
         );
         const handleKleerkastenAdd = useCallback( () => {
                 navigate('/kleerkasten/add');
                 if(isInline)
             closeMenu();
             },
-            [navigate],
+            [navigate, closeMenu, isInline],
             );
 
     const handleKleren = useCallback(() => {
@@ -66,14 +69,14 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
             if(isInline)
             closeMenu();
         },
-        [navigate],
+        [navigate, closeMenu, isInline],
         );
     const handleHome = useCallback( () => {
             navigate('/');
             if(isInline)
             closeMenu();
         },
-        [navigate],
+        [navigate, closeMenu, isInline],
         );
 
     const handleKlerenAdd = useCallback( () => {
@@ -81,7 +84,7 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
             if(isInline)
             closeMenu();
         },
-        [navigate],
+        [navigate, closeMenu, isInline],
         );
         const styles = useMemo(() => ({
             imgIcon: {
@@ -115,10 +118,6 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
           
 
         }), []);
-        const handleTheme = useCallback( () => {
-            toggleTheme();
-        }, [toggleTheme]);
-
 
     
     const items = useMemo(() => {
@@ -176,7 +175,7 @@ export default memo(function NavbarItems({isInline=false,closeMenu}){
            {label: 'Log in',style:styles.login, icon: <LoginOutlined />, key: '/login', onClick:handleLogin}];
          }
         },
-        [isAuthenticated, user, logout, navigate, handleLogin, theme],
+        [isAuthenticated, user, handleLogin, theme, toggleTheme, handleLogout, handleKleerkasten, handleKleerkastenAdd, handleKleren, handleKlerenAdd, handleHome, styles],
         );
     return(
         <>

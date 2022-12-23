@@ -20,6 +20,16 @@ export default function Kleerkastenlijst() {
   const [text, setText] = useState("");
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
+
+  const openNotification = useCallback((item) => {
+    api['success']({
+      message: `${item} is succesvol verwijderd`,
+      placement: 'topRight',
+      duration: 3,
+
+    });
+  }, [api]);
+
   const getFilterTekst = useCallback((text) => {
     if (!text) {
       return;
@@ -59,7 +69,7 @@ export default function Kleerkastenlijst() {
 
   const handleEdit = useCallback((id) => {
     navigate(`/kleerkasten/${id}/edit`);
-  }, []);
+  }, [navigate]);
 
   const filteredItems = useMemo(() => {
     if (!query) {
@@ -158,7 +168,7 @@ export default function Kleerkastenlijst() {
         }
       },
     });
-  }, []);
+  }, [kleerkastApi, openNotification]);
   const onDeleteKledingstuk = useCallback(async (idToDelete) => {
     Modal.confirm({
       title: 'Weet je zeker dat je dit kledingstuk wilt verwijderen?',
@@ -185,18 +195,11 @@ export default function Kleerkastenlijst() {
         }
       },
     });
-  }, []);
-  const openNotification = (item) => {
-    api['success']({
-      message: `${item} is succesvol verwijderd`,
-      placement: 'topRight',
-      duration: 3,
-
-    });
-  };
+  }, [kledingstukApi, openNotification]);
+  
   const handleNewKleerkast = useCallback(() => {
     navigate(`/kleerkasten/add`);
-  }, []);
+  }, [navigate]);
 
 
   return (

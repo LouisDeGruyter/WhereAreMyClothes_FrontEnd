@@ -29,7 +29,7 @@ export default memo(function KledingTable({ kledingstukken, loading, onDelete, k
             border: !kleerkasten ? "2px solid #020034" : "",
             borderRadius: !kleerkasten ? 8 : "",
         }
-    }), []);
+    }), [kleerkasten]);
 
 
 
@@ -46,13 +46,13 @@ export default memo(function KledingTable({ kledingstukken, loading, onDelete, k
 
             },
         };
-    }, []);
+    }, [navigate]);
     const handleEdit = useCallback((id) => {
         navigate(`/kleren/${id}/edit`);
-    }, []);
+    }, [navigate]);
     const handleKleerkast = useCallback((id) => {
         navigate(`/kleerkasten/${kledingstukken.find(kledingstuk => kledingstuk.kledingstukId === id).kleerkastId}`)
-    }, [kledingstukken]);
+    }, [kledingstukken, navigate]);
 
     const columns = [
         {

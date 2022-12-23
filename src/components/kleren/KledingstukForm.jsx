@@ -8,7 +8,7 @@ import useUsers from '../../api/users';
 import './KledingForm.css'
 import { useCallback } from 'react';
 import { useMemo } from 'react';
-import {useTheme} from '../../contexts/Theme.context';
+import { useTheme } from '../../contexts/Theme.context';
 
 
 const { Option } = Select;
@@ -24,8 +24,30 @@ export default memo(function KledingstukForm() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
-    const {theme} = useTheme();
-    const onFinish = async (values) => {
+    const { theme } = useTheme();
+
+    const openNotificationCreate = useCallback(() => {
+        api.success({
+            message: 'Kledingstuk toegevoegd',
+            description:
+                'Het kledingstuk is toegevoegd aan de database',
+
+        });
+    }, [api]);
+
+    const openNotificationUpdate = useCallback(() => {
+        api.success({
+            message: 'Kledingstuk gewijzigd',
+            description:
+                'Sluit dit venster om terug te gaan naar het kledingstuk',
+            onClose: () => {
+                navigate(`/kleren/${id}`);
+            },
+            duration: 0,
+        });
+    }, [api, navigate, id]);
+
+    const onFinish = useCallback(async (values) => {
         try {
             setLoading(true);
             setError(null);
@@ -52,29 +74,12 @@ export default memo(function KledingstukForm() {
         } finally {
             setLoading(false);
         }
-    };
-    const onFinishFailed = () => {
+    }, [id, kledingstuk, kledingstukApi, openNotificationCreate, openNotificationUpdate, form]);
+    const onFinishFailed = useCallback(() => {
         setError("De gegevens zijn niet correct ingevuld");
-    };
-    const openNotificationCreate = () => {
-        api.success({
-            message: 'Kledingstuk toegevoegd',
-            description:
-                'Het kledingstuk is toegevoegd aan de database',
+    }, []);
 
-        });
-    };
-    const openNotificationUpdate = () => {
-        api.success({
-            message: 'Kledingstuk gewijzigd',
-            description:
-                'Sluit dit venster om terug te gaan naar het kledingstuk',
-            onClose: () => {
-                navigate(`/kleren/${id}`);
-            },
-            duration: 0,
-        });
-    };
+
     useEffect(() => {
         const fetchKleerkasten = async () => {
             try {
@@ -117,20 +122,20 @@ export default memo(function KledingstukForm() {
 
 
     }, [id, form]);
-    const handleKleerkast = (value) => {
+    const handleKleerkast = useCallback((value) => {
         if (value === 0) {
             navigate(`/kleerkasten/add`);
         };
-    };
+    }, [navigate]);
     const handleReset = useCallback(() => {
         form.resetFields();
     }, [form]);
     const handleAddKleerkast = useCallback(() => {
         navigate(`/kleerkasten/add`);
-    }, []);
+    }, [navigate]);
     const handleBackClick = useCallback(() => {
         navigate(`/kleren`);
-    }, []);
+    }, [navigate]);
     const styles = useMemo(() => ({
         form: {
             width: "60%",
@@ -158,7 +163,7 @@ export default memo(function KledingstukForm() {
             marginBottom: "20px",
         },
         label: {
-            color: theme==="dark" ? "white" : "black",
+            color: theme === "dark" ? "white" : "black",
         }
     }), [theme]);
 

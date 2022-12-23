@@ -5,7 +5,7 @@ import useKleerkasten from '../../api/kleerkasten';
 import useKledingstukken from '../../api/kledingstukken';
 import KledingTable from '../kleren/KledingTable';
 
-import { Button, Descriptions, Input, notification, Spin, Modal } from 'antd';
+import { Button, Descriptions, notification, Spin, Modal } from 'antd';
 
 
 
