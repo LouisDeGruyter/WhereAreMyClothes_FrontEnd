@@ -29,7 +29,7 @@ A user can add wardrobes and clothing items, and can check in which wardrobe eac
 
 - A form where you can create a new wardrobe or update an existing one.
 
-  ![Add Wardrobe](./images/kleerkastToevoegen.pn)
+  ![Add Wardrobe](./images/kleerkastToevoegen.png)
 
 ## Technologies used
 
