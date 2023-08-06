@@ -1,8 +1,7 @@
 # Where Are My Clothes
-  - [Online versie](https://wherearemyclothes.onrender.com)
-- [x] Web Services: GITHUB URL
-  - [GitHub repository](https://github.com/Web-IV/2223-webservices-LouisDeGruyter)
-  - [Online versie](https://webservices-louisdegruyter.onrender.com)
+Website: [Online versie](https://wherearemyclothes.onrender.com)
+ 
+
      
 ## Project Description
 
