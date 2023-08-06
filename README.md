@@ -7,7 +7,7 @@ Website: [Online versie](https://wherearemyclothes.onrender.com)
 
 A user can add wardrobes and clothing items, and can check in which wardrobe each clothing item is located. For example, it can be used by a student who wants to know which clothes to take to their dorm room.
 
-![Entity-Relationship Diagram](./images/entity_relationship_diagram.png)
+![Entity-Relationship Diagram](/images/entity_relationship_diagram.png)
 
 ## Screenshots
 
