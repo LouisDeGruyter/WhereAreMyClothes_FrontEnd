@@ -37,6 +37,7 @@ The application is built using the following technologies:
 
 - JavaScript
 - React
+- Auth0
 - Ant design (component library)
 - MySQL (or any other relational database)
 - Cypress
