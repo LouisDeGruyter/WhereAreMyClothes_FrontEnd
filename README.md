@@ -39,6 +39,7 @@ The application is built using the following technologies:
 - React
 - Ant design (component library)
 - MySQL (or any other relational database)
+- Cypress
 - Custom REST API: [GitHub repository](https://github.com/LouisDeGruyter/WhereAreMyClothes_BackEnd) 
   
 
